@@ -1,0 +1,69 @@
+<%= form_for(@cpu_binary) do |f| %>
+  <% if @cpu_binary.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cpu_binary.errors.count, "error") %> prohibited this cpu_binary from being saved:</h2>
+
+      <ul>
+      <% @cpu_binary.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+	<script type="text/javascript">
+        var specialKeys = new Array();
+        specialKeys.push(8); //Backspace
+        function IsNumeric(e) {
+            var keyCode = e.which ? e.which : e.keyCode
+            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+            document.getElementById("error").style.display = ret ? "none" : "inline";
+            return ret;
+        }
+    </script>
+
+  <br>
+  <fieldset>
+	  <legend> Formato de Instruccion: </legend>
+	  <div class="field">
+	    <%= f.label "CO: " %> &nbsp;
+	    <%= f.number_field :co, type: "number" %>
+	  </div>
+	  <div class="field">
+	    <%= f.label "Dir: " %> &nbsp;
+	    <%= f.number_field :dir, :onkeypress => "return IsNumeric(event)" %>
+	  </div>
+	  <legend> La suma de ambos campos debe ser maximo 16 bits </legend>
+  </fieldset>
+  <br>
+  <div class="field">
+    <%= f.label "PC: " %> &nbsp;
+    <%= f.text_field :pc %>
+  </div>
+  <legend> Valor inicial en binario </legend>
+  <br>
+  <fieldset>
+  	<legend> Códigos de Operacion (en binario): </legend>
+	  <div class="field">
+	    <%= f.label "Leer: " %>&nbsp;
+	    <%= f.text_field :load %>
+	  </div>
+	  <div class="field">
+	    <%= f.label "Almacenar: " %>&nbsp;
+	    <%= f.text_field :store %>
+	  </div>
+	  <div class="field">
+	    <%= f.label "Sumar: " %>&nbsp;
+	    <%= f.text_field :add %>
+	  </div>
+	  <div class="field">
+	    <%= f.label "Restar: " %>&nbsp;
+	    <%= f.text_field :sub %>
+	  </div>
+	  <legend> Los operadores de ALU pueden ser vacios </legend>
+  </fieldset>
+  <br>
+  <div class="actions">
+	<%= f.submit "Aceptar" %>
+  </div>
+<% end %>

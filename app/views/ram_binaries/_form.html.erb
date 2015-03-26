@@ -1,0 +1,19 @@
+<%= form_for(@ram_binary) do |f| %>
+  <% if @ram_binary.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ram_binary.errors.count, "error") %> prohibited this ram_binary from being saved:</h2>
+
+      <ul>
+      <% @ram_binary.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <br>
+  <br>
+  <div class="actions">
+    <%= f.submit "Aceptar" %>
+  </div>
+<% end %>

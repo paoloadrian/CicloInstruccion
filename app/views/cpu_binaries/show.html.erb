@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Co:</strong>
+  <%= @cpu_binary.co %>
+</p>
+
+<p>
+  <strong>Dir:</strong>
+  <%= @cpu_binary.dir %>
+</p>
+
+<p>
+  <strong>Pc:</strong>
+  <%= @cpu_binary.pc %>
+</p>
+
+<p>
+  <strong>Load:</strong>
+  <%= @cpu_binary.load %>
+</p>
+
+<p>
+  <strong>Store:</strong>
+  <%= @cpu_binary.store %>
+</p>
+
+<p>
+  <strong>Add:</strong>
+  <%= @cpu_binary.add %>
+</p>
+
+<p>
+  <strong>Sub:</strong>
+  <%= @cpu_binary.sub %>
+</p>
+
+<%= link_to 'Edit', edit_cpu_binary_path(@cpu_binary) %> |
+<%= link_to 'Back', cpu_binaries_path %>

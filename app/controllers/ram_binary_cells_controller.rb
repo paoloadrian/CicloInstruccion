@@ -1,0 +1,2 @@
+class RamBinaryCellsController < ApplicationController
+end

@@ -1,0 +1,2 @@
+module CpuBinariesHelper
+end

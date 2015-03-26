@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  co: 1
+  dir: 1
+  pc: MyString
+  load: MyString
+  store: MyString
+  add: MyString
+  sub: MyString
+
+two:
+  co: 1
+  dir: 1
+  pc: MyString
+  load: MyString
+  store: MyString
+  add: MyString
+  sub: MyString
