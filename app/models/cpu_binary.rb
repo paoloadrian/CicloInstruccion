@@ -1,4 +1,6 @@
 class CpuBinary < ActiveRecord::Base
+	has_many :ram_binaries
+	
 	validates :co, presence: { message: " es requerido" }, :numericality => {:only_integer => true, message: " debe ser numerico"}
 	validates :dir, presence: { message: " es requerido" }, :numericality => {:only_integer => true, message: " debe ser numerico"}
 	validates :pc, presence: { message: " es requerido" }, format: { without: /[^01]/, message: " debe ser binario" }

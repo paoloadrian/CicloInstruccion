@@ -14,14 +14,17 @@ class CpuBinariesController < ApplicationController
   # POST /cpu_binaries.json
   def create
     @cpu_binary = CpuBinary.new(cpu_binary_params)
-    #respond_to do |format|
+    respond_to do |format|
       if @cpu_binary.save
-        redirect_to :controller => "ram_binaries", :action => "new", :id_cpu => @cpu_binary.id.to_s
+      	@ram_binary = RamBinary.new
+      	@ram_binary.cpu_binary_id = @cpu_binary.id
+        format.html { redirect_to @ram_binary, notice: 'cpu binary was successfully created.' }
+        format.json { render :show, status: :created, location: @ram_binary }
       else
-        render :new#format.html { render :new }
-        #format.json { render json: @cpu_binary.errors, status: :unprocessable_entity }
+        format.html { render :new }
+        format.json { render json: @cpu_binary.errors, status: :unprocessable_entity }
       end
-    #end
+    end
   end
 
   # PATCH/PUT /cpu_binaries/1
