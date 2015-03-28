@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   
-  resources :cpu_binaries
+  get 'cpu_binaries' => 'cpu_binaries#new'
   get 'ram_binaries' => 'ram_binaries#new'
+  resources :cpu_binaries
   resources :ram_binaries
   root 'cpu_binaries#new'
 
