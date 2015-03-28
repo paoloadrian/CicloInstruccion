@@ -1,15 +1,25 @@
+<head>
+<style>
+table  {
+    background-image: url("ram2.png");
+}
+</style>
+</head>
 <form action="ram_binaries/create" method="POST">
   <br>
   <br>
-  <table>
+  <table id="tabla">
   <tr>
   	<td> </td>
   	<td> </td>
   </tr>
+  <% for i in 0..25 %>
+  <tr></tr>
+  <%end%>
   <% for i in 0..15 %>
   	<tr>
-  	  <td><input type="text" name="dir<%=i%>" id="dir<%=i%>"></td>
-  	  <td><input type="text" name="cont<%=i%>" id="cont<%=i%>"></td>
+  	  <td>&nbsp;<input type="text" name="dir<%=i%>" id="dir<%=i%>">&nbsp;</td>
+  	  <td><input type="text" name="cont<%=i%>" id="cont<%=i%>"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
     </tr>
   <% end %> 
   </table>
