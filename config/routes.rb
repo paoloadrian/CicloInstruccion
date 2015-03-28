@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  resources :ram_binaries
-
+  
+  get 'cpu_binaries' => 'cpu_binaries#new'
+  get 'ram_binaries' => 'ram_binaries#new'
   resources :cpu_binaries
-  get 'ram_binaries/new/:id_cpu' => 'ram_binaries#new'
+  resources :ram_binaries
   root 'cpu_binaries#new'
 
   # The priority is based upon order of creation: first created -> highest priority.

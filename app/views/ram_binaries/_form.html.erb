@@ -1,18 +1,21 @@
 <form action="ram_binaries/create" method="POST">
-  <br>
-  <br>
-  <table>
+  <table id="tabla">
   <tr>
   	<td> </td>
   	<td> </td>
   </tr>
-  <% for i in 0..15 %>
+  <% for i in 0..26 %>
+  	<tr></tr>
+  <%end%>
+  <% for i in 0..14 %>
   	<tr>
-  	  <td><input type="text" name="dir<%=i%>" id="dir<%=i%>"></td>
-  	  <td><input type="text" name="cont<%=i%>" id="cont<%=i%>"></td>
+  	  <td>&nbsp;&nbsp;&nbsp;<input type="text" name="dir<%=i%>" id="dir<%=i%>">&nbsp;&nbsp;</td>
+  	  <td><input type="text" name="cont<%=i%>" id="cont<%=i%>"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
     </tr>
-  <% end %> 
+  <% end %>
+  <% for i in 0..30 %>
+  	<tr></tr>
+  <%end%>
   </table>
-  <br>
   <input type="submit" value="Aceptar" %>
 </form>

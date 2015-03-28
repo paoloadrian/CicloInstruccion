@@ -26,9 +26,12 @@ ActiveRecord::Schema.define(version: 20150319031604) do
   end
 
   create_table "ram_binaries", force: true do |t|
+    t.integer  "cpu_binary_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "ram_binaries", ["cpu_binary_id"], name: "index_ram_binaries_on_cpu_binary_id"
 
   create_table "ram_binary_cells", force: true do |t|
     t.string   "content"

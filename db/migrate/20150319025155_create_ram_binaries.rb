@@ -1,6 +1,7 @@
 class CreateRamBinaries < ActiveRecord::Migration
   def change
     create_table :ram_binaries do |t|
+      t.references :cpu_binary, index: true
 
       t.timestamps
     end
