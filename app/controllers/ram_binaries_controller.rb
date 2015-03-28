@@ -4,7 +4,7 @@ class RamBinariesController < ApplicationController
   # GET /ram_binaries/new
   def new
     @ram_binary = RamBinary.new
-    @id = params[:id_cpu]
+    @cpu_binary = CpuBinary.find(params[:id_cpu])
   end
 
   # GET /ram_binaries/1/edit

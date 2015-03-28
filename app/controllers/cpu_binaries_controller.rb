@@ -18,7 +18,7 @@ class CpuBinariesController < ApplicationController
       if @cpu_binary.save
       	@ram_binary = RamBinary.new
       	@ram_binary.cpu_binary_id = @cpu_binary.id
-        format.html { redirect_to @ram_binary, notice: 'cpu binary was successfully created.' }
+        format.html { redirect_to :controller => 'ram_binaries', :action => 'new', :id_cpu => @cpu_binary.id, notice: 'cpu binary was successfully created.' }
         format.json { render :show, status: :created, location: @ram_binary }
       else
         format.html { render :new }

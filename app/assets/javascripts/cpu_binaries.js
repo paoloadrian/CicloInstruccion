@@ -35,5 +35,4 @@ $(document).ready(function(){
 			$("#cpu_binary_pc").attr({maxlength: this.value});
 		}
 	});
-	
 });
