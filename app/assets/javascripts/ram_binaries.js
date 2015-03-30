@@ -3,4 +3,7 @@ $(document).ready(function(){
 		$("#dir"+i).regexMask(/^[01]+$/);
 		$("#cont"+i).regexMask(/^[01]+$/);
 	}
+	$("#create_ram_binary").on('click', function(){
+		
+	});
 });
