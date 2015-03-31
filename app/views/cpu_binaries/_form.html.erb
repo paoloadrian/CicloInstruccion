@@ -13,7 +13,7 @@
 
   <br>
   <fieldset>
-	  <legend> Formato de Instruccion: </legend>
+	  <label> Formato de Instruccion: </label><br>
 	  <div class="field">
 	    <%= f.label "CO: " %> &nbsp;
 	    <%= f.number_field :co, max: 8 %>
@@ -22,17 +22,17 @@
 	    <%= f.label "Dir: " %> &nbsp;
 	    <%= f.number_field :dir, max: 12 %>
 	  </div>
-	  <legend> La suma de ambos campos debe ser maximo 16 bits </legend>
+	  <label> La suma de ambos campos debe ser maximo 16 bits </label><br>
   </fieldset>
   <br>
   <div class="field">
     <%= f.label "PC: " %> &nbsp;
     <%= f.text_field :pc %>
   </div>
-  <legend> Valor inicial en binario </legend>
+  <label> Valor inicial en binario </label><br>
   <br>
   <fieldset>
-  	<legend> Códigos de Operacion (en binario): </legend>
+  	<label> Códigos de Operacion (en binario): </label><br><br>
 	  <div class="field">
 	    <%= f.label "Leer: " %>&nbsp;
 	    <%= f.text_field :load %>
@@ -49,7 +49,7 @@
 	    <%= f.label "Restar: " %>&nbsp;
 	    <%= f.text_field :sub %>
 	  </div>
-	  <legend> Los operadores de ALU pueden ser vacios </legend>
+	  <label> Los operadores de ALU pueden ser vacios </label><br>
   </fieldset>
   <br>
   <div class="actions">
