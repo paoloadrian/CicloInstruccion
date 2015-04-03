@@ -1,23 +1,23 @@
 <%= render "/cpu_binaries/show" %>
 <form action="ram_binaries/create" method="POST">
-  <table id="tabla">
-  <tr>
-  	<td> </td>
-  	<td> </td>
-  </tr>
-  <% for i in 0..26 %>
-  	<tr></tr>
-  <%end%>
-  <% for i in 0..14 %>
-  	<tr>
-  	  <td>&nbsp;&nbsp;&nbsp;<input type="text" name="dir<%=i%>" id="dir<%=i%>" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>">&nbsp;&nbsp;</td>
-  	  <td><input type="text" name="cont<%=i%>" id="cont<%=i%>" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
-    </tr>
-  <% end %>
-  <% for i in 0..30 %>
-  	<tr></tr>
-  <%end%>
-  </table>
+  <div id="binary-ram">
+	  <% for i in 0..2 %>
+	  	<br>
+	  <%end%>
+	  <div id="binary-cells">
+		<table>
+		  <% for i in 0..14 %>
+			<tr>
+			  <td>&nbsp;&nbsp;&nbsp;<input type="text" name="dir<%=i%>" id="dir<%=i%>" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"></td>
+			  <td>&nbsp;&nbsp;<input type="text" name="cont<%=i%>" id="cont<%=i%>" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"></td>
+			</tr>
+		  <% end %>
+		</table>
+	  </div>
+	  <% for i in 0..3 %>
+	  	<br>
+	  <%end%>
+  </div>
   <input type="submit" value="Aceptar" id="create_ram_binary" %>
 </form>
 </frame>

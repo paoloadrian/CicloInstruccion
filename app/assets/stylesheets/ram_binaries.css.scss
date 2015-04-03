@@ -5,6 +5,11 @@ input {
     width: 140px;
     padding: 2px;
 }
-table {
+#binary-ram {
+	width: 400px;
     background-image: url("ram2.png");
+}
+#binary-cells{
+ 	overflow:auto;
+	margin-top:5px;
 }
