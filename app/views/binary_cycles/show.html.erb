@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Pc:</strong>
+  <%= @binary_cycle.pc %>
+</p>
+
+<p>
+  <strong>Actual instruction:</strong>
+  <%= @binary_cycle.actual_instruction %>
+</p>
+
+<p>
+  <strong>Step:</strong>
+  <%= @binary_cycle.step %>
+</p>
+
+<p>
+  <strong>Execution cycle:</strong>
+  <%= @binary_cycle.execution_cycle %>
+</p>
+
+<p>
+  <strong>Total instructions:</strong>
+  <%= @binary_cycle.total_instructions %>
+</p>
+
+<p>
+  <strong>Executed instructions:</strong>
+  <%= @binary_cycle.executed_instructions %>
+</p>
+
+<p>
+  <strong>Ram binary:</strong>
+  <%= @binary_cycle.ram_binary %>
+</p>
+
+<%= link_to 'Edit', edit_binary_cycle_path(@binary_cycle) %> |
+<%= link_to 'Back', binary_cycles_path %>

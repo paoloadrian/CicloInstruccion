@@ -1,0 +1,38 @@
+// Place all the styles related to the BinaryCycles controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#cycle-binary {
+	width: 1200px;
+    background-image: url("cicloInstruccion.png");
+}
+#cycle-binary-ram-cells{
+ 	margin-left:812px;
+ 	overflow:auto;
+	margin-top:5px;
+	input {
+	    width: 140px;
+	    padding: 2px;
+	}
+}
+#cycle-binary-cpu{
+ 	margin-left:112px;
+ 	float:left;
+ 	margin-top:48px;
+	input {
+	    width: 166px;
+	    padding: 2px;
+	}
+}
+#binary_data_bus{
+	width: 166px;
+	padding: 2px;
+	margin-left:755px;
+	margin-top:2px;
+	margin-bottom:5px;
+}
+
+#binary_dir_bus{
+	width: 166px;
+	padding: 2px;
+	margin-left:755px;
+}

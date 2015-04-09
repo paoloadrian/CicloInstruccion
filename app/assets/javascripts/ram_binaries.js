@@ -14,8 +14,6 @@ $(document).ready(function(){
 		}
 		else {
 			console.log("Formato correcto");
-			alert("Formato correcto");
-            e.preventDefault();
 		}
 	});
 

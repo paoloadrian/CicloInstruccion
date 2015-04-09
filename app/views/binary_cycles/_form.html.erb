@@ -1,0 +1,31 @@
+<form accept-charset="UTF-8" action="binary_cycles" method="POST">
+  <input name="utf8" type="hidden" value="&#x2713;" />
+  <input name="authenticity_token" type="hidden" value="x37DrAAwyIIb7s+w2+AdoCR8cAJIpQhIetKRrPgG5VA="/>
+  <input name="id_cpu" type="hidden" value="<%=@cpu_binary.id%>" />
+  <div id="cycle-binary">
+    <input type="text" id="binary_dir_bus" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"><br>
+    <input type="text" id="binary_data_bus" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"><br>
+    <div id="cycle-binary-cpu">
+      <input type="text" id="binary_pc" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"><br>
+      <input type="text" id="binary_ir" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"><br>
+      <input type="text" id="binary_mar" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"><br>
+      <input type="text" id="binary_mbr" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"><br>
+      <input type="text" id="binary_ac" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"><br>
+      <input type="text" id="binary_dr" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"><br>
+    </div>
+    <div id="cycle-binary-ram-cells">
+    <table>
+      <% for i in 0..14 %>
+      <tr>
+        <td>&nbsp;&nbsp;&nbsp;<input type="text" name="dir<%=i%>" id="dir<%=i%>" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"></td>
+        <td>&nbsp;&nbsp;<input type="text" name="cont<%=i%>" id="cont<%=i%>" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"></td>
+      </tr>
+      <% end %>
+    </table>
+    </div>
+    <% for i in 0..3 %>
+      <br>
+    <%end%>
+  </div>
+  <input type="submit" value="Aceptar" id="create_ram_binary" %>
+</form>

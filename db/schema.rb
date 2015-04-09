@@ -11,7 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150319031604) do
+ActiveRecord::Schema.define(version: 20150404060330) do
+
+  create_table "binary_cycles", force: true do |t|
+    t.string   "pc"
+    t.string   "actual_instruction"
+    t.integer  "step"
+    t.boolean  "execution_cycle"
+    t.integer  "total_instructions"
+    t.integer  "executed_instructions"
+    t.integer  "ram_binary_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "binary_cycles", ["ram_binary_id"], name: "index_binary_cycles_on_ram_binary_id"
+
+  create_table "binary_steps", force: true do |t|
+    t.string   "content"
+    t.string   "origin"
+    t.string   "destiny"
+    t.string   "pc"
+    t.string   "actual_instruction"
+    t.integer  "step"
+    t.boolean  "execution_cycle"
+    t.integer  "binary_cycle_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "binary_steps", ["binary_cycle_id"], name: "index_binary_steps_on_binary_cycle_id"
 
   create_table "cpu_binaries", force: true do |t|
     t.integer  "co"

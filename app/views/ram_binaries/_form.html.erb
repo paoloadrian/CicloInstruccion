@@ -1,5 +1,7 @@
-<%= render "/cpu_binaries/show" %>
-<form action="ram_binaries/create" method="POST">
+<form accept-charset="UTF-8" action="ram_binaries" method="POST">
+  <input name="utf8" type="hidden" value="&#x2713;" />
+  <input name="authenticity_token" type="hidden" value="x37DrAAwyIIb7s+w2+AdoCR8cAJIpQhIetKRrPgG5VA="/>
+  <input name="id_cpu" type="hidden" value="<%=@cpu_binary.id%>" />
   <div id="binary-ram">
 	  <% for i in 0..2 %>
 	  	<br>
@@ -20,5 +22,3 @@
   </div>
   <input type="submit" value="Aceptar" id="create_ram_binary" %>
 </form>
-</frame>
-</frameset>

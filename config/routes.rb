@@ -2,10 +2,14 @@ Rails.application.routes.draw do
   
   get 'cpu_binaries' => 'cpu_binaries#new'
   get 'ram_binaries' => 'ram_binaries#new'
+  
   resources :cpu_binaries
   resources :ram_binaries
-  root 'cpu_binaries#new'
+  resources :binary_steps
+  resources :binary_cycles
 
+  root 'cpu_binaries#new'
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
