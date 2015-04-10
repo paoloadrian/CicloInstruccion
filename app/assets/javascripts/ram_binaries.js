@@ -13,7 +13,11 @@ $(document).ready(function(){
             e.preventDefault();
 		}
 		else {
+			$("#cant_instrucciones").val(cantInstrucciones);
+			console.log("Cantidad de instrucciones: "+$("#cant_instrucciones").val());
 			console.log("Formato correcto");
+			alert("Formato correcto");
+			cantInstrucciones = 0;
 		}
 	});
 
