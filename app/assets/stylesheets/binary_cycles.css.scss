@@ -3,14 +3,15 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 #cycle-binary {
 	width: 1200px;
+	height: 550px;
     background-image: url("cicloInstruccion.png");
 }
 #cycle-binary-ram-cells{
- 	margin-left:812px;
+ 	margin-left:825px;
  	overflow:auto;
-	margin-top:5px;
+	margin-top:8px;
 	input {
-	    width: 140px;
+	    width: 145px;
 	    padding: 2px;
 	}
 }
@@ -26,7 +27,7 @@
 #binary_data_bus{
 	width: 166px;
 	padding: 2px;
-	margin-left:755px;
+	margin-left:750px;
 	margin-top:2px;
 	margin-bottom:5px;
 }
@@ -34,5 +35,5 @@
 #binary_dir_bus{
 	width: 166px;
 	padding: 2px;
-	margin-left:755px;
+	margin-left:750px;
 }

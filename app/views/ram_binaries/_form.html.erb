@@ -8,13 +8,11 @@
 	  <%end%>
 	  <div id="binary-cells">
 		<table>
-		  <% for i in 0..14 %>
-			<tr>
-			  <td>&nbsp;&nbsp;&nbsp;<input type="text" name="dir<%=i%>" id="dir<%=i%>" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"></td>
-			  <td>&nbsp;&nbsp;<input type="text" name="cont<%=i%>" id="cont<%=i%>" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>"></td>
-			</tr>
-		  <% end %>
-		</table>
+	      <% for i in 0..17 %>
+	        <input type="text" name="dir<%=i%>" id="dir<%=i%>" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>">
+	        &nbsp;&nbsp;<input type="text" name="cont<%=i%>" id="cont<%=i%>" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>">
+	      <% end %>
+	    </table>
 	  </div>
 	  <% for i in 0..3 %>
 	  	<br>
