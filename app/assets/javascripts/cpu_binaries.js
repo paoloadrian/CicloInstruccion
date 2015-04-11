@@ -13,8 +13,6 @@ $(document).ready(function(){
 		$("#cpu_binary_store").attr({maxlength: this.value});
 		$("#cpu_binary_load").attr({maxlength: this.value});
 
-		console.log($("#cpu_binary_dir").val());
-		console.log(this.value);
 		if ($("#cpu_binary_dir").val() != ""){
 			var tam = parseInt(this.value) + parseInt($("#cpu_binary_dir").val());
 			$("#cpu_binary_pc").attr({maxlength: tam.toString()});
@@ -25,8 +23,6 @@ $(document).ready(function(){
 	});
 
 	$("#cpu_binary_dir").change(function(){
-		console.log(this.value);
-		console.log($("#cpu_binary_co").val());
 		if ($("#cpu_binary_co").val() != ""){
 			var tam = parseInt(this.value) + parseInt($("#cpu_binary_co").val());
 			$("#cpu_binary_pc").attr({maxlength: tam.toString()});

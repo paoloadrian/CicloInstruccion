@@ -1,14 +1,14 @@
 $(document).ready(function(){
 	var co, origen="", destino="", contenido="", pc = $("#pc").text(), ac, dirRam, regRam;
-    var tamDIR = parseInt($("#dir").val()), tamCO = parseInt($("#co").val()), tam = $("#pc").text().length;
-    var paso = 1, cantInstrucciones = parseInt($("#cantInstrucciones").text()), instruccionesEjecutadas = 0, instruccion;
+    var tamDIR = parseInt($("#dir").text()), tamCO = parseInt($("#co").text()), tam = $("#pc").text().length;
+    var paso = 1, cantInstrucciones = parseInt($("#cant_instrucciones").text()), instruccionesEjecutadas = 0, instruccion;
     var ejec = false, repetirStore = false, NuevaInstruccion = false;
     var cods = [ $("#load").text(), $("#add").text(), $("#sub").text(), $("#store").text() ];
-	$('input[type="text"]').each(function () {
+	$('#cycle-binary input[type="text"]').each(function () {
 		$(this).attr("maxlength",tam);
 		$(this).regexMask(/^[01]+$/);
 	});
-	$('input[type="text"]').keydown(function(e){
+	$('#cycle-binary input[type="text"]').keypress(function(e){
 		if(!ejec && paso == 7 && $(this).attr("id") === $("#binary_pc").attr("id")){
 			console.log("cambiando PC");
 		}
@@ -23,7 +23,7 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('input[type="text"]').change(function(e){
+	$('#cycle-binary input[type="text"]').keydown(function(){
 		if(!ejec && paso == 7 && $(this).attr("id") === $("#binary_pc").attr("id")){
 			correcto();
 		}
@@ -32,12 +32,12 @@ $(document).ready(function(){
 				correcto();
 			}
 			else{
-				e.preventDefault();
+				alert("Secuencia incorrecta");
         		console.log("bloqueado");
 			}
 		}
 	});
-	$('input[type="text"]').focusout(function(e){
+	$('#cycle-binary input[type="text"]').focusout(function(){
 		if(!ejec && paso == 7 && $(this).attr("id") === $("#binary_pc").attr("id")){
 			if (!correcto())
 				alert("El PC no tiene el valor de la siguiente instruccion");
@@ -49,12 +49,11 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$(document).on("dblclick", "input[type='text']", function(event) {
+	$('#cycle-binary input[type="text"]').on("dblclick", function(event) {
 	    if (event.target === this) {
 	        if (origen == "" && $(this).val() != ""){
 	            origen = $(this).attr("name");
 		 		contenido = $(this).val();
-		 		console.log(origen+" "+contenido);
 	        }
 	        else{
 	            if(contenido != ""){
@@ -66,7 +65,6 @@ $(document).ready(function(){
 					if(origen != destino && correcto())
 						$(this).val(contenido);
 				}
-				console.log(destino);
 	        	eliminarDatos();
 	        }
 	    }
@@ -178,21 +176,17 @@ $(document).ready(function(){
 	}
 
 	function imprimirCO(){
-	    switch (instruccion){
+		switch (instruccion){
 	        case 0:
-	            console.log("");
 	            console.log("Ejecucion LOAD:");
 	            break;
 	        case 1:
-	            console.log("");
 	            console.log("Ejecucion ADD:");
 	            break;
 	        case 2:
-	            console.log("");
 	            console.log("Ejecucion SUB:");
 	            break;
 	        case 3:
-	            console.log("");
 	            console.log("Ejecucion STORE:");
 	            break;
 	    }
@@ -365,8 +359,7 @@ $(document).ready(function(){
 	}
 
 	function comprobarFinal(){
-	    if (instruccionesEjecutadas < cantInstrucciones){
-	        console.log("");
+		if (instruccionesEjecutadas < cantInstrucciones){
 	        console.log("Captacion: ");
 	    }
 	    else{
@@ -453,8 +446,7 @@ $(document).ready(function(){
 	    return resp;
 	}
 
-	function Store()
-	{
+	function Store(){
 	    var resp = false;
 	    switch (paso){
 	        case 1:
@@ -477,7 +469,7 @@ $(document).ready(function(){
 	            }
 	            break;
 	        case 2:
-	            if ("ir"`== origen && "mar"`== destino && !repetirStore){
+	            if ("ir" == origen && "mar" == destino && !repetirStore){
 	                copiarIR();
 	                resp = true;
 	                console.log(origen + " -> " + destino);
@@ -550,7 +542,6 @@ $(document).ready(function(){
 	    }
 	    return resp;
 	}
-
 
 	function ejecucion(){
 	    var resp = true;
