@@ -13,7 +13,7 @@
 
   <br>
   <fieldset id="binary_instruction">
-	  <label> Formato de Instruccion: </label><br>
+	  <label> Formato de Instruccion: </label><br><br>
 	  <div class="field">
 	    <%= f.label "CO: " %> &nbsp;
 	    <%= f.text_field :co, max: 8, maxlength: 1 %> &nbsp; <label> [bits] (máximo 8 bits) </label>
@@ -26,10 +26,9 @@
   </fieldset>
   <br>
   <div class="field">
-    <%= f.label "PC: " %> &nbsp;
+    <%= f.label "PC inicial (en binario): " %> &nbsp;
     <%= f.text_field :pc %>
   </div>
-  <label> Valor inicial en binario </label><br>
   <br>
   <fieldset id="binary_cods">
   	<label> Códigos de Operacion (en binario): </label><br><br>
