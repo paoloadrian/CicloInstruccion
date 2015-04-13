@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150404060330) do
+ActiveRecord::Schema.define(version: 20150413155344) do
 
   create_table "binary_cycles", force: true do |t|
     t.string   "pc"
@@ -54,9 +54,21 @@ ActiveRecord::Schema.define(version: 20150404060330) do
     t.datetime "updated_at"
   end
 
+  create_table "hexa_cpus", force: true do |t|
+    t.integer  "co"
+    t.integer  "dir"
+    t.string   "pc"
+    t.boolean  "specific_registers"
+    t.string   "load"
+    t.string   "store"
+    t.string   "add"
+    t.string   "sub"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "ram_binaries", force: true do |t|
     t.integer  "cpu_binary_id"
-    t.integer  "instructions"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -66,7 +78,6 @@ ActiveRecord::Schema.define(version: 20150404060330) do
   create_table "ram_binary_cells", force: true do |t|
     t.string   "content"
     t.string   "direction"
-    t.integer  "position"
     t.integer  "ram_binary_id"
     t.datetime "created_at"
     t.datetime "updated_at"

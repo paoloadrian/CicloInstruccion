@@ -31,7 +31,7 @@ class RamBinariesController < ApplicationController
         end
         @binary_cycle = BinaryCycle.new
         @binary_cycle.ram_binary_id = @ram_binary.id
-        format.html { redirect_to :controller => 'binary_cycles', :action => 'new', :id_ram => @ram_binary.id, notice: 'RAM was successfully created.' }
+        format.html { redirect_to :controller => 'binary_cycles', :action => 'new', :id_ram => @ram_binary.id }
         format.json { render :show, status: :created, location: @binary_cycle }
       else
         format.html { render :new }

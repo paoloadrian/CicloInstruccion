@@ -1,32 +1,30 @@
-class CpuBinary < ActiveRecord::Base
-	has_many :ram_binaries
-	
+class HexaCpu < ActiveRecord::Base
 	validates :co, presence: { message: " es requerido" }, :numericality => {:only_integer => true, message: " debe ser numerico"}
 	validates :dir, presence: { message: " es requerido" }, :numericality => {:only_integer => true, message: " debe ser numerico"}
-	validates :pc, presence: { message: " es requerido" }, format: { without: /[^01]/, message: " debe ser binario" }
-	validates :add, format: { without: /[^01]/, message: " (sumar) debe ser binario" }
-	validates :sub, format: { without: /[^01]/, message: " (restar) debe ser binario" }
-	validates :load, presence: { message: " (leer) es requerido" }, format: { without: /[^01]/, message: " (leer) debe ser binario" }
-	validates :store, presence: { message: " (almacenar) es requerido" }, format: { without: /[^01]/, message: " (almacenar) debe ser binario" }
+	validates :pc, presence: { message: " es requerido" }, format: { without: /[^0-9A-Z]/, message: " debe ser hexadecimal" }
+	validates :add, format: { without: /[^0-9A-Z]/, message: " (sumar) debe ser hexadecimal" }
+	validates :sub, format: { without: /[^0-9A-Z]/, message: " (restar) debe ser hexadecimal" }
+	validates :load, presence: { message: " (leer) es requerido" }, format: { without: /[^0-9A-Z]/, message: " (leer) debe ser hexadecimal" }
+	validates :store, presence: { message: " (almacenar) es requerido" }, format: { without: /[^0-9A-Z]/, message: " (almacenar) debe ser hexadecimal" }
 	validate :register_size, :pc_size, :co_size, :dir_size, :load_size, :store_size, :add_size, :sub_size
 	def pc_size
 		if self.co != nil && self.dir != nil
-			errors.add(:pc, "El tamaño del PC debe ser de "+((self.co + self.dir).to_s)+" bits") unless self.co + self.dir == self.pc.length
+			errors.add(:pc, "El tamaño del PC debe ser de "+((self.co + self.dir).to_s)) unless self.co + self.dir == self.pc.length
 		end
 	end
 	def register_size
 		if self.co != nil && self.dir != nil
-			errors.add(:co, "El tamaño de los registros debe ser de máximo de 16 bits") unless self.co + self.dir <= 16
+			errors.add(:co, "El tamaño de los registros debe ser de máximo de 8 dígitos hexadecimales") unless self.co + self.dir <= 8
 		end
 	end
 	def co_size
 		if self.co != nil
-			errors.add(:co, "El valor del campo de CO debe ser multiplo de 4 bits") unless self.co % 4 == 0 && self.co > 0
+			errors.add(:co, "El valor del campo de CO debe ser menor a 3 y mayor a 0") unless self.co < 3 && self.co > 0
 		end
 	end
 	def dir_size
 		if self.dir != nil
-			errors.add(:dir, "El valor del campo de Direcciones debe ser multiplo de 4 bits") unless self.dir % 4 == 0 && self.dir > 0
+			errors.add(:dir, "El valor del campo de Direcciones debe ser menor a 7 y mayor a 0") unless self.dir < 7 && self.dir > 0
 		end
 	end
 	def load_size

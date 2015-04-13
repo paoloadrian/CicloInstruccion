@@ -1,10 +1,10 @@
-<%= form_for(@cpu_binary) do |f| %>
-  <% if @cpu_binary.errors.any? %>
+<%= form_for(@hexa_cpu) do |f| %>
+  <% if @hexa_cpu.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@cpu_binary.errors.count, "error") %> prohibited this cpu_binary from being saved:</h2>
+      <h2><%= pluralize(@hexa_cpu.errors.count, "error") %> prohibited this hexa_cpu from being saved:</h2>
 
       <ul>
-      <% @cpu_binary.errors.full_messages.each do |message| %>
+      <% @hexa_cpu.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -12,26 +12,26 @@
   <% end %>
 
   <br>
-  <fieldset id="binary_instruction">
+  <fieldset id="hexa_instruction">
 	  <label> Formato de Instruccion: </label><br>
 	  <div class="field">
 	    <%= f.label "CO: " %> &nbsp;
-	    <%= f.text_field :co, max: 8, maxlength: 1 %> &nbsp; <label> [bits] (máximo 8 bits) </label>
+	    <%= f.text_field :co, max: 2, maxlength: 1 %> &nbsp; <label> [dígitos] (máximo 8 bits) </label>
 	  </div>
 	  <div class="field">
 	    <%= f.label "Dir: " %> &nbsp;
-	    <%= f.text_field :dir, max: 12, maxlength: 2 %> &nbsp; <label> [bits] (máximo 12 bits) </label>
+	    <%= f.text_field :dir, max: 6, maxlength: 1 %> &nbsp; <label> [dígitos] (máximo 24 bits) </label>
 	  </div>
-	  <label> La suma de ambos campos debe ser maximo 16 bits </label><br>
+	  <label> La suma de ambos campos debe ser maximo 32 bits (8 digitos) </label><br>
   </fieldset>
   <br>
   <div class="field">
     <%= f.label "PC: " %> &nbsp;
     <%= f.text_field :pc %>
   </div>
-  <label> Valor inicial en binario </label><br>
+  <label> Valor inicial en hexadecimal </label><br>
   <br>
-  <fieldset id="binary_cods">
+  <fieldset id="hexa_cods">
   	<label> Códigos de Operacion (en binario): </label><br><br>
 	  <div class="field">
 	    <%= f.label "Leer: " %>&nbsp;

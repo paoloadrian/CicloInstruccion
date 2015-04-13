@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  
   get 'cpu_binaries' => 'cpu_binaries#new'
   get 'ram_binaries' => 'ram_binaries#new'
+  #get 'hexa_cpus' => 'hexa_cpus#show'
   
+  resources :hexa_cpus
   resources :cpu_binaries
   resources :ram_binaries
   resources :binary_steps
