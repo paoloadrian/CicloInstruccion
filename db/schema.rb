@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20150413155344) do
 
   create_table "ram_binaries", force: true do |t|
     t.integer  "cpu_binary_id"
+    t.integer  "instructions"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(version: 20150413155344) do
   create_table "ram_binary_cells", force: true do |t|
     t.string   "content"
     t.string   "direction"
+    t.integer  "position"
     t.integer  "ram_binary_id"
     t.datetime "created_at"
     t.datetime "updated_at"

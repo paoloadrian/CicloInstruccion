@@ -1,18 +1,16 @@
 // Place all the styles related to the RamBinaries controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-#binary_ram_preparing{
-	input [type="text"] {
-	    width: 145px;
-	    text-align:right; 
-	    padding: 2px;
-	}
-}
 #binary-ram {
 	width: 400px;
     background-image: url("ram2.png");
 }
 #binary-cells{
+	input {
+	    width: 145px;
+	    text-align:right; 
+	    padding: 2px;
+	}
  	margin-left: 12px;
  	overflow:auto;
 	margin-top:5px;
