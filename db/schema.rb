@@ -55,10 +55,10 @@ ActiveRecord::Schema.define(version: 20150413155344) do
   end
 
   create_table "hexa_cpus", force: true do |t|
+    t.integer  "directions"
     t.integer  "co"
     t.integer  "dir"
     t.string   "pc"
-    t.boolean  "specific_registers"
     t.string   "load"
     t.string   "store"
     t.string   "add"
