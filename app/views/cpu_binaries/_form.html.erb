@@ -1,6 +1,6 @@
 <%= form_for(@cpu_binary) do |f| %>
   <% if @cpu_binary.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="container">
       <h2><%= pluralize(@cpu_binary.errors.count, "error") %> prohibited this cpu_binary from being saved:</h2>
 
       <ul>
@@ -10,27 +10,26 @@
       </ul>
     </div>
   <% end %>
-
-  <br>
-  <fieldset id="binary_instruction">
-	  <label> Formato de Instruccion: </label><br><br>
-	  <div class="field">
-	    <%= f.label "CO: " %> &nbsp;
-	    <%= f.text_field :co, max: 8, maxlength: 1 %> &nbsp; <label> [bits] (máximo 8 bits) </label>
-	  </div>
-	  <div class="field">
-	    <%= f.label "Dir: " %> &nbsp;
-	    <%= f.text_field :dir, max: 12, maxlength: 2 %> &nbsp; <label> [bits] (máximo 12 bits) </label>
-	  </div>
-	  <label> La suma de ambos campos debe ser maximo 16 bits </label><br>
-  </fieldset>
-  <br>
+  <div id="binary_cpu_form" class="container">
+  <div id="binary_format" class="container">
+  	<br>
+	<label> Formato de Instruccion: </label><br><br>
+	<div class="field">
+	  <%= f.label "CO: " %> &nbsp;
+	  <%= f.text_field :co, max: 8, maxlength: 1 %> &nbsp; <label> [bits] (máximo 8 bits) </label>
+	</div>
+	<div class="field">
+	  <%= f.label "Dir: " %> &nbsp;
+	  <%= f.text_field :dir, max: 12, maxlength: 2 %> &nbsp; <label> [bits] (máximo 12 bits) </label>
+	</div>
+	<label> La suma de ambos campos debe ser maximo 16 bits </label><br>
+  </div>
   <div class="field">
     <%= f.label "PC inicial (en binario): " %> &nbsp;
     <%= f.text_field :pc %>
   </div>
-  <br>
-  <fieldset id="binary_cods">
+  <div id="binary_cods" class="container">
+  	<br>
   	<label> Códigos de Operacion (en binario): </label><br><br>
 	  <div class="field">
 	    <%= f.label "Leer: " %>&nbsp;
@@ -49,9 +48,9 @@
 	    <%= f.text_field :sub %>
 	  </div>
 	  <label> Los operadores de ALU pueden ser vacios </label><br>
-  </fieldset>
-  <br>
+  </div>
   <div class="actions">
 	<%= f.submit "Aceptar" %>
+  </div>
   </div>
 <% end %>

@@ -1,6 +1,6 @@
 <%= form_for(@hexa_cpu) do |f| %>
   <% if @hexa_cpu.errors.any? %>
-    <div id="error_explanation">
+    <div id="error_explanation" class="container">
       <h2><%= pluralize(@hexa_cpu.errors.count, "error") %> prohibited this hexa_cpu from being saved:</h2>
 
       <ul>
@@ -10,9 +10,9 @@
       </ul>
     </div>
   <% end %>
-
-  <br>
-  <fieldset id="hexa_instruction">
+  <div id="hexa_cpu_form" class="container">
+  <div id="hexa_instruction" class="container">
+  	<br>
 	  <label> Formato de Instruccion: </label><br><br>
 	  <div class="field">
 	    <%= f.label "CO: " %> &nbsp;
@@ -23,14 +23,13 @@
 	    <%= f.text_field :dir, max: 6, maxlength: 1 %> &nbsp; <label> [dígitos] (máximo 24 bits) </label>
 	  </div>
 	  <label> La suma de ambos campos debe ser maximo 32 bits (8 digitos) </label><br>
-  </fieldset>
-  <br>
+  </div>
   <div class="field">
     <%= f.label "PC inicial (en hexadecimal): " %> &nbsp;
     <%= f.text_field :pc %>
   </div>
+  <div id="hexa_cods" class="container">
   <br>
-  <fieldset id="hexa_cods">
   	<label> Códigos de Operacion (en hexadecimal): </label><br><br>
 	  <div class="field">
 	    <%= f.label "Leer: " %>&nbsp;
@@ -49,9 +48,9 @@
 	    <%= f.text_field :sub %>
 	  </div>
 	  <label> Los operadores de ALU pueden ser vacios </label><br>
-  </fieldset>
-  <br>
+  </div>
   <div class="actions">
 	<%= f.submit "Aceptar" %>
+  </div>
   </div>
 <% end %>

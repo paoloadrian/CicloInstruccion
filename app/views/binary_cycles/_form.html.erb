@@ -2,9 +2,9 @@
   <input name="utf8" type="hidden" value="&#x2713;" />
   <input name="authenticity_token" type="hidden" value="x37DrAAwyIIb7s+w2+AdoCR8cAJIpQhIetKRrPgG5VA="/>
   <strong>Instrucciones:&nbsp;</strong>
-  <label id="cant_instrucciones"><%= @ram_binary.instructions %></label><br>
+  <label id="cant_instrucciones"><%= @ram_binary.instructions %></label>
   <input id="id_cpu" type="hidden" value="<%=@cpu_binary.id%>" />
-  <div id="cycle-binary">
+  <div id="cycle-binary" class="container">
     <input type="text" id="binary_dir_bus" name="busDirs"><br>
     <input type="text" id="binary_data_bus" name="busDatos"><br>
     <div id="cycle-binary-cpu">
@@ -17,13 +17,13 @@
     </div>
     <div id="cycle-binary-ram-cells">
       <table>
-        <% for i in 0..17 %>
+        <% for i in 0..15 %>
           <% cell = @ram_binary.findCellByPosition(i) %>
           <% if cell == nil %>
-            <input type="text" name="ram" id="dir-<%=i%>">&nbsp;
+            <input class="nonborder" type="text" name="ram" id="dir-<%=i%>">&nbsp;
             &nbsp;<input type="text" name="ram" id="cont-<%=i%>">
           <% else %>
-            <input type="text" name="ram" id="dir-<%=i%>" value="<%= cell.direction %>">&nbsp;
+            <input class="nonborder" type="text" name="ram" id="dir-<%=i%>" value="<%= cell.direction %>">&nbsp;
             &nbsp;<input type="text" name="ram" id="cont-<%=i%>" value="<%= cell.content %>">
           <% end %>
         <% end %>

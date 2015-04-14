@@ -2,16 +2,18 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 #binary-ram {
-	width: 400px;
-    background-image: url("ram2.png");
+	width: 410px;
+    background-image: url("ram4.png");
 }
+
 #binary-cells{
 	input {
 	    width: 145px;
 	    text-align:right; 
 	    padding: 2px;
 	}
- 	margin-left: 12px;
+	margin-left: 10px;
+ 	margin-top: 59px;
+ 	margin-bottom: 59px;
  	overflow:auto;
-	margin-top:5px;
 }

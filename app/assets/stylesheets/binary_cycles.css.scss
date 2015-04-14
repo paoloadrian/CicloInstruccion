@@ -4,37 +4,33 @@
 #cycle-binary {
 	width: 1200px;
 	height: 550px;
-    background-image: url("cicloInstruccion.png");
+    background-image: url("cicloInstruccion4.png");
 }
 #cycle-binary-ram-cells{
- 	margin-left:825px;
+ 	margin-left:770px;
  	overflow:auto;
 	margin-top:8px;
 	input {
 	    width: 145px;
-	    text-align:right; 
-    	padding: 2px;
+	    text-align:right;
+	}
+	.nonborder {
+	    border: none;
 	}
 }
 #cycle-binary-cpu{
- 	margin-left:112px;
+ 	margin-left:105px;
  	float:left;
- 	margin-top:48px;
-	input {
-	    width: 166px;
-	    padding: 2px;
-	}
+ 	margin-top:43px;
 }
 #binary_data_bus{
 	width: 166px;
 	padding: 2px;
-	margin-left:750px;
-	margin-top:2px;
-	margin-bottom:5px;
+	margin-left:480px;
 }
 
 #binary_dir_bus{
 	width: 166px;
 	padding: 2px;
-	margin-left:750px;
+	margin-left:480px;
 }

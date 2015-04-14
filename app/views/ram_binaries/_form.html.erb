@@ -3,21 +3,15 @@
   <input name="authenticity_token" type="hidden" value="x37DrAAwyIIb7s+w2+AdoCR8cAJIpQhIetKRrPgG5VA="/>
   <input name="id_cpu" type="hidden" value="<%=@cpu_binary.id%>" />
   <input type="hidden" id="cant_instrucciones" name="cant_instrucciones" value="5"/>
-  <div id="binary-ram">
-	  <% for i in 0..2 %>
-	  	<br>
-	  <%end%>
+  <div id="binary-ram" class="container">
 	  <div id="binary-cells">
 		<table>
-	      <% for i in 0..17 %>
+	      <% for i in 0..15 %>
 	        <input type="text" name="dir<%=i%>" id="dir<%=i%>" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>">
 	        &nbsp;&nbsp;<input type="text" name="cont<%=i%>" id="cont<%=i%>" maxlength="<%= @cpu_binary.co + @cpu_binary.dir %>">
 	      <% end %>
 	    </table>
 	  </div>
-	  <% for i in 0..3 %>
-	  	<br>
-	  <%end%>
   </div>
   <input type="submit" value="Aceptar" id="create_ram_binary" %>
 </form>

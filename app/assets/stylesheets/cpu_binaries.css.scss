@@ -1,9 +1,19 @@
 // Place all the styles related to the CPUBinaries controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-#binary_instruction {
-	width: 400px;
-}
+
 #binary_cods {
-	width: 400px;
+	border: 3px solid;
+	border-radius: 5px;
+	width: 430px;
+}
+
+#binary_format{
+	border: 3px solid;
+	border-radius: 5px;
+	width: 430px;
+}
+
+#binary_cpu_form{
+	width: 430px;
 }

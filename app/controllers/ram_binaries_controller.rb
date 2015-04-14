@@ -19,7 +19,7 @@ class RamBinariesController < ApplicationController
     @ram_binary.instructions = params[:cant_instrucciones]
     respond_to do |format|
       if @ram_binary.save
-        for i in 0..14
+        for i in 0..15
           if params["dir"+i.to_s] != ""
             cell = RamBinaryCell.new
             cell.ram_binary_id = @ram_binary.id
