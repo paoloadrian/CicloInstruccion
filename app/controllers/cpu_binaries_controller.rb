@@ -1,6 +1,9 @@
 class CpuBinariesController < ApplicationController
   before_action :set_cpu_binary, only: [:show, :edit, :update, :destroy]
 
+  def home
+  end
+
   # GET /cpu_binaries/new
   def new
     @cpu_binary = CpuBinary.new
