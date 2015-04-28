@@ -10,47 +10,48 @@
       </ul>
     </div>
   <% end %>
-  <div id="hexa_cpu_form" class="container">
-  <div id="hexa_instruction" class="container">
-  	<br>
-	  <label> Formato de Instruccion: </label><br><br>
-	  <div class="field">
-	    <%= f.label "CO: " %> &nbsp;
-	    <%= f.text_field :co, max: 2, maxlength: 1 %> &nbsp; <label> [dígitos] (máximo 8 bits) </label>
+    <div id="hexa_cpu_form" class="container">
+      <br>
+	  <div id="hexa_instruction" class="container">
+	  	<br>
+		<label> Formato de Instruccion: </label><br><br>
+		<div class="field">
+		  <%= f.label "CO: " %> &nbsp;
+		  <%= f.number_field :co, max: 4, maxlength: 1 %> &nbsp; <label> [dígitos] </label>
+		</div>
+		<div class="field">
+		  <%= f.label "Dir: " %> &nbsp;
+		  <%= f.number_field :dir, max: 8, maxlength: 1 %> &nbsp; <label> [dígitos] </label>
+		</div>
+		<label> La suma de ambos campos debe ser maximo 16 dígitos (64 bits) </label><br>
 	  </div>
 	  <div class="field">
-	    <%= f.label "Dir: " %> &nbsp;
-	    <%= f.text_field :dir, max: 6, maxlength: 1 %> &nbsp; <label> [dígitos] (máximo 24 bits) </label>
+	    <%= f.label "PC inicial (en hexadecimal): " %> &nbsp;
+	    <%= f.text_field :pc %>
 	  </div>
-	  <label> La suma de ambos campos debe ser maximo 32 bits (8 digitos) </label><br>
-  </div>
-  <div class="field">
-    <%= f.label "PC inicial (en hexadecimal): " %> &nbsp;
-    <%= f.text_field :pc %>
-  </div>
-  <div id="hexa_cods" class="container">
-  <br>
-  	<label> Códigos de Operacion (en hexadecimal): </label><br><br>
-	  <div class="field">
-	    <%= f.label "Leer: " %>&nbsp;
-	    <%= f.text_field :load %>
+  	  <div id="hexa_cods" class="container">
+	  	<br>
+	  	<label> Códigos de Operacion (en hexadecimal): </label><br><br>
+		  <div class="field">
+		    <%= f.label "Leer: " %>&nbsp;
+		    <%= f.text_field :load %>
+		  </div>
+		  <div class="field">
+		    <%= f.label "Almacenar: " %>&nbsp;
+		    <%= f.text_field :store %>
+		  </div>
+		  <div class="field">
+		    <%= f.label "Sumar: " %>&nbsp;
+		    <%= f.text_field :add %>
+		  </div>
+		  <div class="field">
+		    <%= f.label "Restar: " %>&nbsp;
+		    <%= f.text_field :sub %>
+		  </div>
+		  <label> Los operadores de ALU pueden ser vacios </label><br>
 	  </div>
-	  <div class="field">
-	    <%= f.label "Almacenar: " %>&nbsp;
-	    <%= f.text_field :store %>
+	  <div class="actions">
+		<%= f.submit "Aceptar" %>
 	  </div>
-	  <div class="field">
-	    <%= f.label "Sumar: " %>&nbsp;
-	    <%= f.text_field :add %>
-	  </div>
-	  <div class="field">
-	    <%= f.label "Restar: " %>&nbsp;
-	    <%= f.text_field :sub %>
-	  </div>
-	  <label> Los operadores de ALU pueden ser vacios </label><br>
-  </div>
-  <div class="actions">
-	<%= f.submit "Aceptar" %>
-  </div>
-  </div>
+  	</div>
 <% end %>

@@ -1,0 +1,7 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hexa_cpu_id: 
+
+two:
+  hexa_cpu_id: 

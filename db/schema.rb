@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150413155344) do
+ActiveRecord::Schema.define(version: 20150427003913) do
 
   create_table "binary_cycles", force: true do |t|
     t.string   "pc"
@@ -27,21 +27,6 @@ ActiveRecord::Schema.define(version: 20150413155344) do
 
   add_index "binary_cycles", ["ram_binary_id"], name: "index_binary_cycles_on_ram_binary_id"
 
-  create_table "binary_steps", force: true do |t|
-    t.string   "content"
-    t.string   "origin"
-    t.string   "destiny"
-    t.string   "pc"
-    t.string   "actual_instruction"
-    t.integer  "step"
-    t.boolean  "execution_cycle"
-    t.integer  "binary_cycle_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "binary_steps", ["binary_cycle_id"], name: "index_binary_steps_on_binary_cycle_id"
-
   create_table "cpu_binaries", force: true do |t|
     t.integer  "co"
     t.integer  "dir"
@@ -55,7 +40,6 @@ ActiveRecord::Schema.define(version: 20150413155344) do
   end
 
   create_table "hexa_cpus", force: true do |t|
-    t.integer  "directions"
     t.integer  "co"
     t.integer  "dir"
     t.string   "pc"
@@ -66,6 +50,26 @@ ActiveRecord::Schema.define(version: 20150413155344) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "hexa_ram_cells", force: true do |t|
+    t.integer  "hexa_ram_id"
+    t.string   "direction"
+    t.string   "content"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "hexa_ram_cells", ["hexa_ram_id"], name: "index_hexa_ram_cells_on_hexa_ram_id"
+
+  create_table "hexa_rams", force: true do |t|
+    t.integer  "hexa_cpu_id"
+    t.integer  "instructions"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "hexa_rams", ["hexa_cpu_id"], name: "index_hexa_rams_on_hexa_cpu_id"
 
   create_table "ram_binaries", force: true do |t|
     t.integer  "cpu_binary_id"

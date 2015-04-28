@@ -9,12 +9,6 @@ class CpuBinariesController < ApplicationController
     @cpu_binary = CpuBinary.new
   end
 
-  # GET /cpu_binaries/1/edit
-  def edit
-  end
-
-  # POST /cpu_binaries
-  # POST /cpu_binaries.json
   def create
     @cpu_binary = CpuBinary.new(cpu_binary_params)
     respond_to do |format|
@@ -27,30 +21,6 @@ class CpuBinariesController < ApplicationController
         format.html { render :new }
         format.json { render json: @cpu_binary.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # PATCH/PUT /cpu_binaries/1
-  # PATCH/PUT /cpu_binaries/1.json
-  def update
-    respond_to do |format|
-      if @cpu_binary.update(cpu_binary_params)
-        format.html { redirect_to @cpu_binary, notice: 'Cpu binary was successfully updated.' }
-        format.json { render :show, status: :ok, location: @cpu_binary }
-      else
-        format.html { render :edit }
-        format.json { render json: @cpu_binary.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /cpu_binaries/1
-  # DELETE /cpu_binaries/1.json
-  def destroy
-    @cpu_binary.destroy
-    respond_to do |format|
-      format.html { redirect_to cpu_binaries_url, notice: 'Cpu binary was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

@@ -1,7 +1,19 @@
-<form accept-charset="UTF-8" action="ram_binaries" method="POST">
-  <input name="utf8" type="hidden" value="&#x2713;" />
-  <input name="authenticity_token" type="hidden" value="x37DrAAwyIIb7s+w2+AdoCR8cAJIpQhIetKRrPgG5VA="/>
-  <input name="id_cpu" type="hidden" value="<%=@cpu_binary.id%>" />
+<%= form_for(@ram_binary) do |f| %>
+  <% if @ram_binary.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ram_binary.errors.count, "error") %> prohibited this ram_binary from being saved:</h2>
+
+      <ul>
+      <% @ram_binary.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+	<%= f.hidden_field :cpu_binary_id, :value => @cpu_binary.id %>
+  </div>
   <input type="hidden" id="cant_instrucciones" name="cant_instrucciones" value="5"/>
   <div id="binary-ram" class="container">
 	  <div id="binary-cells">
@@ -13,5 +25,7 @@
 	    </table>
 	  </div>
   </div>
-  <input type="submit" value="Aceptar" id="create_ram_binary" %>
-</form>
+  <div class="actions">
+    <%= f.submit "Aceptar", :id => "create_ram_binary" %>
+  </div>
+<% end %>

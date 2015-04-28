@@ -1,8 +1,11 @@
 $(document).ready(function(){
 	var cantInstrucciones=0, mensaje, inicio, fin, pc, comando, comandoCorrecto, contenidoCorrecto, storeUsado;
-	$("#binary-cells input[type='text']").regexMask(/^[01]+$/);
+	$("#hexa-cells input[type='text']").regexMask(/^[0-9A-Fa-f]+$/);
+	$("#hexa-cells input[type='text']").keyup(function(){
+    	this.value = this.value.toUpperCase();
+	});
 	pc = $("#pc").text();
-	$("#create_ram_binary").on('click', function(e){
+	$("#create_hexa_ram").on('click', function(e){
 		if (!correcto()){
             cantInstrucciones = 0;
             console.log(mensaje);
@@ -15,6 +18,7 @@ $(document).ready(function(){
 			console.log("Formato correcto");
 			alert("Formato correcto");
 			cantInstrucciones = 0;
+			e.preventDefault();
 		}
 	});
 
@@ -28,8 +32,8 @@ $(document).ready(function(){
 	    for (var i = 0; i < 15 && !fin; i++){
 	        comandoCorrecto = false;
 	        contenidoCorrecto = false;
-	        dir = $("#dir"+i.toString()).val();
-	        texto = $("#cont"+i.toString()).val();
+	        dir = $("#hexa_dir"+i.toString()).val();
+	        texto = $("#hexa_cont"+i.toString()).val();
 	        if (dir != ""){
 	            if (dir.length == $("#pc").text().length && (texto == "" || texto.length == $("#pc").text().length)){
 	                if (!inicio){
@@ -73,13 +77,13 @@ $(document).ready(function(){
 	                }
 	            }
 	            else{
-	                mensaje = "Todos los registros y direcciones deben ser de " + $("#pc").text().length.toString() + " bits";
+	                mensaje = "Todos los registros y direcciones deben ser de " + $("#pc").text().length.toString() * 4 + " bits";
 	                return false;
 	            }
 	        }
 	        else{
 	            if (texto = "" && texto.length != $("#pc").text().length){
-	                mensaje = "Todos los registros y direcciones deben ser de " + $("#pc").text().length.toString() + " bits";
+	                mensaje = "Todos los registros y direcciones deben ser de " + $("#pc").text().length.toString() * 4 + " bits";
 	                return false;
 	            }
 	        }
@@ -92,9 +96,9 @@ $(document).ready(function(){
 	}
 
 	function ComprobarContenidoComando(dir, cod){
-	    for (var j = 0; j < 15; j++){
-	        if ($("#dir"+j.toString()).val() == dir){
-	            var texto = $("#cont"+j.toString()).val();
+	    for (var j = 0; j < 30; j++){
+	        if ($("#hexa_dir"+j.toString()).val() == dir){
+	            var texto = $("#hexa_cont"+j.toString()).val();
 	            if (texto.length == $("#pc").text().length){
 	                for (var i = 0; i < parseInt($("#co").text()); i++){
 	                    if (texto.charAt(i) != '0'){
@@ -110,7 +114,7 @@ $(document).ready(function(){
 	                else{
 	                	if(storeUsado)
 	                		return true;
-	                    mensaje = "Todos los registros usados de la RAM deben ser de " + $("#pc").text().length.toString() + " bits";
+	                    mensaje = "Todos los registros usados de la RAM deben ser de " + $("#pc").text().length.toString() * 4 + " bits";
 	                    return false;
 	                }
 	            }
@@ -190,7 +194,7 @@ $(document).ready(function(){
 	}
 
 	function incrementarPC(){
-		pc = sumarBinario(pc, DecimalABinario(1, pc.length), pc.length);
+		pc = sumarHexa(pc, DecimalAHexa(1, pc.length), pc.length);
 	    cantInstrucciones++;
 	}
 
@@ -224,31 +228,71 @@ $(document).ready(function(){
 	    return false;
 	}
 
-	function sumarBinario(num1, num2, tam){
-		var res = BinarioADecimal(num1) + BinarioADecimal(num2);
-	    return DecimalABinario(res, tam);
+	function sumarHexa(num1, num2, tam){
+		var res = HexaADecimal(num1) + HexaADecimal(num2);
+	    console.log(res);
+	    return DecimalAHexa(res, tam);
 	}
 
-	function DecimalABinario(num, tam){
-	    var bin = "";
+	function DecimalAHexa(num, tam){
+	    var hexa = "";
 	    var cosciente = num;
 	    while (cosciente > 1){
-	        bin = (cosciente % 2).toString() + bin;
-	        cosciente = ~~(cosciente / 2);
+	        hexa = toHexa(cosciente % 16) + hexa;
+	        cosciente = ~~(cosciente / 16);
 	    }
-	    bin = cosciente.toString() + bin;
-	    for (var i = bin.length; i < tam; i++){
-	        bin = "0" + bin;
+	    hexa = toHexa(cosciente) + hexa;
+	    for (var i = hexa.length; i < tam; i++){
+	        hexa = "0" + hexa;
 	    }
-	    return bin;
+	    console.log(hexa);
+	    return hexa;
 	}
 
-	function BinarioADecimal(num){
+	function toHexa(num){
+		switch(num){
+			case 10:
+				return "A";
+			case 11:
+				return "B";
+			case 12:
+				return "C";
+			case 13:
+				return "D";
+			case 14:
+				return "E";
+			case 15:
+				return "F";
+			default:
+				return num.toString();
+		}
+	}
+
+	function HexaADecimal(num){
 	    var dec = 0;
 	    for (var i = 0; i < num.length; i++){
-	        if (num.charAt(i) == '1')
-	            dec = dec + Math.pow(2, num.length - 1 - i);
+	        if (num.charAt(i) != '0')
+	            dec = dec + toDec(num.charAt(i)) * Math.pow(16, num.length - 1 - i);
 	    }
 	    return dec;
+	}
+
+	function toDec(num){
+		switch(num){
+			case 'A':
+				return 10;
+			case 'B':
+				return 11;
+			case 'C':
+				return 12;
+			case 'D':
+				return 13;
+			case 'E':
+				return 14;
+			case 'F':
+				return 15;
+			default:
+				return parseInt(num);
+		}
 	}
 });

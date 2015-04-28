@@ -1,0 +1,31 @@
+<%= form_for(@hexa_ram) do |f| %>
+  <% if @hexa_ram.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@hexa_ram.errors.count, "error") %> prohibited this hexa_ram from being saved:</h2>
+
+      <ul>
+      <% @hexa_ram.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+	<%= f.hidden_field :hexa_cpu_id, :value => @hexa_cpu.id %>
+  </div>
+  <input type="hidden" id="cant_instrucciones" name="cant_instrucciones" value="5"/>
+  <div id="hexa-ram" class="container">
+	  <div id="hexa-cells">
+		<table>
+	      <% for i in 0..30 %>
+	        <input type="text" name="hexa_dir<%=i%>" id="hexa_dir<%=i%>" maxlength="<%= @hexa_cpu.co + @hexa_cpu.dir %>">
+	        &nbsp;&nbsp;<input type="text" name="hexa_cont<%=i%>" id="hexa_cont<%=i%>" maxlength="<%= @hexa_cpu.co + @hexa_cpu.dir %>">
+	      <% end %>
+	    </table>
+	  </div>
+  </div>
+  <div class="actions">
+    <%= f.submit "Aceptar", :id => "create_hexa_ram" %>
+  </div>
+<% end %>

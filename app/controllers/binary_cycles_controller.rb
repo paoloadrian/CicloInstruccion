@@ -13,12 +13,6 @@ class BinaryCyclesController < ApplicationController
     @cpu_binary = CpuBinary.find(@ram_binary.cpu_binary_id)
   end
 
-  # GET /binary_cycles/1/edit
-  def edit
-  end
-
-  # POST /binary_cycles
-  # POST /binary_cycles.json
   def create
     @binary_cycle = BinaryCycle.new(binary_cycle_params)
 
@@ -30,30 +24,6 @@ class BinaryCyclesController < ApplicationController
         format.html { render :new }
         format.json { render json: @binary_cycle.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # PATCH/PUT /binary_cycles/1
-  # PATCH/PUT /binary_cycles/1.json
-  def update
-    respond_to do |format|
-      if @binary_cycle.update(binary_cycle_params)
-        format.html { redirect_to @binary_cycle, notice: 'Binary cycle was successfully updated.' }
-        format.json { render :show, status: :ok, location: @binary_cycle }
-      else
-        format.html { render :edit }
-        format.json { render json: @binary_cycle.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /binary_cycles/1
-  # DELETE /binary_cycles/1.json
-  def destroy
-    @binary_cycle.destroy
-    respond_to do |format|
-      format.html { redirect_to binary_cycles_url, notice: 'Binary cycle was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

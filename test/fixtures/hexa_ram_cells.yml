@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hexa_ram_id: 
+  direction: MyString
+  content: MyString
+  position: 1
+
+two:
+  hexa_ram_id: 
+  direction: MyString
+  content: MyString
+  position: 1

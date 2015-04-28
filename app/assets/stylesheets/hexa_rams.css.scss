@@ -1,0 +1,20 @@
+// Place all the styles related to the HexaRams controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#hexa-ram {
+	width: 410px;
+    background-image: url("ram4.png");
+}
+
+#hexa-cells{
+	input {
+	    width: 145px;
+	    text-align:right; 
+	    padding: 2px;
+	}
+	height: 400px;
+	margin-left: 23px;
+ 	margin-top: 59px;
+ 	margin-bottom: 59px;
+ 	overflow:auto;
+}

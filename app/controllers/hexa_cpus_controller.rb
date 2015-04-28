@@ -11,10 +11,6 @@ class HexaCpusController < ApplicationController
     @hexa_cpu = HexaCpu.new
   end
 
-  # GET /hexa_cpus/1/edit
-  def edit
-  end
-
   # POST /hexa_cpus
   # POST /hexa_cpus.json
   def create
@@ -22,22 +18,14 @@ class HexaCpusController < ApplicationController
 
     respond_to do |format|
       if @hexa_cpu.save
-        format.html { redirect_to @hexa_cpu, notice: 'Hexa cpu was successfully created.' }
-        format.json { render :show, status: :created, location: @hexa_cpu }
+      	@hexa_ram = HexaRam.new
+      	@hexa_ram.hexa_cpu_id = @hexa_cpu.id
+        format.html { redirect_to :controller => 'hexa_rams', :action => 'new', :id_cpu => @hexa_cpu.id }
+        format.json { render :show, status: :created, location: @hexa_ram }
       else
         format.html { render :new }
         format.json { render json: @hexa_cpu.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /hexa_cpus/1
-  # DELETE /hexa_cpus/1.json
-  def destroy
-    @hexa_cpu.destroy
-    respond_to do |format|
-      format.html { redirect_to hexa_cpus_url, notice: 'Hexa cpu was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
@@ -49,6 +37,6 @@ class HexaCpusController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def hexa_cpu_params
-      params.require(:hexa_cpu).permit(:co, :dir, :pc, :specific_registers, :load, :store, :add, :sub)
+      params.require(:hexa_cpu).permit(:co, :dir, :pc, :directions, :load, :store, :add, :sub)
     end
 end

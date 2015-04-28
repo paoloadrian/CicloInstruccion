@@ -1,7 +1,6 @@
 class CreateHexaCpus < ActiveRecord::Migration
   def change
     create_table :hexa_cpus do |t|
-      t.integer :directions
       t.integer :co
       t.integer :dir
       t.string :pc
