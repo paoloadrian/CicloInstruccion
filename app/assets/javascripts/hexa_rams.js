@@ -18,7 +18,6 @@ $(document).ready(function(){
 			console.log("Formato correcto");
 			alert("Formato correcto");
 			cantInstrucciones = 0;
-			e.preventDefault();
 		}
 	});
 
@@ -230,7 +229,6 @@ $(document).ready(function(){
 
 	function sumarHexa(num1, num2, tam){
 		var res = HexaADecimal(num1) + HexaADecimal(num2);
-	    console.log(res);
 	    return DecimalAHexa(res, tam);
 	}
 
@@ -245,7 +243,6 @@ $(document).ready(function(){
 	    for (var i = hexa.length; i < tam; i++){
 	        hexa = "0" + hexa;
 	    }
-	    console.log(hexa);
 	    return hexa;
 	}
 

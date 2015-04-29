@@ -23,8 +23,8 @@ class HexaRamsController < ApplicationController
           if params["dir"+i.to_s] != ""
             cell = HexaRamCell.new
             cell.hexa_ram_id = @hexa_ram.id
-            cell.content = params["cont"+i.to_s]
-            cell.direction = params["dir"+i.to_s]
+            cell.content = params["hexa_cont"+i.to_s]
+            cell.direction = params["hexa_dir"+i.to_s]
             cell.position = i
             cell.save
           end

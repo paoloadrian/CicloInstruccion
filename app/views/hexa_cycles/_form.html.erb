@@ -1,0 +1,34 @@
+<form accept-charset="UTF-8" action="hexa_cycles" method="POST">
+  <input name="utf8" type="hidden" value="&#x2713;" />
+  <input name="authenticity_token" type="hidden" value="x37DrAAwyIIb7s+w2+AdoCR8cAJIpQhIetKRrPgG5VA="/>
+  <strong>Instrucciones:&nbsp;</strong>
+  <label id="cant_instrucciones"><%= @hexa_ram.instructions %></label>
+  <input id="id_cpu" type="hidden" value="<%=@hexa_cpu.id%>" />
+  <div id="hexa-cycle" class="container">
+    <input type="text" id="hexa_dir_bus" name="busDirs"><br>
+    <input type="text" id="hexa_data_bus" name="busDatos"><br>
+    <div id="hexa-cycle-cpu">
+      <input type="text" id="hexa_pc" name="pc" value="<%=@hexa_cpu.pc%>"><br>
+      <input type="text" id="hexa_ir" name="ir"><br>
+      <input type="text" id="hexa_mar" name="mar"><br>
+      <input type="text" id="hexa_mbr" name="mbr"><br>
+      <input type="text" id="hexa_ac" name="ac"><br>
+      <input type="text" id="hexa_dr" name="dr">
+    </div>
+    <div id="hexa-cycle-ram-cells">
+      <table>
+        <% for i in 0..30 %>
+          <% cell = @hexa_ram.findCellByPosition(i) %>
+          <% if cell == nil %>
+            <input class="nonborder" type="text" name="ram" id="hexa_dir-<%=i%>">&nbsp;
+            &nbsp;<input type="text" name="ram" id="hexa_cont-<%=i%>">
+          <% else %>
+            <input class="nonborder" type="text" name="ram" id="hexa_dir-<%=i%>" value="<%= cell.direction %>">&nbsp;
+            &nbsp;<input type="text" name="ram" id="hexa_cont-<%=i%>" value="<%= cell.content %>">
+          <% end %>
+        <% end %>
+      </table>
+    </div>
+  </div>
+  <!--input type="submit" value="Aceptar" id="create_ram_hexa"-->
+</form>

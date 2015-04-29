@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
   
+  resources :hexa_cycles
+
+  get 'hexa_cycles/new'
+
+  get 'hexa_cycles/create'
+
+  get 'hexa_cycles/destroy'
+
   get 'cpu_binaries' => 'cpu_binaries#new'
   get 'ram_binaries' => 'ram_binaries#new'
   get 'hexa_cpus' => 'hexa_cpus#new'

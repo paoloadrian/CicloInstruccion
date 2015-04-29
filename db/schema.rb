@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150427003913) do
+ActiveRecord::Schema.define(version: 20150429013929) do
 
   create_table "binary_cycles", force: true do |t|
     t.string   "pc"
@@ -50,6 +50,20 @@ ActiveRecord::Schema.define(version: 20150427003913) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "hexa_cycles", force: true do |t|
+    t.string   "pc"
+    t.string   "actual_instruction"
+    t.integer  "step"
+    t.boolean  "execution_cycle"
+    t.integer  "total_instructions"
+    t.integer  "executed_instructions"
+    t.integer  "hexa_ram_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "hexa_cycles", ["hexa_ram_id"], name: "index_hexa_cycles_on_hexa_ram_id"
 
   create_table "hexa_ram_cells", force: true do |t|
     t.integer  "hexa_ram_id"
