@@ -1,0 +1,21 @@
+<%= form_for(@assembler_ram) do |f| %>
+  <% if @assembler_ram.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@assembler_ram.errors.count, "error") %> prohibited this assembler_ram from being saved:</h2>
+
+      <ul>
+      <% @assembler_ram.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :assembler_cpu_id %><br>
+    <%= f.text_field :assembler_cpu_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

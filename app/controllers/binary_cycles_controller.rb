@@ -1,11 +1,6 @@
 class BinaryCyclesController < ApplicationController
   before_action :set_binary_cycle, only: [:show, :edit, :update, :destroy]
 
-  # GET /binary_cycles/1
-  # GET /binary_cycles/1.json
-  def show
-  end
-
   # GET /binary_cycles/new
   def new
     @binary_cycle = BinaryCycle.new

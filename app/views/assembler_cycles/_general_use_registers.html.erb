@@ -1,0 +1,45 @@
+<%= form_for(@assembler_cycle) do |f| %>
+  <% if @assembler_cycle.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@assembler_cycle.errors.count, "error") %> prohibited this assembler_cycle from being saved:</h2>
+
+      <ul>
+      <% @assembler_cycle.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :assembler_ram_id %><br>
+    <%= f.text_field :assembler_ram_id %>
+  </div>
+  <div class="field">
+    <%= f.label :pc %><br>
+    <%= f.text_field :pc %>
+  </div>
+  <div class="field">
+    <%= f.label :actual_instruction %><br>
+    <%= f.text_field :actual_instruction %>
+  </div>
+  <div class="field">
+    <%= f.label :step %><br>
+    <%= f.number_field :step %>
+  </div>
+  <div class="field">
+    <%= f.label :execution_cycle %><br>
+    <%= f.check_box :execution_cycle %>
+  </div>
+  <div class="field">
+    <%= f.label :total_instructions %><br>
+    <%= f.number_field :total_instructions %>
+  </div>
+  <div class="field">
+    <%= f.label :executed_instructions %><br>
+    <%= f.number_field :executed_instructions %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

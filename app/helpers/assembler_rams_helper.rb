@@ -1,0 +1,2 @@
+module AssemblerRamsHelper
+end

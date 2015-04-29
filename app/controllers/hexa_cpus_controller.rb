@@ -1,11 +1,6 @@
 class HexaCpusController < ApplicationController
   before_action :set_hexa_cpu, only: [:show, :edit, :update, :destroy]
 
-  # GET /hexa_cpus/1
-  # GET /hexa_cpus/1.json
-  def show
-  end
-
   # GET /hexa_cpus/new
   def new
     @hexa_cpu = HexaCpu.new

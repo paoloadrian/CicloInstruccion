@@ -1,11 +1,11 @@
 $(document).ready(function(){
 	var cantInstrucciones=0, mensaje, inicio, fin, pc, comando, comandoCorrecto, contenidoCorrecto, storeUsado;
-	$("#hexa-cells input[type='text']").regexMask(/^[0-9A-Fa-f]+$/);
-	$("#hexa-cells input[type='text']").keyup(function(){
+	$("#assembler-cells input[type='text']").regexMask(/^[0-9A-Za-z]+$/);
+	$("#assembler-cells input[type='text']").keyup(function(){
     	this.value = this.value.toUpperCase();
 	});
 	pc = $("#pc").text();
-	$("#create_hexa_ram").on('click', function(e){
+	$("#create_assembler_specific_ram").on('click', function(e){
 		if (!correcto()){
             cantInstrucciones = 0;
             console.log(mensaje);
@@ -31,54 +31,48 @@ $(document).ready(function(){
 	    for (var i = 0; i < 30 && !fin; i++){
 	        comandoCorrecto = false;
 	        contenidoCorrecto = false;
-	        dir = $("#hexa_dir"+i.toString()).val();
-	        texto = $("#hexa_cont"+i.toString()).val();
+	        dir = $("#assembler_dir"+i.toString()).val();
+	        texto = $("#assembler_cont"+i.toString()).val();
 	        if (dir != ""){
-	            if (dir.length == $("#pc").text().length && (texto == "" || texto.length == $("#pc").text().length)){
-	                if (!inicio){
-	                    if (CompararConPC(dir, texto)){
-	                        if (!InicioDeProgramaCorrecto(dir))
-	                            return false;
-	                        else{
-	                            if (!contenidoCorrecto)
-	                                return false;
-	                        }
-	                    }
-	                }
-	                else{
-	                    if (!fin){
-	                    	if (CompararConPC(dir, texto)){
-	                    		if(!fin){
-		                            if (comandoCorrecto){
-		                                if (!contenidoCorrecto)
-		                                    return false;
-		                                incrementarPC();
-		                            }
-		                            else{
-		                                if (RegistroErroneo(texto)){
-		                                    mensaje = "La direccion " + dir + " de la RAM debe contener un codigo de operacion";
-		                                    return false;
-		                                }
-		                                else
-		                                	fin = true;
-		                            }
-	                        	}
-	                        }
-	                        else{
-	                            if (cantInstrucciones > 1 && storeUsado)
-	                                fin = true;
-	                            else{
-	                                mensaje = "Debe usarse al menos una vez el CO 'Almacenar en RAM'";
-	                                return false;
+                if (!inicio){
+                    if (CompararConPC(dir, texto)){
+                        if (!InicioDeProgramaCorrecto(dir))
+                            return false;
+                        else{
+                            if (!contenidoCorrecto)
+                                return false;
+                        }
+                    }
+                }
+                else{
+                    if (!fin){
+                    	if (CompararConPC(dir, texto)){
+                    		if(!fin){
+	                            if (comandoCorrecto){
+	                                if (!contenidoCorrecto)
+	                                    return false;
+	                                incrementarPC();
 	                            }
-	                        }
-	                    }
-	                }
-	            }
-	            else{
-	                mensaje = "Todos los registros y direcciones deben ser de " + $("#pc").text().length.toString() * 4 + " bits";
-	                return false;
-	            }
+	                            else{
+	                                if (RegistroErroneo(texto)){
+	                                    mensaje = "La direccion " + dir + " de la RAM debe contener un codigo de operacion";
+	                                    return false;
+	                                }
+	                                else
+	                                	fin = true;
+	                            }
+                        	}
+                        }
+                        else{
+                            if (cantInstrucciones > 1 && storeUsado)
+                                fin = true;
+                            else{
+                                mensaje = "Debe usarse al menos una vez el CO 'Almacenar en RAM'";
+                                return false;
+                            }
+                        }
+                    }
+                }
 	        }
 	        else{
 	            if (texto = "" && texto.length != $("#pc").text().length){
@@ -96,8 +90,8 @@ $(document).ready(function(){
 
 	function ComprobarContenidoComando(dir, cod){
 	    for (var j = 0; j < 30; j++){
-	        if ($("#hexa_dir"+j.toString()).val() == dir){
-	            var texto = $("#hexa_cont"+j.toString()).val();
+	        if ($("#assembler_dir"+j.toString()).val() == dir){
+	            var texto = $("#assembler_cont"+j.toString()).val();
 	            if (texto.length == $("#pc").text().length){
 	                for (var i = 0; i < parseInt($("#co").text()); i++){
 	                    if (texto.charAt(i) != '0'){
@@ -123,56 +117,47 @@ $(document).ready(function(){
 	    return false;
 	}
 
-	function ContieneComando(contenido, cod){
-		var dir = "";
-		if (cod != ""){
-	        for (var i = 0; i < parseInt($("#co").text()); i++){
-	            if (contenido.charAt(i) == cod.charAt(i))
-	                dir = dir + '0';
-	            else
-	                break;
-	        }
-	        if (dir.length == parseInt($("#co").text())){
-	            comandoCorrecto = true;
-	            for (var i = parseInt($("#co").text()); i < $("#pc").text().length; i++)
-	                dir = dir + contenido.charAt(i);
-	            contenidoCorrecto = ComprobarContenidoComando(dir, cod);
-	            return true;
-	        }
-	        else
-	            return false;
-	    }
-	    return false;
+	function ContieneComando(contenido){
+		var content = contenido.split(" ");
+		if(content.length < 2){
+			mensaje = "El formato de una instruccion debe ser el CO seguido de un espacio y la(s) direccion(es)";
+			return false;
+		}
+		cod = content[0];
+		switch(cod){
+			case "LOAD":
+				break;
+			case "STORE":
+				storeUsado = true;
+				break;
+			case "ADD":
+				break;
+			case "SUB":
+				break;
+			case "MPY":
+				break;
+			case "DIV":
+				break;
+			case "MOVE":
+				break;
+			case "JUMP":
+				break;
+			default:
+				return false;
+		}
+		comando = cod;
+		comandoCorrecto = true;
+        contenidoCorrecto = ComprobarContenidoComando(content[1], cod);
+	    return true;
 	}
 
 	function CompararConComandos(texto){
 	    var dir = "";
 	    if (texto != ""){
-	    	if(ContieneComando(texto, $("#load").text())){
-	        	comando = "load";
+	    	if(ContieneComando(texto, $("#load").text()))
 	        	return true;
-	        }
-	        else{
-	        	if(ContieneComando(texto, $("#store").text())){
-		        	comando = "store";
-		        	storeUsado = true;
-		        	return true;
-		        }
-	        	else{
-	        		if(ContieneComando(texto, $("#add").text())){
-			        	comando = "add";
-			        	return true;
-			        }
-	        		else{
-			        	if(ContieneComando(texto, $("#sub").text())){
-				        	comando = "sub";
-				        	return true;
-				        }
-			        	else
-			        		return false;
-			        }
-	        	}
-	        }
+	        else
+	        	return false;
 	    }
 	    else{
 	    	if(storeUsado){
@@ -193,7 +178,7 @@ $(document).ready(function(){
 	}
 
 	function incrementarPC(){
-		pc = sumarHexa(pc, DecimalAHexa(1, pc.length), pc.length);
+		pc = sumarassembler(pc, DecimalAassembler(1, pc.length), pc.length);
 	    cantInstrucciones++;
 	}
 
@@ -227,26 +212,26 @@ $(document).ready(function(){
 	    return false;
 	}
 
-	function sumarHexa(num1, num2, tam){
-		var res = HexaADecimal(num1) + HexaADecimal(num2);
-	    return DecimalAHexa(res, tam);
+	function sumarassembler(num1, num2, tam){
+		var res = assemblerADecimal(num1) + assemblerADecimal(num2);
+	    return DecimalAassembler(res, tam);
 	}
 
-	function DecimalAHexa(num, tam){
-	    var hexa = "";
+	function DecimalAassembler(num, tam){
+	    var assembler = "";
 	    var cosciente = num;
 	    while (cosciente > 1){
-	        hexa = toHexa(cosciente % 16) + hexa;
+	        assembler = toassembler(cosciente % 16) + assembler;
 	        cosciente = ~~(cosciente / 16);
 	    }
-	    hexa = toHexa(cosciente) + hexa;
-	    for (var i = hexa.length; i < tam; i++){
-	        hexa = "0" + hexa;
+	    assembler = toassembler(cosciente) + assembler;
+	    for (var i = assembler.length; i < tam; i++){
+	        assembler = "0" + assembler;
 	    }
-	    return hexa;
+	    return assembler;
 	}
 
-	function toHexa(num){
+	function toassembler(num){
 		switch(num){
 			case 10:
 				return "A";
@@ -265,7 +250,7 @@ $(document).ready(function(){
 		}
 	}
 
-	function HexaADecimal(num){
+	function assemblerADecimal(num){
 	    var dec = 0;
 	    for (var i = 0; i < num.length; i++){
 	        if (num.charAt(i) != '0')

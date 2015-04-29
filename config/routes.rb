@@ -1,23 +1,21 @@
 Rails.application.routes.draw do
-  
-  resources :hexa_cycles
-
-  get 'hexa_cycles/new'
-
-  get 'hexa_cycles/create'
-
-  get 'hexa_cycles/destroy'
 
   get 'cpu_binaries' => 'cpu_binaries#new'
   get 'ram_binaries' => 'ram_binaries#new'
   get 'hexa_cpus' => 'hexa_cpus#new'
   get 'hexa_rams' => 'hexa_rams#new'
+  get 'assembler_cpus' => 'assembler_cpus#new'
+  get 'assembler_rams' => 'assembler_rams#new'
   
   resources :hexa_cpus
   resources :hexa_rams
   resources :cpu_binaries
   resources :ram_binaries
   resources :binary_cycles
+  resources :assembler_cycles
+  resources :assembler_rams
+  resources :assembler_cpus
+  resources :hexa_cycles
 
   root 'cpu_binaries#home'
   

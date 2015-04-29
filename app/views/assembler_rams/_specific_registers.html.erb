@@ -1,0 +1,35 @@
+<%= form_for(@assembler_ram) do |f| %>
+  <% if @assembler_ram.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@assembler_ram.errors.count, "error") %> prohibited this assembler_ram from being saved:</h2>
+
+      <ul>
+      <% @assembler_ram.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+	<%= f.hidden_field :assembler_cpu_id, :value => @assembler_cpu.id %>
+  </div>
+  <input type="hidden" id="cant_instrucciones" name="cant_instrucciones" value="5"/>
+  <div id="assembler-ram-container"class="container">
+	<div id="assembler-ram" class="container">
+	  <div id="assembler-cells">
+		<table>
+	      <% for i in 0..30 %>
+	        <input type="text" name="assembler_dir<%=i%>" id="assembler_dir<%=i%>">
+	        &nbsp;&nbsp;<input type="text" name="assembler_cont<%=i%>" id="assembler_cont<%=i%>"><br>
+	      <% end %>
+	    </table>
+	  </div>
+	</div>
+	<div id="assembler-cods" class="container">
+	</div>
+  </div>
+  <div class="actions">
+    <%= f.submit "Aceptar", :id => "create_assembler_specific_ram" %>
+  </div>
+<% end %>

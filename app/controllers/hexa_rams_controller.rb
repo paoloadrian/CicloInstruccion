@@ -1,11 +1,6 @@
 class HexaRamsController < ApplicationController
   before_action :set_hexa_ram, only: [:show, :edit, :update, :destroy]
 
-  # GET /hexa_rams/1
-  # GET /hexa_rams/1.json
-  def show
-  end
-
   # GET /hexa_rams/new
   def new
     @hexa_ram = HexaRam.new

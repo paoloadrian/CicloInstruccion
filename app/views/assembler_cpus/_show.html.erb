@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Architecture:</strong>
+  <%= @assembler_cpu.architecture %>
+</p>
+
+<p>
+  <strong>Directions:</strong>
+  <%= @assembler_cpu.directions %>
+</p>
+
+<p>
+  <strong>Pc:</strong>
+  <%= @assembler_cpu.pc %>
+</p>
+
+<%= link_to 'Edit', edit_assembler_cpu_path(@assembler_cpu) %> |
+<%= link_to 'Back', assembler_cpus_path %>

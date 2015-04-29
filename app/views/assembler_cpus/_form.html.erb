@@ -1,0 +1,41 @@
+<%= form_for(@assembler_cpu) do |f| %>
+  <% if @assembler_cpu.errors.any? %>
+    <div id="error_explanation" class="container">
+      <h2><%= pluralize(@assembler_cpu.errors.count, "error") %> prohibited this assembler_cpu from being saved:</h2>
+
+      <ul>
+      <% @assembler_cpu.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  	<div id="assembler_cpu_form" class="container">
+      <br>
+	  <label> Arquitectura basada en: </label><br>
+	  <div class="field">
+		<%= f.label "Registros específicos " %> &nbsp;
+		<%= f.radio_button :architecture, 1, :checked => true %><br>
+		<%= f.label "Registros de uso general " %> &nbsp;
+		<%= f.radio_button :architecture, 2 %>
+	  </div>
+	  <br>
+	  <label> Cantidad de direcciones: </label><br>
+	  <div class="field">
+		<%= f.label "1 " %> &nbsp;
+		<%= f.radio_button :directions, 1, :checked => true %>&nbsp;&nbsp;
+		<%= f.label "2 " %> &nbsp;
+		<%= f.radio_button :directions, 2 %>
+	  </div>
+	  <br>
+	  <div class="field">
+	    <%= f.label "PC inicial: " %> &nbsp;
+	    <%= f.text_field :pc, maxlength: 5 %>
+	  </div>
+	  <br>
+  	  <div class="actions">
+		<%= f.submit "Aceptar" %>
+	  </div>
+  	</div>
+<% end %>

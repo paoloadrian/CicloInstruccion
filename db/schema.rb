@@ -11,7 +11,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150429013929) do
+ActiveRecord::Schema.define(version: 20150429171503) do
+
+  create_table "assembler_cpus", force: true do |t|
+    t.integer  "architecture"
+    t.integer  "directions"
+    t.string   "pc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "assembler_cycles", force: true do |t|
+    t.integer  "assembler_ram_id"
+    t.string   "pc"
+    t.string   "actual_instruction"
+    t.integer  "step"
+    t.boolean  "execution_cycle"
+    t.integer  "total_instructions"
+    t.integer  "executed_instructions"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "assembler_cycles", ["assembler_ram_id"], name: "index_assembler_cycles_on_assembler_ram_id"
+
+  create_table "assembler_ram_cells", force: true do |t|
+    t.integer  "assembler_ram_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "assembler_ram_cells", ["assembler_ram_id"], name: "index_assembler_ram_cells_on_assembler_ram_id"
+
+  create_table "assembler_rams", force: true do |t|
+    t.integer  "assembler_cpu_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "assembler_rams", ["assembler_cpu_id"], name: "index_assembler_rams_on_assembler_cpu_id"
 
   create_table "binary_cycles", force: true do |t|
     t.string   "pc"

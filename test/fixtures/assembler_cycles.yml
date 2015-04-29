@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  assembler_ram_id: 
+  pc: MyString
+  actual_instruction: MyString
+  step: 1
+  execution_cycle: false
+  total_instructions: 1
+  executed_instructions: 1
+
+two:
+  assembler_ram_id: 
+  pc: MyString
+  actual_instruction: MyString
+  step: 1
+  execution_cycle: false
+  total_instructions: 1
+  executed_instructions: 1

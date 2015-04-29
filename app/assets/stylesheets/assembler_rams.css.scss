@@ -1,0 +1,28 @@
+// Place all the styles related to the AssemblerRams controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#assembler-ram-container {
+	width: 750px;
+    background-image: url("ram5.png");
+}
+
+#assembler-ram {
+	width: 410px;
+    float:left;
+    margin-left:45px;
+}
+
+#assembler-cells{
+	input {
+	    width: 145px;
+	    text-align:right; 
+	    padding: 2px;
+	}
+	height: 400px;
+ 	margin-top: 39px;
+ 	margin-bottom: 30px;
+ 	overflow:auto;
+}
+#assembler-cods{
+	width:350px;
+}
