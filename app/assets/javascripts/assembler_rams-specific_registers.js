@@ -104,12 +104,14 @@ $(document).ready(function(){
 	            		return false;
 	            	}
 	            	else{
-		                for (var i = 0; i < texto.length; i++){
-		                    if (texto.charCodeAt(i) < 48 || texto.charCodeAt(i) > 57){
-		                    	mensaje = "La dirección " + dir + " de la RAM debe contener un dato";
-		                        return false;
-		                    }
-		                }
+	            		if(comando != "JUMP"){
+			                for (var i = 0; i < texto.length; i++){
+			                    if (texto.charCodeAt(i) < 48 || texto.charCodeAt(i) > 57){
+			                    	mensaje = "La dirección " + dir + " de la RAM debe contener un dato";
+			                        return false;
+			                    }
+			                }
+			            }
 		            	return true;
 	            	}
 	            }
