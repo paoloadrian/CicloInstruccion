@@ -1,19 +1,15 @@
 <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Architecture:</strong>
-  <%= @assembler_cpu.architecture %>
-</p>
-
-<p>
-  <strong>Directions:</strong>
-  <%= @assembler_cpu.directions %>
-</p>
-
-<p>
-  <strong>Pc:</strong>
-  <%= @assembler_cpu.pc %>
-</p>
-
-<%= link_to 'Edit', edit_assembler_cpu_path(@assembler_cpu) %> |
-<%= link_to 'Back', assembler_cpus_path %>
+<div class="container">
+  <strong>Arquitectura basada en:</strong>
+  <% if @assembler_cpu.architecture == 1 %>
+  	<label id="architecture">&nbsp;registros específicos</label>
+  <% else %>
+  	<label id="architecture">&nbsp;registros de uso general</label>
+  <% end %>
+  <br>
+  <strong>Cantidad de direcciones:</strong>
+  <label id="directions">&nbsp;<%= @assembler_cpu.directions %></label>
+  <br>
+  <strong>PC Inicial:</strong>
+  <label id="pc"><%= @assembler_cpu.pc %></label><br>
+</div>

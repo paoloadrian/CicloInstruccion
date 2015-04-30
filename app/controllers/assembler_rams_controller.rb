@@ -24,7 +24,7 @@ class AssemblerRamsController < ApplicationController
             cell.save
           end
         end
-        @assembler_cycle = assemblerCycle.new
+        @assembler_cycle = AssemblerCycle.new
         @assembler_cycle.assembler_ram_id = @assembler_ram.id
         format.html { redirect_to :controller => 'assembler_cycles', :action => 'new', :id_ram => @assembler_ram.id }
         format.json { render :show, status: :created, location: @assembler_cycle }

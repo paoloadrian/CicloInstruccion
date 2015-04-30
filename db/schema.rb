@@ -37,6 +37,9 @@ ActiveRecord::Schema.define(version: 20150429171503) do
 
   create_table "assembler_ram_cells", force: true do |t|
     t.integer  "assembler_ram_id"
+    t.string   "direction"
+    t.string   "content"
+    t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -45,6 +48,7 @@ ActiveRecord::Schema.define(version: 20150429171503) do
 
   create_table "assembler_rams", force: true do |t|
     t.integer  "assembler_cpu_id"
+    t.integer  "instructions"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

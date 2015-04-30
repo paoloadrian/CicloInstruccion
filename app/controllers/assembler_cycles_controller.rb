@@ -4,6 +4,8 @@ class AssemblerCyclesController < ApplicationController
   # GET /assembler_cycles/new
   def new
     @assembler_cycle = AssemblerCycle.new
+    @assembler_ram = AssemblerRam.find(params[:id_ram])
+    @assembler_cpu = AssemblerCpu.find(@assembler_ram.assembler_cpu_id)
   end
 
   # POST /assembler_cycles
