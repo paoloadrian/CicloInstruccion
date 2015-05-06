@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var cantInstrucciones=0, mensaje, inicio, fin, pc, comando, comandoCorrecto, contenidoCorrecto, storeUsado, jump;
+	var cantInstrucciones=0, mensaje, inicio, fin, pc, comando, comandoCorrecto, contenidoCorrecto, storeUsado, jump, new_ind;
 	$("#assembler-cells input[type='text']").regexMask(/^[0-9A-Za-z ,]+$/);
 	$("#assembler-cells input[type='text']").keyup(function(){
     	this.value = this.value.toUpperCase();
@@ -52,6 +52,9 @@ $(document).ready(function(){
 	                                if (!contenidoCorrecto)
 	                                    return false;
 	                                incrementarPC();
+	                                if (comando == "JUMP") {
+	                                	i = new_ind;
+	                                }
 	                            }
 	                            else{
 	                                if (RegistroErroneo(texto)){
@@ -67,7 +70,7 @@ $(document).ready(function(){
                             if (cantInstrucciones > 1 && storeUsado)
                                 fin = true;
                             else{
-                                mensaje = "Debe usarse al menos una vez el CO STORE";
+                            	mensaje = "Debe usarse al menos una vez el CO STORE";
                                 return false;
                             }
                         }
@@ -112,6 +115,8 @@ $(document).ready(function(){
 			                    }
 			                }
 			            }
+			            else
+			            	new_ind = j;
 		            	return true;
 	            	}
 	            }
@@ -213,7 +218,10 @@ $(document).ready(function(){
 	        return true;
 	    if (!storeUsado)
 	        return true;
-	    for (var i = 0; i < parseInt($("#co").text()); i++){
+	    var content = contenido.split(" ");
+	    if (content.length != 2)
+	    	return true;
+	    for (var i = 0; i < texto.length; i++){
 	        if (texto.charCodeAt(i) < 48 || texto.charCodeAt(i) > 57)
 	            return true;
 	    }
