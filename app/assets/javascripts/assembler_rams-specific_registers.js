@@ -1,76 +1,78 @@
 $(document).ready(function(){
-	var cantInstrucciones=0, mensaje, inicio, fin, pc, comando, comandoCorrecto, contenidoCorrecto, storeUsado, jump, new_ind;
+	var InstructionsQuantity=0, message, start, end, pc, command, CorrectCommand, CorrectContent, storeUsed, jump, content_cell_ind;
+	var directions = parseInt($("#directions").val());
 	$("#assembler-cells input[type='text']").regexMask(/^[0-9A-Za-z ,]+$/);
 	$("#assembler-cells input[type='text']").keyup(function(){
     	this.value = this.value.toUpperCase();
 	});
 	pc = $("#pc").text();
 	$("#create_assembler_specific_ram").on('click', function(e){
-		if (!correcto()){
-            cantInstrucciones = 0;
-            console.log(mensaje);
-			alert(mensaje);
+		if (!correct()){
+            InstructionsQuantity = 0;
+            console.log(message);
+			alert(message);
             e.preventDefault();
 		}
 		else {
-			$("#cant_instrucciones").val(cantInstrucciones);
+			$("#cant_instrucciones").val(InstructionsQuantity);
 			console.log("Cantidad de instrucciones: "+$("#cant_instrucciones").val());
 			console.log("Formato correcto");
 			alert("Formato correcto");
-			cantInstrucciones = 0;
+			InstructionsQuantity = 0;
+			storeUsed = false;
 		}
 	});
 
-	function correcto(){
-	    var texto, dir;
-	    comando = "";
-	    inicio = false;
-	    fin = false;
-	    storeUsado = false;
+	function correct(){
+	    var content, dir;
+	    command = "";
+	    start = false;
+	    end = false;
+	    storeUsed = false;
 	    pc = $("#pc").text();
-	    for (var i = 0; i < 30 && !fin; i++){
-	        comandoCorrecto = false;
-	        contenidoCorrecto = false;
+	    for (var i = 0; i < 30 && !end; i++){
+	        CorrectCommand = false;
+	        CorrectContent = false;
 	        dir = $("#assembler_dir"+i.toString()).val();
-	        texto = $("#assembler_cont"+i.toString()).val();
+	        content = $("#assembler_cont"+i.toString()).val();
 	        if (dir != ""){
-                if (!inicio){
-                    if (CompararConPC(dir, texto)){
-                        if (!InicioDeProgramaCorrecto(dir))
+                if (!start){
+                    if (CompareWithPC(dir, content)){
+                        if (!startDeProgramaCorrecto(dir))
                             return false;
                         else{
-                            if (!contenidoCorrecto)
+                            if (!CorrectContent)
                                 return false;
                         }
                     }
                 }
                 else{
-                    if (!fin){
-                    	if (CompararConPC(dir, texto)){
-                    		if(!fin){
-	                            if (comandoCorrecto){
-	                                if (!contenidoCorrecto)
+                    if (!end){
+                    	if (CompareWithPC(dir, content)){
+                    		if(!end){
+	                            if (CorrectCommand){
+	                                if (!CorrectContent)
 	                                    return false;
-	                                incrementarPC();
-	                                if (comando == "JUMP") {
-	                                	i = new_ind;
+	                                IncreasePC();
+	                                if (command == "JUMP") {
+	                                	i = content_cell_ind;
 	                                }
 	                            }
 	                            else{
-	                                if (RegistroErroneo(texto)){
-	                                    mensaje = "La direccion " + dir + " de la RAM debe contener un codigo de operacion";
+	                                if (IncorrectRegister(content)){
+	                                    message = "la dirección " + dir + " de RAM debe contener un codigo de operacion";
 	                                    return false;
 	                                }
 	                                else
-	                                	fin = true;
+	                                	end = true;
 	                            }
                         	}
                         }
                         else{
-                            if (cantInstrucciones > 1 && storeUsado)
-                                fin = true;
+                            if (InstructionsQuantity > 1 && storeUsed)
+                                end = true;
                             else{
-                            	mensaje = "Debe usarse al menos una vez el CO STORE";
+                            	message = "Debe usarse como último comando, un CO que escriba en RAM";
                                 return false;
                             }
                         }
@@ -78,100 +80,217 @@ $(document).ready(function(){
                 }
 	        }
 	        else{
-	            if (texto = ""){
-	                mensaje = "Todos los registros y direcciones deben ser de " + $("#pc").text().length.toString() * 4 + " bits";
+	            if (content = ""){
+	                message = "Todos los registros y direcciones deben ser de " + $("#pc").text().length.toString() * 4 + " bits";
 	                return false;
 	            }
 	        }
 	    }
-	    if (!inicio){
-	        mensaje = "La RAM no contiene la direccion con el valor del PC";
+	    if (!start){
+	        message = "La RAM no contiene la dirección con el valor del PC";
 	        return false;
 	    }
 	    return true;
 	}
 
-	function ComprobarContenidoComando(dir){
-		if(dir==""){
-			mensaje = "Los registros con un código de operación deben tener al menos una dirección";
-	        return false;
+	function FindDirectionContent(dir){
+		for (var j = 0; j < 30; j++){
+			if ($("#assembler_dir"+j.toString()).val() == dirs[i]){
+				content_cell_ind = j;
+			    return $("#assembler_cont"+j.toString()).val();
+			}
 		}
-	    for (var j = 0; j < 30; j++){
-	        if ($("#assembler_dir"+j.toString()).val() == dir){
-	            var texto = $("#assembler_cont"+j.toString()).val();
-	            if (comando == "STORE" && texto == "")
+		message = "No existe la dirección " + dir + " de RAM";
+		return false;
+	}
+
+	function TwoDirectionsContent(dir){
+		var dirs = dir.split(",");
+		if(command != "JUMP"){
+			if(dirs.length == 2){
+				for (var i = 0; i < 2; i++){
+			        var content = FindDirectionContent(dirs[i]);
+			        if(content !== false){
+			            if (command == "MOVE" && content == "" && i == 0)
+			            	dirEncontrada = true;
+			            else{
+			            	if (content == ""){
+			            		message = "La dirección " + dirs[i] + " debe contener un dato";
+			            		return false;
+			            	}
+			            	else{
+				                for (var i = 0; i < content.length; i++){
+				                    if (content.charCodeAt(i) < 48 || content.charCodeAt(i) > 57){
+				                    	message = "La dirección " + dirs[i] + " de RAM debe contener un dato";
+				                        return false;
+				                    }
+				                }
+			            	}
+			            }
+			        }
+			        else
+			        	return false;
+				}
+			}
+			else
+				message = "Las instrucciones deben contener dos direcciones";
+		}
+		else{
+			if(dirs.length == 1){
+				var content = FindDirectionContent(dirs[i]);
+				if(content !== false){
+				    if (content == ""){
+		        		message = "La dirección " + dir + " debe contener un dato";
+		        		return false;
+		        	}
+		        	else{
+		        		content = FindDirectionContent(dirs[i]);
+		        		if(content !== false){
+						    if (content == ""){
+				        		message = "La dirección " + dir + " debe contener un dato";
+				        		return false;
+				        	}
+				        else
+				        	return false;
+		        	}
+		        }
+		        else
+		        	return false;
+	        }
+	        else{
+	        	message = "Las instrucciones JUMP deben contener solo una dirección";
+	        }
+		}
+	    return false;
+	}
+
+	function OneDirectionContent(dir){
+		var dirs = dir.split(",");
+		if(dirs.length == 1){
+		    content = FindDirectionContent(dir);
+		    if(content !== false){
+	            if (command == "STORE" && content == "")
 	            	return true;
 	            else{
-	            	if (texto == ""){
-	            		mensaje = "La dirección " + dir + " debe contener un dato";
+	            	if (content == ""){
+	            		message = "La dirección " + dir + " debe contener un dato";
 	            		return false;
 	            	}
 	            	else{
-	            		if(comando != "JUMP"){
-			                for (var i = 0; i < texto.length; i++){
-			                    if (texto.charCodeAt(i) < 48 || texto.charCodeAt(i) > 57){
-			                    	mensaje = "La dirección " + dir + " de la RAM debe contener un dato";
+	            		if(command != "JUMP"){
+			                for (var i = 0; i < content.length; i++){
+			                    if (content.charCodeAt(i) < 48 || content.charCodeAt(i) > 57){
+			                    	message = "La dirección " + dir + " de RAM debe contener un dato";
 			                        return false;
 			                    }
 			                }
 			            }
-			            else
-			            	new_ind = j;
 		            	return true;
 	            	}
 	            }
-	        }
-	    }
-	    mensaje = "No existe la direccion " + dir + " de la RAM";
+		    }
+		}
+		else
+			message = "Las instrucciones deben contener solo una dirección";
 	    return false;
 	}
 
-	function ContieneComando(contenido){
-		var content = contenido.split(" ");
+	function VerifyCommandContent(dir){
+		if(dir==""){
+			message = "Los registros con un código de operación deben tener al menos una dirección";
+	        return false;
+		}
+		if (directions == 1) {
+			return OneDirectionContent(dir);
+		}
+		else {
+			return TwoDirectionsContent(dir);
+		}
+	}
+
+	function IsACommand(cod){
+		if(directions == 1){
+			switch(cod){
+				case "LOAD":
+					storeUsed = false;
+					break;
+				case "STORE":
+					storeUsed = true;
+					break;
+				case "ADD":
+					storeUsed = false;
+					break;
+				case "SUB":
+					storeUsed = false;
+					break;
+				case "MPY":
+					storeUsed = false;
+					break;
+				case "DIV":
+					storeUsed = false;
+					break;
+				case "JUMP":
+					storeUsed = false;
+					jump = content[1];
+					break;
+				default:
+					return false;
+			}
+		}
+		else {
+			switch(cod){
+				case "ADD":
+					storeUsed = true;
+					break;
+				case "SUB":
+					storeUsed = true;
+					break;
+				case "MPY":
+					storeUsed = true;
+					break;
+				case "DIV":
+					storeUsed = true;
+					break;
+				case "JUMP":
+					storeUsed = false;
+					jump = content[1];
+					break;
+				case "MOVE":
+					storeUsed = true;
+					break;
+				default:
+					return false;
+			}
+		}
+		return true;
+	}
+
+	function ContainsCommand(passed_content){
+		var content = passed_content.split(" ");
 		if(content.length != 2){
-			mensaje = "El formato de una instruccion debe ser el CO seguido de un espacio y la(s) direccion(es) separadas por comas";
+			message = "El formato de una instruccion debe ser el CO seguido de un espacio y la(s) direccion(es) separadas por comas";
 			return false;
 		}
 		cod = content[0];
-		switch(cod){
-			case "LOAD":
-				break;
-			case "STORE":
-				storeUsado = true;
-				break;
-			case "ADD":
-				break;
-			case "SUB":
-				break;
-			case "MPY":
-				break;
-			case "DIV":
-				break;
-			case "MOVE":
-				break;
-			case "JUMP":
-				jump = content[1];
-				break;
-			default:
-				return false;
-		}
-		comando = cod;
-		comandoCorrecto = true;
-        contenidoCorrecto = ComprobarContenidoComando(content[1]);
+		if(!IsACommand(cod))
+			return false;
+		command = cod;
+		CorrectCommand = true;
+        CorrectContent = VerifyCommandContent(content[1]);
 	    return true;
 	}
 
-	function CompararConComandos(texto){
+	function VerifyCommand(content){
 	    var dir = "";
-	    if (texto != ""){
-	    	if(ContieneComando(texto))
+	    if (content != ""){
+	    	if(ContainsCommand(content))
 	        	return true;
 	        else
 	        	return false;
 	    }
 	    else{
-	    	if(storeUsado){
-	    		fin = true;
+	    	if(storeUsed){
+	    		end = true;
 	    		return true;
 	    	}
 	    	else
@@ -179,50 +298,50 @@ $(document).ready(function(){
 	    }
 	}
 
-	function CompararConPC(dir, texto){
+	function CompareWithPC(dir, content){
 	    if (dir == pc){
-	    	CompararConComandos(texto);
+	    	VerifyCommand(content);
 	        return true;
 	    }
 	    return false;
 	}
 
-	function incrementarPC(){
-		if(comando != "JUMP")
+	function IncreasePC(){
+		if(command != "JUMP")
 			pc = (parseInt(pc) + 1).toString();
 		else
 			pc = jump;
-	    cantInstrucciones++;
+	    InstructionsQuantity++;
 	}
 
-	function InicioDeProgramaCorrecto(dir){
-	    inicio = true;
-	    if (comandoCorrecto){
-	        if (comando == "LOAD"){
-	            incrementarPC();
+	function startDeProgramaCorrecto(dir){
+	    start = true;
+	    if (CorrectCommand){
+	        if (command == "LOAD"){
+	            IncreasePC();
 	            return true;
 	        }
 	        else{
-	            mensaje = "El comando contenido en la direccion del PC debe ser LOAD";
+	            message = "El comando contenido en la dirección del PC debe ser LOAD";
 	            return false;
 	        }
 	    }
 	    else{
-	        mensaje = "La direccion " + dir + " de la RAM debe contener un codigo de operacion";
+	        message = "la dirección " + dir + " de RAM debe contener un codigo de operacion";
 	        return false;
 	    }
 	}
 
-	function RegistroErroneo(texto){
-	    if (cantInstrucciones < 2)
+	function IncorrectRegister(content){
+	    if (InstructionsQuantity < 2)
 	        return true;
-	    if (!storeUsado)
+	    if (!storeUsed)
 	        return true;
-	    var content = contenido.split(" ");
-	    if (content.length != 2)
+	    var splitted_content = content.split(" ");
+	    if (splitted_content.length != 2)
 	    	return true;
-	    for (var i = 0; i < texto.length; i++){
-	        if (texto.charCodeAt(i) < 48 || texto.charCodeAt(i) > 57)
+	    for (var i = 0; i < content.length; i++){
+	        if (content.charCodeAt(i) < 48 || content.charCodeAt(i) > 57)
 	            return true;
 	    }
 	    return false;
