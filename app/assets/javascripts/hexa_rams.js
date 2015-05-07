@@ -28,7 +28,7 @@ $(document).ready(function(){
 	    fin = false;
 	    storeUsado = false;
 	    pc = $("#pc").text();
-	    for (var i = 0; i < 30 && !fin; i++){
+	    for (var i = 0; i < 31 && !fin; i++){
 	        comandoCorrecto = false;
 	        contenidoCorrecto = false;
 	        dir = $("#hexa_dir"+i.toString()).val();
@@ -68,7 +68,7 @@ $(document).ready(function(){
 	                            if (cantInstrucciones > 1 && storeUsado)
 	                                fin = true;
 	                            else{
-	                                mensaje = "Debe usarse al menos una vez el CO 'Almacenar en RAM'";
+	                                mensaje = "Debe usarse el CO 'Almacenar en RAM' como último comando";
 	                                return false;
 	                            }
 	                        }
@@ -81,9 +81,13 @@ $(document).ready(function(){
 	            }
 	        }
 	        else{
-	            if (texto = "" && texto.length != $("#pc").text().length){
-	                mensaje = "Todos los registros y direcciones deben ser de " + $("#pc").text().length.toString() * 4 + " bits";
-	                return false;
+	            if (inicio){
+	                if (storeUsado)
+	                	fin = true;
+	                else{
+	                	mensaje = "Debe usarse el CO 'Almacenar en RAM' como último comando";
+	                	return false;
+	            	}
 	            }
 	        }
 	    }
@@ -95,7 +99,7 @@ $(document).ready(function(){
 	}
 
 	function ComprobarContenidoComando(dir, cod){
-	    for (var j = 0; j < 30; j++){
+	    for (var j = 0; j < 31; j++){
 	        if ($("#hexa_dir"+j.toString()).val() == dir){
 	            var texto = $("#hexa_cont"+j.toString()).val();
 	            if (texto.length == $("#pc").text().length){
@@ -150,6 +154,7 @@ $(document).ready(function(){
 	    if (texto != ""){
 	    	if(ContieneComando(texto, $("#load").text())){
 	        	comando = "load";
+	        	storeUsado = false;
 	        	return true;
 	        }
 	        else{
@@ -161,11 +166,13 @@ $(document).ready(function(){
 	        	else{
 	        		if(ContieneComando(texto, $("#add").text())){
 			        	comando = "add";
+			        	storeUsado = false;
 			        	return true;
 			        }
 	        		else{
 			        	if(ContieneComando(texto, $("#sub").text())){
 				        	comando = "sub";
+				        	storeUsado = false;
 				        	return true;
 				        }
 			        	else
