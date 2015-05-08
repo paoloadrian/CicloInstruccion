@@ -3,7 +3,6 @@ class AssemblerRamsController < ApplicationController
 
   # GET /assembler_rams/new
   def new
-    @assembler_ram = AssemblerRam.new
     @assembler_cpu = AssemblerCpu.find(params[:id_cpu])
   end
 

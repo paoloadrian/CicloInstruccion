@@ -1,7 +1,7 @@
 <%= form_for(@cpu_binary) do |f| %>
   <% if @cpu_binary.errors.any? %>
     <div id="error_explanation" class="container">
-      <h2><%= pluralize(@cpu_binary.errors.count, "error") %> prohibited this cpu_binary from being saved:</h2>
+      <h2><%= pluralize(@cpu_binary.errors.count, "error") %> Verifique los siguientes campos: </h2>
 
       <ul>
       <% @cpu_binary.errors.full_messages.each do |message| %>
