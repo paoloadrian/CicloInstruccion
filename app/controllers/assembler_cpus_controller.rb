@@ -10,6 +10,9 @@ class AssemblerCpusController < ApplicationController
   # POST /assembler_cpus.json
   def create
     @assembler_cpu = AssemblerCpu.new(assembler_cpu_params)
+    if(@assembler_cpu.architecture == 2)
+      @assembler_cpu.directions = 2;
+    end
 
     respond_to do |format|
       if @assembler_cpu.save

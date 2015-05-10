@@ -204,9 +204,13 @@ $(document).ready(function(){
 	            	}
 	            }
 		    }
+		    else
+		    	return false;
 		}
-		else
+		else{
 			message = "Las instrucciones deben contener solo una dirección";
+			return false;
+		}
 	}
 
 	function VerifyCommandContent(dir){

@@ -3,6 +3,7 @@ class AssemblerRamsController < ApplicationController
 
   # GET /assembler_rams/new
   def new
+    @assembler_ram = AssemblerRam.new
     @assembler_cpu = AssemblerCpu.find(params[:id_cpu])
   end
 
@@ -10,7 +11,7 @@ class AssemblerRamsController < ApplicationController
   # POST /assembler_rams.json
   def create
     @assembler_ram = AssemblerRam.new(assembler_ram_params)
-	@assembler_ram.instructions = params[:cant_instrucciones]
+	  @assembler_ram.instructions = params[:cant_instrucciones]
     respond_to do |format|
       if @assembler_ram.save
         for i in 0..30

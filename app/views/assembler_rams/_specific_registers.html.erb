@@ -15,7 +15,7 @@
 	<%= f.hidden_field :assembler_cpu_id, :value => @assembler_cpu.id %>
   </div>
   <input type="hidden" id="cant_instrucciones" name="cant_instrucciones" value="5"/>
-  <div id="assembler-ram-container<%=@assembler_cpu.directions%>" class="container">
+  <div id="assembler-ram-container-<%=@assembler_cpu.architecture%>-<%=@assembler_cpu.directions%>" class="container">
 	<div id="assembler-ram" class="container">
 	  <div id="assembler-cells">
 		<table>
@@ -30,10 +30,7 @@
 	</div>
   </div>
   <div class="actions">
-  	<% if @assembler_cpu.architecture == 1 %>
-      <%= f.submit "Aceptar", :id => "create_assembler_specific_ram" %>
-    <% else %>
-      <%= f.submit "Aceptar", :id => "create_assembler_general_ram" %>
-    <% end %>
+  	<%= f.submit "Aceptar", :id => "create_assembler_specific_ram" %>
   </div>
 <% end %>
+<% javascript 'assembler_rams-specific_registers' %> 

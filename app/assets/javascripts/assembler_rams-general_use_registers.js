@@ -1,10 +1,9 @@
 $(document).ready(function(){
 	var InstructionsQuantity=0, message, start, end, pc, command, CorrectCommand, CorrectContent, storeUsed, jump, content_cell_ind;
-	var directions = parseInt($("#directions").text());
+	var registers;
 	pc = $("#pc").text();
-	$("#create_assembler_specific_ram").on('click', function(e){
+	$("#create_assembler_general_ram").on('click', function(e){
 		if (!correct()){
-            InstructionsQuantity = 0;
             console.log(message);
 			alert(message);
             e.preventDefault();
@@ -14,8 +13,6 @@ $(document).ready(function(){
 			console.log("Cantidad de instrucciones: "+$("#cant_instrucciones").val());
 			console.log("Formato correcto");
 			alert("Formato correcto");
-			InstructionsQuantity = 0;
-			storeUsed = false;
 			e.preventDefault();
 		}
 	});
@@ -23,21 +20,22 @@ $(document).ready(function(){
 	function correct(){
 	    var content, dir;
 	    command = "";
-	    if(directions == 1)
-	    	start = false;
-	    else
-	    	start = true;
+	    InstructionsQuantity = 0;
+		start = false;
 	    end = false;
 	    storeUsed = false;
 	    pc = $("#pc").text();
 	    CorrectCommand = false;
+	    console.log("aca si");
 	    for (var i = 0; i < 31 && !end; i++){
 	        CorrectContent = false;
 	        dir = $("#assembler_dir"+i.toString()).val();
 	        content = $("#assembler_cont"+i.toString()).val();
+	        console.log("aca si");
 	        if (dir != ""){
                 if (!start){
-                    if (CompareWithPC(dir, content)){
+                	console.log("llega aca");
+                	if (CompareWithPC(dir, content)){
                         if (!CorrectProgramStart(dir))
                             return false;
                         else{
@@ -60,7 +58,8 @@ $(document).ready(function(){
 	                            }
 	                            else{
 	                            	if (IncorrectRegister(content)){
-	                                	message = "La dirección " + dir + " de RAM debe contener un codigo de operacion válido";
+	                            		console.log("si entró");
+	                                	message = "La dirección " + dir + " de RAM debe contener una instruccióm válida";
 	                                    return false;
 	                                }
 	                                else{
@@ -80,7 +79,7 @@ $(document).ready(function(){
 	                            }
 	                        }
 	                        else{
-	                        	message = "La dirección " + dir + " de RAM debe contener un codigo de operacion válido";
+	                        	message = "La dirección " + dir + " de RAM debe contener una instruccióm válida";
 	                            return false;
 	                        }
                         }
@@ -88,7 +87,7 @@ $(document).ready(function(){
                 }
 	        }
 	        else{
-	            if (InstructionsQuantity > 0){
+	            if (start){
 	                if (storeUsed)
 	                	end = true;
 	                else{
@@ -116,163 +115,151 @@ $(document).ready(function(){
 		return false;
 	}
 
-	function TwoDirectionsContent(dir){
+	function IsARegister(dir){
+		for (var i = 1; i < 7; i++) {
+			if(dir == ("R"+i))
+				return true;
+		}
+		message = "Los comandos de ALU deben usar solamente registros del CPU";
+		return false;
+	}
+
+	function TwoRegistersContent(dir){
 		var dirs = dir.split(",");
-		if(command != "JUMP"){
-			if(dirs.length == 2){
-				var content;
-				for (var i = 0; i < 2; i++){
-					if(dirs[i] != ""){
-				        content = FindDirectionContent(dirs[i]);
-				        if(content !== false){
-				        	if (content == "" && !(command == "MOVE" && i == 0)){
-			            		message = "La dirección " + dirs[i] + " debe contener un dato";
-			            		return false;
-			            	}
-			            	else{
-				                for (var j = 0; j < content.length; j++){
-				                    if (content.charCodeAt(j) < 48 || content.charCodeAt(j) > 57){
-				                    	message = "La dirección " + dirs[i] + " de RAM debe contener un dato";
-				                        return false;
-				                    }
-				                }
-			            	}
-				        }
-				        else
-				        	return false;
-			    	}
-			    	else{
-			    		message = "Las instrucciones deben contener dos direcciones";
-			    		return false;
-			    	}
-				}
-			}
-			else{
-				message = "Las instrucciones deben contener dos direcciones separadas por una coma (,)";
-	        	return false;
+		if(dirs.length == 2){
+			for (var i = 0; i < 2; i++){
+				if(dirs[i] != ""){
+			        if(!IsARegister(dirs[i]))
+			        	return false;
+		    	}
+		    	else{
+		    		message = "Las instrucciones deben contener dos direcciones";
+		    		return false;
+		    	}
 			}
 		}
 		else{
-			if(dirs.length == 1){
-				jump = dir;
-				var content = FindDirectionContent(dir);
-				if(content !== false){
-				    if (content == ""){
-		        		message = "La dirección " + dir + " debe contener un comando";
-		        		return false;
-		        	}
-		        }
-		        else
-		        	return false;
-	        }
-	        else{
-	        	message = "Las instrucciones JUMP deben contener solo una dirección";
-	        	return false;
-	        }
+			message = "Las instrucciones deben contener dos direcciones separadas por una coma (,)";
+        	return false;
 		}
-	    return true;
+		return true;
 	}
 
-	function OneDirectionContent(dir){
-		var dirs = dir.split(",");
-		if(dirs.length == 1){
-		    content = FindDirectionContent(dir);
-		    if(content !== false){
-	            if (command == "STORE" && content == "")
+	function CorrectDirectionContent(dir){
+		var content = FindDirectionContent(dir);
+	    if(content !== false){
+            if (command == "STORE" && content == "")
+            	return true;
+            else{
+            	if (content == ""){
+            		message = "La dirección " + dir + " debe contener un dato";
+            		return false;
+            	}
+            	else{
+            		if(command != "JUMP"){
+		                for (var i = 0; i < content.length; i++){
+		                    if (content.charCodeAt(i) < 48 || content.charCodeAt(i) > 57){
+		                    	message = "La dirección " + dir + " de RAM debe contener un dato";
+		                        return false;
+		                    }
+		                }
+		            }
+		            else
+		            	jump = dir;
 	            	return true;
-	            else{
-	            	if (content == ""){
-	            		message = "La dirección " + dir + " debe contener un dato";
-	            		return false;
+            	}
+            }
+	    }
+	    else
+	    	return false;
+	}
+
+	function OneRegisterContent(dir){
+		var dirs = dir.split(",");
+		if(dirs.length == 2){
+		    for(var i = 0; i < 2; i++){
+	            if (dirs[i] != ""){
+	            	if (command == "LOAD"){
+	            		if(i == 1){
+		            		if(!CorrectDirectionContent(dirs[i]))
+				                return false;
+				        }
+				        else{
+						    if(!IsARegister(dirs[i]))
+						       	return false;
+				        }
 	            	}
 	            	else{
-	            		if(command != "JUMP"){
-			                for (var i = 0; i < content.length; i++){
-			                    if (content.charCodeAt(i) < 48 || content.charCodeAt(i) > 57){
-			                    	message = "La dirección " + dir + " de RAM debe contener un dato";
-			                        return false;
-			                    }
-			                }
-			            }
-			            else
-			            	jump = dir;
-		            	return true;
+	            		if(i == 0){
+		            		if(!CorrectDirectionContent(dirs[i]))
+				                return false;
+				        }
+				        else{
+						    if(!IsARegister(dirs[i]))
+						       	return false;
+				        }
 	            	}
+	            }
+	            else{
+	            	message = "Las instrucciones deben contener dos direcciones";
+					return false;
 	            }
 		    }
 		}
-		else
-			message = "Las instrucciones deben contener solo una dirección";
+		else{
+			message = "Las instrucciones deben contener dos direcciones";
+			return false;
+		}
+		return true;
 	}
 
 	function VerifyCommandContent(dir){
 		if(dir==""){
-			message = "Los registros con un código de operación deben tener al menos una dirección";
+			message = "Las instrucciones deben contener dos direcciones	";
 	        return false;
 		}
-		if (directions == 1) {
-			return OneDirectionContent(dir);
+		if (registers == 1) {
+			return OneRegisterContent(dir);
 		}
 		else {
-			return TwoDirectionsContent(dir);
+			return TwoRegistersContent(dir);
 		}
 	}
 
 	function IsACommand(cod){
-		if(directions == 1){
-			switch(cod){
-				case "LOAD":
-					storeUsed = false;
-					break;
-				case "STORE":
-					storeUsed = true;
-					break;
-				case "ADD":
-					storeUsed = false;
-					break;
-				case "SUB":
-					storeUsed = false;
-					break;
-				case "MPY":
-					storeUsed = false;
-					break;
-				case "DIV":
-					storeUsed = false;
-					break;
-				case "JUMP":
-					storeUsed = false;
-					break;
-				default:
-					message = "No se utilizó un CO válido";
-					CorrectCommand = false;
-        			return false;
-			}
-		}
-		else {
-			switch(cod){
-				case "ADD":
-					storeUsed = true;
-					break;
-				case "SUB":
-					storeUsed = true;
-					break;
-				case "MPY":
-					storeUsed = true;
-					break;
-				case "DIV":
-					storeUsed = true;
-					break;
-				case "JUMP":
-					storeUsed = false;
-					break;
-				case "MOVE":
-					storeUsed = true;
-					break;
-				default:
-					message = "No se utilizó un CO válido";
-					CorrectCommand = false;
-        			return false;
-			}
+		switch(cod){
+			case "LOAD":
+				storeUsed = false;
+				registers = 1;
+				break;
+			case "STORE":
+				storeUsed = true;
+				registers = 1;
+				break;
+			case "ADD":
+				storeUsed = false;
+				registers = 2;
+				break;
+			case "SUB":
+				storeUsed = false;
+				registers = 2;
+				break;
+			case "MPY":
+				storeUsed = false;
+				registers = 2;
+				break;
+			case "DIV":
+				storeUsed = false;
+				registers = 2;
+				break;
+			case "JUMP":
+				storeUsed = false;
+				registers = 1;
+				break;
+			default:
+				message = "No se utilizó un CO válido";
+				CorrectCommand = false;
+    			return false;
 		}
 		command = cod;
 		CorrectCommand = true;
