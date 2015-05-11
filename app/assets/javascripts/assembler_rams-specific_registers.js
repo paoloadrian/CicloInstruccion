@@ -31,9 +31,9 @@ $(document).ready(function(){
 	    storeUsed = false;
         InstructionsQuantity = 0;
 	    pc = $("#pc").text();
-	    CorrectCommand = false;
 	    for (var i = 0; i < 31 && !end; i++){
-	        CorrectContent = false;
+	        CorrectCommand = false;
+	    	CorrectContent = false;
 	        dir = $("#assembler_dir"+i.toString()).val();
 	        content = $("#assembler_cont"+i.toString()).val();
 	        if (dir != ""){
