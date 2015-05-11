@@ -64,7 +64,7 @@ $(document).ready(function(){
 	                            }
 	                            else{
 	                            	if (IncorrectRegister(content)){
-	                                	message = "La dirección " + dir + " de RAM debe contener un codigo de operacion válido";
+	                                	message = "La dirección " + dir + " de RAM debe contener una instrucción válida";
 	                                    return false;
 	                                }
 	                                else{
@@ -84,7 +84,7 @@ $(document).ready(function(){
 	                            }
 	                        }
 	                        else{
-	                        	message = "La dirección " + dir + " de RAM debe contener un codigo de operacion válido";
+	                        	message = "La dirección " + dir + " de RAM debe contener una instrucción válida";
 	                            return false;
 	                        }
                         }
@@ -318,8 +318,10 @@ $(document).ready(function(){
 	}
 
 	function CompareWithPC(dir, content){
-	    if (dir == pc)
-	    	return VerifyCommand(content);
+	    if (dir == pc){
+	    	VerifyCommand(content);
+	    	return true;
+	    }
 	    return false;
 	}
 
@@ -344,14 +346,12 @@ $(document).ready(function(){
 	        }
 	    }
 	    else{
-	    	console.log("comando incorrecto");
-	        message = "la dirección " + dir + " de RAM debe contener un codigo de operacion";
+	    	message = "La dirección " + dir + " de RAM debe contener una instrucción válida";
 	        return false;
 	    }
 	}
 
 	function IncorrectRegister(content){
-	    console.log("incorrecto?");
 	    if (!storeUsed)
 	        return true;
 	    var splitted_content = content.split(" ");

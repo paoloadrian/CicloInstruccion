@@ -1,6 +1,11 @@
 $(document).ready(function(){
-	var InstructionsQuantity=0, message, start, end, pc, command, CorrectCommand, CorrectContent, storeUsed, jump, content_cell_ind;
-	var registers;
+	var InstructionsQuantity = 0, message = "";
+	var dirLikePC, registers, start, end, pc, command, CorrectCommand, CorrectContent, storeUsed, jump, content_cell_ind;
+	var UsedRegisters = [false, false, false, false, false, false];
+	$("#assembler-cells input[type='text']").regexMask(/^[0-9A-Za-z ,]+$/);
+	$("#assembler-cells input[type='text']").keyup(function(){
+    	this.value = this.value.toUpperCase();
+	});
 	pc = $("#pc").text();
 	$("#create_assembler_general_ram").on('click', function(e){
 		if (!correct()){
@@ -20,27 +25,27 @@ $(document).ready(function(){
 	function correct(){
 	    var content, dir;
 	    command = "";
+	    message = "";
 	    InstructionsQuantity = 0;
 		start = false;
 	    end = false;
 	    storeUsed = false;
 	    pc = $("#pc").text();
-	    CorrectCommand = false;
-	    console.log("aca si");
 	    for (var i = 0; i < 31 && !end; i++){
+	        CorrectCommand = false;
 	        CorrectContent = false;
 	        dir = $("#assembler_dir"+i.toString()).val();
 	        content = $("#assembler_cont"+i.toString()).val();
-	        console.log("aca si");
 	        if (dir != ""){
-                if (!start){
-                	console.log("llega aca");
+	        	if (!start){
                 	if (CompareWithPC(dir, content)){
-                        if (!CorrectProgramStart(dir))
-                            return false;
+                        if (!CorrectProgramStart(dir)){
+                        	return false;
+                        }
                         else{
-                            if (!CorrectContent)
-                                return false;
+                            if (!CorrectContent){
+                            	return false;
+                            }
                         }
                     }
                 }
@@ -49,8 +54,9 @@ $(document).ready(function(){
                     	if (CompareWithPC(dir, content)){
                     		if(!end){
                     			if (CorrectCommand){
-	                            	if (!CorrectContent)
-	                                    return false;
+	                            	if (!CorrectContent){
+	                            		return false;
+	                            	}
 	                                IncreasePC();
 	                                if (command == "JUMP") {
 	                                	i = content_cell_ind - 1;
@@ -58,8 +64,7 @@ $(document).ready(function(){
 	                            }
 	                            else{
 	                            	if (IncorrectRegister(content)){
-	                            		console.log("si entró");
-	                                	message = "La dirección " + dir + " de RAM debe contener una instruccióm válida";
+	                            		message = "La dirección " + dir + " de RAM debe contener una instrucción válida";
 	                                    return false;
 	                                }
 	                                else{
@@ -74,12 +79,15 @@ $(document).ready(function(){
 	                                end = true;
 	                            }
 	                            else{
-	                            	message = "Debe usarse como último comando un CO que escriba en RAM";
+	                            	message = "Debe usarse como última instrucción una instrucción STORE";
 	                                return false;
 	                            }
 	                        }
 	                        else{
-	                        	message = "La dirección " + dir + " de RAM debe contener una instruccióm válida";
+	                        	if(dirLikePC)
+	                        		message = "La dirección " + dir + " de RAM debe contener una instrucción válida";
+	                        	else
+	                        		message = "Se esperaba una instrucción en la dirección " + pc;
 	                            return false;
 	                        }
                         }
@@ -97,10 +105,12 @@ $(document).ready(function(){
 	            }
 	        }
 	    }
-	    if (InstructionsQuantity == 0){
+	    if (!start){
 	        message = "La RAM no contiene la dirección con el valor del PC";
 	        return false;
 	    }
+	    if (!end && message == "")
+	    	message = "Se esperaba una instrucción en la dirección " + pc;
 	    return end;
 	}
 
@@ -115,12 +125,48 @@ $(document).ready(function(){
 		return false;
 	}
 
+	function CanUseRegister(ind){
+		if (command == "LOAD"){
+			UsedRegisters[ind - 1] = true;
+			return true;
+		}
+		else{
+			if(UsedRegisters[ind - 1])
+				return true;
+			else{
+				message = "El registro 'R" + ind + "' debe ser utilizado antes de usarlo en una comando de ALU";
+				return false;
+			}
+		}
+	}
+
+	function SetFormatMessage(){
+		switch(command){
+			case "LOAD":
+				message = "El comando LOAD debe tener el siguiente formato: 'LOAD R#,dir'";
+				break;
+			case "STORE":
+				message = "El comando STORE debe tener el siguiente formato: 'STORE dir,R#'";
+				break;
+			case "JUMP":
+				message = "El comando JUMP debe tener el siguiente formato: 'JUMP dir,R#'";
+				break;
+			default:
+				message = "Los comandos de ALU deben tener el siguiente formato: 'CO R#,R#'";
+				break;
+		}
+	}
+
 	function IsARegister(dir){
 		for (var i = 1; i < 7; i++) {
-			if(dir == ("R"+i))
-				return true;
+			if(dir == ("R"+i)){
+				if(CanUseRegister(i))
+					return true;
+				else
+					return false;
+			}
 		}
-		message = "Los comandos de ALU deben usar solamente registros del CPU";
+		SetFormatMessage();
 		return false;
 	}
 
@@ -191,11 +237,11 @@ $(document).ready(function(){
 	            	}
 	            	else{
 	            		if(i == 0){
-		            		if(!CorrectDirectionContent(dirs[i]))
+	            			if(!CorrectDirectionContent(dirs[i]))
 				                return false;
 				        }
 				        else{
-						    if(!IsARegister(dirs[i]))
+				        	if(!IsARegister(dirs[i]))
 						       	return false;
 				        }
 	            	}
@@ -213,16 +259,43 @@ $(document).ready(function(){
 		return true;
 	}
 
-	function VerifyCommandContent(dir){
-		if(dir==""){
+	function JumpContent(dir){
+		var dirs = dir.split(",");
+		if(dirs.length == 1){
+			jump = dir;
+			var content = FindDirectionContent(dir);
+			if(content !== false){
+			    if (content == ""){
+	        		message = "La dirección " + dir + " debe contener una instrucción";
+	        		return false;
+	        	}
+	        	else
+	        		return true;
+	        }
+	        else
+	        	return false;
+        }
+        else{
+        	message = "Las instrucciones JUMP deben contener solo una dirección";
+        	return false;
+        }
+	}
+
+	function VerifyCommandContent(dirs){
+		if(dirs == ""){
 			message = "Las instrucciones deben contener dos direcciones	";
 	        return false;
 		}
 		if (registers == 1) {
-			return OneRegisterContent(dir);
+			return OneRegisterContent(dirs);
 		}
 		else {
-			return TwoRegistersContent(dir);
+			if (registers == 2){
+				return TwoRegistersContent(dirs);
+			}
+			else{
+				return JumpContent(dirs);
+			}
 		}
 	}
 
@@ -254,7 +327,7 @@ $(document).ready(function(){
 				break;
 			case "JUMP":
 				storeUsed = false;
-				registers = 1;
+				registers = 0;
 				break;
 			default:
 				message = "No se utilizó un CO válido";
@@ -269,12 +342,13 @@ $(document).ready(function(){
 	function ContainsCommand(passed_content){
 		var content = passed_content.split(" ");
 		if(content.length != 2){
-			message = "El formato de una instruccion debe ser el CO seguido de un espacio y la(s) direccion(es) separadas por comas";
+			message = "El formato de una instrucción debe ser el CO seguido de un espacio y la(s) direccion(es) separadas por comas (,)";
 			return false;
 		}
 		cod = content[0];
-		if(!IsACommand(cod))
+		if(!IsACommand(cod)){
 			return false;
+		}
 		CorrectContent = VerifyCommandContent(content[1]);
 	    return true;
 	}
@@ -291,14 +365,19 @@ $(document).ready(function(){
 	    		end = true;
 	    		return true;
 	    	}
-	    	else
-	        	return false;
+	    	else{
+	    		return false;
+	    	}
 	    }
 	}
 
 	function CompareWithPC(dir, content){
-	    if (dir == pc)
-	    	return VerifyCommand(content);
+	    if (dir == pc){
+	    	VerifyCommand(content);
+	    	dirLikePC = true;
+	    	return true;
+	    }
+	    dirLikePC = false;
 	    return false;
 	}
 
@@ -324,7 +403,7 @@ $(document).ready(function(){
 	    }
 	    else{
 	    	console.log("comando incorrecto");
-	        message = "la dirección " + dir + " de RAM debe contener un codigo de operacion";
+	        message = "La dirección " + dir + " de RAM debe contener una instrucción";
 	        return false;
 	    }
 	}
