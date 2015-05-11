@@ -8,7 +8,6 @@ $(document).ready(function(){
 	pc = $("#pc").text();
 	$("#create_assembler_specific_ram").on('click', function(e){
 		if (!correct()){
-            InstructionsQuantity = 0;
             console.log(message);
 			alert(message);
             e.preventDefault();
@@ -18,9 +17,6 @@ $(document).ready(function(){
 			console.log("Cantidad de instrucciones: "+$("#cant_instrucciones").val());
 			console.log("Formato correcto");
 			alert("Formato correcto");
-			InstructionsQuantity = 0;
-			storeUsed = false;
-			e.preventDefault();
 		}
 	});
 
@@ -33,6 +29,7 @@ $(document).ready(function(){
 	    	start = true;
 	    end = false;
 	    storeUsed = false;
+        InstructionsQuantity = 0;
 	    pc = $("#pc").text();
 	    CorrectCommand = false;
 	    for (var i = 0; i < 31 && !end; i++){

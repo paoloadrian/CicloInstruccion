@@ -1,47 +1,35 @@
-<%= form_for(@assembler_cycle) do |f| %>
-  <% if @assembler_cycle.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@assembler_cycle.errors.count, "error") %> prohibited this assembler_cycle from being saved:</h2>
-
-      <ul>
-      <% @assembler_cycle.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+<form accept-charset="UTF-8" action="assembler_cycles" method="POST">
+  <input name="utf8" type="hidden" value="&#x2713;" />
+  <input name="authenticity_token" type="hidden" value="x37DrAAwyIIb7s+w2+AdoCR8cAJIpQhIetKRrPgG5VA="/>
+  <strong>Instrucciones:&nbsp;</strong>
+  <label id="cant_instrucciones"><%= @assembler_ram.instructions %></label>
+  <input id="id_cpu" type="hidden" value="<%=@assembler_cpu.id%>" />
+  <div id="assembler-cycle" class="container">
+    <input type="text" id="assembler_dir_bus" name="busDirs"><br>
+    <input type="text" id="assembler_data_bus" name="busDatos"><br>
+    <div id="assembler-cycle-cpu">
+      <input type="text" id="assembler_pc" name="pc" value="<%=@assembler_cpu.pc%>"><br>
+      <input type="text" id="assembler_ir" name="ir"><br>
+      <input type="text" id="assembler_mar" name="mar"><br>
+      <input type="text" id="assembler_mbr" name="mbr">
+      <% for i in 1..6 %>
+        <br><input type="text" id="assembler_r<%=i%>" name="r<%=i%>">
       <% end %>
-      </ul>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :assembler_ram_id %><br>
-    <%= f.text_field :assembler_ram_id %>
+    <div id="assembler-cycle-ram-cells">
+      <table>
+        <% for i in 0..30 %>
+          <% cell = @assembler_ram.findCellByPosition(i) %>
+          <% if cell == nil %>
+            <input class="nonborder" type="text" name="ram" id="assembler_dir-<%=i%>">&nbsp;
+            &nbsp;<input type="text" name="ram" id="assembler_cont-<%=i%>">
+          <% else %>
+            <input class="nonborder" type="text" name="ram" id="assembler_dir-<%=i%>" value="<%= cell.direction %>">&nbsp;
+            &nbsp;<input type="text" name="ram" id="assembler_cont-<%=i%>" value="<%= cell.content %>">
+          <% end %>
+        <% end %>
+      </table>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :pc %><br>
-    <%= f.text_field :pc %>
-  </div>
-  <div class="field">
-    <%= f.label :actual_instruction %><br>
-    <%= f.text_field :actual_instruction %>
-  </div>
-  <div class="field">
-    <%= f.label :step %><br>
-    <%= f.number_field :step %>
-  </div>
-  <div class="field">
-    <%= f.label :execution_cycle %><br>
-    <%= f.check_box :execution_cycle %>
-  </div>
-  <div class="field">
-    <%= f.label :total_instructions %><br>
-    <%= f.number_field :total_instructions %>
-  </div>
-  <div class="field">
-    <%= f.label :executed_instructions %><br>
-    <%= f.number_field :executed_instructions %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
-
-<% javascript 'assembler_cycles-general_use_registers' %>
+  <!--input type="submit" value="Aceptar" id="create_cycle_assembler"-->
+</form>

@@ -1,3 +1,37 @@
-// Place all the styles related to the AssemblerCycles controller here.
+// Place all the styles related to the assemblerCycles controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#assembler-cycle {
+	width: 1200px;
+	height: 550px;
+    background-image: url("cicloInstruccion4.png");
+}
+#assembler-cycle-ram-cells{
+	height: 400px;
+ 	margin-left:790px;
+ 	overflow:auto;
+	margin-top:8px;
+	input {
+	    width: 145px;
+	    text-align:right;
+	}
+	.nonborder {
+	    border: none;
+	}
+}
+#assembler-cycle-cpu{
+ 	margin-left:105px;
+ 	float:left;
+ 	margin-top:43px;
+}
+#assembler_data_bus{
+	width: 166px;
+	padding: 2px;
+	margin-left:480px;
+}
+
+#assembler_dir_bus{
+	width: 166px;
+	padding: 2px;
+	margin-left:480px;
+}

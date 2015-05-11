@@ -18,7 +18,6 @@ $(document).ready(function(){
 			console.log("Cantidad de instrucciones: "+$("#cant_instrucciones").val());
 			console.log("Formato correcto");
 			alert("Formato correcto");
-			e.preventDefault();
 		}
 	});
 
