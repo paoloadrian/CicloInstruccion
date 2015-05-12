@@ -133,7 +133,7 @@ $(document).ready(function(){
 			if(UsedRegisters[ind - 1])
 				return true;
 			else{
-				message = "El registro 'R" + ind + "' debe ser utilizado antes de usarlo en una comando de ALU";
+				message = "El registro 'R" + ind + "' debe ser utilizado en LOAD antes de usarlo con otro comando";
 				return false;
 			}
 		}

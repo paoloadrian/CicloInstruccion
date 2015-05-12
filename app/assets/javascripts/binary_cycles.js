@@ -23,7 +23,7 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('#cycle-binary input[type="text"]').keydown(function(){
+	$('#cycle-binary input[type="text"]').change(function(){
 		if(!ejec && paso == 7 && $(this).attr("id") === $("#binary_pc").attr("id")){
 			correcto();
 		}
