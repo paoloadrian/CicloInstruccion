@@ -251,7 +251,7 @@ $(document).ready(function(){
 	                alert("Secuencia incorrecta");
 	            break;
 	        case 7:
-	            OperacionALU();
+	            resp = OperacionALU();
 	            break;
 	        default:
 	            return false;
@@ -294,6 +294,7 @@ $(document).ready(function(){
             alert(co + " TERMINADO");
             comprobarFinal();
 		}
+		return resp;
 	}
 
 	function comprobarFinal(){
@@ -387,10 +388,11 @@ $(document).ready(function(){
 	function Jump(){
 	    if ("ir" == origen && "pc" == destino){
             copiarIR();
+            pc = contenido;
             console.log(origen + " -> " + destino);
             ejec = false;
             instruccionesEjecutadas++;
-            alert("LOAD TERMINADO");
+            alert("JUMP TERMINADO");
             return true;
         }
         else{
@@ -481,7 +483,7 @@ $(document).ready(function(){
 	                    paso = 1;
 	                    ejec = false;
 	                    instruccionesEjecutadas++;
-	                    alert("STORE terminado");
+	                    alert("STORE TERMINADO");
 	                    comprobarFinal();
 	                }
 	                else

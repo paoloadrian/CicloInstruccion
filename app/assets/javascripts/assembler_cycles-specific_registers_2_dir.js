@@ -13,7 +13,7 @@ $(document).ready(function(){
 			console.log("cambiando PC");
 		}
 		else{
-			if (ejec && paso == 7 && $(this).attr("id") === $("#assembler_ac").attr("id")){
+			if (ejec && paso == 13 && $(this).attr("id") === $("#assembler_ac").attr("id")){
 				console.log("cambiando ALU");
 			}
 			else{
@@ -28,7 +28,7 @@ $(document).ready(function(){
 			correcto();
 		}
 		else{
-			if (ejec && paso == 7 && $(this).attr("id") === $("#assembler_ac").attr("id")){
+			if (ejec && paso == 13 && $(this).attr("id") === $("#assembler_ac").attr("id")){
 				correcto();
 			}
 			else{
@@ -43,7 +43,7 @@ $(document).ready(function(){
 				alert("El PC no tiene el valor de la siguiente instruccion");
 		}
 		else{
-			if (ejec && paso == 7 && $(this).attr("id") === $("#assembler_ac").attr("id")){
+			if (ejec && paso == 13 && $(this).attr("id") === $("#assembler_ac").attr("id")){
 				if(!correcto())
 					alert("El contenido de AC no es el correcto");
 			}
@@ -165,7 +165,7 @@ $(document).ready(function(){
 	}
 
 	function obtenerCO(){
-	    ir_content = $("#assembler_ir").val().split("");
+	    ir_content = $("#assembler_ir").val().split(" ");
 	    co = ir_content[0];
 	}
 
@@ -177,9 +177,10 @@ $(document).ready(function(){
 	   return false;
 	}
 
-	function copiarIR(){
+	function copiarDir(ind){
 	    var ir_content = $("#assembler_ir").val().split(" ");
-	    contenido = ir_content[1];
+	    var dirs = ir_content[1].split(",");
+	    contenido = dirs[ind];
 	}
 
 	function ALU(){
@@ -187,132 +188,7 @@ $(document).ready(function(){
 	    switch (paso){
 	        case 1:
 	            if ("ir" == origen && "mar" == destino){
-	                copiarIR();
-	                resp = true;
-	                console.log(origen + " -> " + destino);
-	                paso++;
-	            }
-	            else
-	                alert("Secuencia incorrecta");
-	            break;
-	        case 2:
-	            if ("mar" == origen && "busDirs" == destino){
-	                resp = true;
-	                console.log(origen + " -> " + destino);
-	                paso++;
-	            }
-	            else
-	                alert("Secuencia incorrecta");
-	            break;
-	        case 3:
-	            if ("busDirs" == origen && "ram" == destino){
-	                if ($("#assembler_dir_bus").val() == dirRam){
-	                    resp = true;
-	                    console.log(origen + " -> " + destino + "[" + dirRam + "]");
-	                    contenido = $("#"+regRam).val();
-	                    paso++;
-	                }
-	                else
-	                    alert("Dirección de Memoria incorrecta");
-	            }
-	            else
-	                alert("Secuencia incorrecta");
-	            break;
-	        case 4:
-	            if ("ram" == origen && "busDatos" == destino){
-	                if ($("#assembler_dir_bus").val() == dirRam){
-	                    resp = true;
-	                    console.log(origen + "[" + dirRam + "]" + " -> " + destino);
-	                    paso++;
-	                }
-	                else
-	                    alert("Dirección de Memoria incorrecta");
-	            }
-	            else
-	                alert("Secuencia incorrecta");
-	            break;
-	        case 5:
-	            if ("busDatos" == origen && "mbr" == destino){
-	                resp = true;
-	                console.log(origen + " -> " + destino);
-	                paso++;
-	            }
-	            else
-	                alert("Secuencia incorrecta");
-	            break;
-	        case 6:
-	            if ("mbr" == origen && "dr" == destino){
-	                resp = true;
-	                console.log(origen + " -> " + destino);
-	                paso++;
-	                ac = $("#assembler_ac").val();
-	            }
-	            else
-	                alert("Secuencia incorrecta");
-	            break;
-	        case 7:
-	            OperacionALU();
-	            break;
-	        default:
-	            return false;
-	    }
-	    return resp;
-	}
-
-	function OperacionALU(){
-		var resp = false;
-		switch(co){
-			case "ADD":
-				if ((parseInt(ac) + parseInt($("#assembler_dr").val())).toString() == $("#assembler_ac").val()){
-					resp = true;
-					console.log("ac + dr -> ac");
-				}
-				break;
-			case "SUB":
-				if ((parseInt(ac) - parseInt($("#assembler_dr").val())).toString() == $("#assembler_ac").val()){
-					resp = true;
-					console.log("ac - dr -> ac");
-				}
-				break;
-			case "MPY":
-				if ((parseInt(ac) * parseInt($("#assembler_dr").val())).toString() == $("#assembler_ac").val()){
-					resp = true;
-					console.log("ac * dr -> ac");
-				}
-				break;
-			case "DIV":
-				if ((~~(parseInt(ac) / parseInt($("#assembler_dr").val()))).toString() == $("#assembler_ac").val()){
-					resp = true;
-					console.log("ac / dr -> ac");
-				}
-				break;
-		}
-		if (resp){
-			paso = 1;
-            instruccionesEjecutadas++;
-        	ejec = false;
-            alert(co + " TERMINADO");
-            comprobarFinal();
-		}
-	}
-
-	function comprobarFinal(){
-		if (instruccionesEjecutadas < cantInstrucciones){
-	        console.log("Captacion: ");
-	    }
-	    else{
-	        console.log("Programa Finalizado");
-	        alert("Programa Finalizado");
-	        paso = 0;
-	    }
-	}
-
-	function Load(){
-	    var resp = false;
-	    switch (paso){
-	        case 1:
-	            if ("ir" == origen && "mar" == destino){
-	                copiarIR();
+	                copiarDir(0);
 	                resp = true;
 	                console.log(origen + " -> " + destino);
 	                paso++;
@@ -369,28 +245,218 @@ $(document).ready(function(){
 	            if ("mbr" == origen && "ac" == destino){
 	                resp = true;
 	                console.log(origen + " -> " + destino);
-	                paso = 1;
-	                ejec = false;
-	                instruccionesEjecutadas++;
-	                alert("LOAD TERMINADO");
-	                comprobarFinal();
+	                paso++;
+	            }
+	            else
+	                alert("Secuencia incorrecta");
+	            break;
+	        case 7:
+	            if ("ir" == origen && "mar" == destino){
+	                copiarDir(1);
+	                resp = true;
+	                console.log(origen + " -> " + destino);
+	                paso++;
+	            }
+	            else
+	                alert("Secuencia incorrecta");
+	            break;
+	        case 8:
+	            if ("mar" == origen && "busDirs" == destino){
+	                resp = true;
+	                console.log(origen + " -> " + destino);
+	                paso++;
+	            }
+	            else
+	                alert("Secuencia incorrecta");
+	            break;
+	        case 9:
+	            if ("busDirs" == origen && "ram" == destino){
+	                if ($("#assembler_dir_bus").val() == dirRam){
+	                    resp = true;
+	                    console.log(origen + " -> " + destino + "[" + dirRam + "]");
+	                    contenido = $("#"+regRam).val();
+	                    paso++;
+	                }
+	                else
+	                    alert("Dirección de Memoria incorrecta");
+	            }
+	            else
+	                alert("Secuencia incorrecta");
+	            break;
+	        case 10:
+	            if ("ram" == origen && "busDatos" == destino){
+	                if ($("#assembler_dir_bus").val() == dirRam){
+	                    resp = true;
+	                    console.log(origen + "[" + dirRam + "]" + " -> " + destino);
+	                    paso++;
+	                }
+	                else
+	                    alert("Dirección de Memoria incorrecta");
+	            }
+	            else
+	                alert("Secuencia incorrecta");
+	            break;
+	        case 11:
+	            if ("busDatos" == origen && "mbr" == destino){
+	                resp = true;
+	                console.log(origen + " -> " + destino);
+	                paso++;
+	            }
+	            else
+	                alert("Secuencia incorrecta");
+	            break;
+	        case 12:
+	            if ("mbr" == origen && "dr" == destino){
+	                resp = true;
+	                console.log(origen + " -> " + destino);
+	                paso++;
+	                ac = $("#assembler_ac").val();
+	            }
+	            else
+	                alert("Secuencia incorrecta");
+	            break;
+	        case 13:
+	            resp = OperacionALU();
+	            break;
+	        default:
+	        	resp = Store();
+	        	break;
+	    }
+	    return resp;
+	}
+
+	function OperacionALU(){
+		var resp = false;
+		switch(co){
+			case "ADD":
+				if ((parseInt(ac) + parseInt($("#assembler_dr").val())).toString() == $("#assembler_ac").val()){
+					resp = true;
+					console.log("ac + dr -> ac");
+					alert("Suma correcta");
+				}
+				break;
+			case "SUB":
+				if ((parseInt(ac) - parseInt($("#assembler_dr").val())).toString() == $("#assembler_ac").val()){
+					resp = true;
+					console.log("ac - dr -> ac");
+					alert("Resta correcta");
+				}
+				break;
+			case "MPY":
+				if ((parseInt(ac) * parseInt($("#assembler_dr").val())).toString() == $("#assembler_ac").val()){
+					resp = true;
+					console.log("ac * dr -> ac");
+					alert("Multiplicación correcta");
+				}
+				break;
+			case "DIV":
+				if ((~~(parseInt(ac) / parseInt($("#assembler_dr").val()))).toString() == $("#assembler_ac").val()){
+					resp = true;
+					console.log("ac / dr -> ac");
+					alert("División correcta");
+				}
+				break;
+		}
+		if (resp){
+			paso++;
+		}
+		return resp;
+	}
+
+	function comprobarFinal(){
+		if (instruccionesEjecutadas < cantInstrucciones){
+	        console.log("Captacion: ");
+	    }
+	    else{
+	        console.log("Programa Finalizado");
+	        alert("Programa Finalizado");
+	        paso = 0;
+	    }
+	}
+
+	function Move(){
+	    var resp = false;
+	    switch (paso){
+	        case 1:
+	            if ("ir" == origen && "mar" == destino){
+	                copiarDir(1);
+	                resp = true;
+	                console.log(origen + " -> " + destino);
+	                paso++;
+	            }
+	            else
+	                alert("Secuencia incorrecta");
+	            break;
+	        case 2:
+	            if ("mar" == origen && "busDirs" == destino){
+	                resp = true;
+	                console.log(origen + " -> " + destino);
+	                paso++;
+	            }
+	            else
+	                alert("Secuencia incorrecta");
+	            break;
+	        case 3:
+	            if ("busDirs" == origen && "ram" == destino){
+	                if ($("#assembler_dir_bus").val() == dirRam){
+	                    resp = true;
+	                    console.log(origen + " -> " + destino + "[" + dirRam + "]");
+	                    contenido = $("#"+regRam).val();
+	                    paso++;
+	                }
+	                else
+	                    alert("Dirección de Memoria incorrecta");
+	            }
+	            else
+	                alert("Secuencia incorrecta");
+	            break;
+	        case 4:
+	            if ("ram" == origen && "busDatos" == destino){
+	                if ($("#assembler_dir_bus").val() == dirRam){
+	                    resp = true;
+	                    console.log(origen + "[" + dirRam + "]" + " -> " + destino);
+	                    paso++;
+	                }
+	                else
+	                    alert("Dirección de Memoria incorrecta");
+	            }
+	            else
+	                alert("Secuencia incorrecta");
+	            break;
+	        case 5:
+	            if ("busDatos" == origen && "mbr" == destino){
+	                resp = true;
+	                console.log(origen + " -> " + destino);
+	                paso++;
+	            }
+	            else
+	                alert("Secuencia incorrecta");
+	            break;
+	        case 6:
+	            if ("mbr" == origen && "ac" == destino){
+	                resp = true;
+	                console.log(origen + " -> " + destino);
+	                paso++;
 	            }
 	            else
 	                alert("Secuencia incorrecta");
 	            break;
 	        default:
-	            return false;
+	            resp = Store();
+	            break;
 	    }
 	    return resp;
 	}
 
 	function Jump(){
 	    if ("ir" == origen && "pc" == destino){
-            copiarIR();
+            var ir_content = $("#assembler_ir").val().split(" ");
+	    	contenido = ir_content[1];
+	    	pc = contenido;
             console.log(origen + " -> " + destino);
             ejec = false;
             instruccionesEjecutadas++;
-            alert("LOAD TERMINADO");
+            alert("JUMP TERMINADO");
             return true;
         }
         else{
@@ -401,10 +467,15 @@ $(document).ready(function(){
 
 	function Store(){
 	    var resp = false;
-	    switch (paso){
+	    var store_step;
+	    if(co == "MOVE")
+	    	store_step = paso - 6;
+	    else
+	    	store_step = paso - 13;
+	    switch (store_step){
 	        case 1:
 	            if ("ir" == origen && "mar" == destino){
-	                copiarIR();
+	                copiarDir(1);
 	                repetirStore = true;
 	                resp = true;
 	                console.log(origen + " -> " + destino);
@@ -423,7 +494,7 @@ $(document).ready(function(){
 	            break;
 	        case 2:
 	            if ("ir" == origen && "mar" == destino && !repetirStore){
-	                copiarIR();
+	                copiarDir(1);
 	                resp = true;
 	                console.log(origen + " -> " + destino);
 	                paso++;
@@ -481,7 +552,7 @@ $(document).ready(function(){
 	                    paso = 1;
 	                    ejec = false;
 	                    instruccionesEjecutadas++;
-	                    alert("STORE terminado");
+	                    alert(co+" TERMINADO");
 	                    comprobarFinal();
 	                }
 	                else
@@ -498,10 +569,8 @@ $(document).ready(function(){
 
 	function ejecucion(){
 	    switch (co){
-	        case "LOAD":
-				return Load();
-			case "STORE":
-				return Store();
+	        case "MOVE":
+				return Move();
 			case "JUMP":
 				return Jump();
 			default:

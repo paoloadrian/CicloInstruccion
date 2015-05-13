@@ -1,7 +1,12 @@
 // Place all the styles related to the assemblerCycles controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-#assembler-cycle {
+#assembler-cycle-general {
+	width: 1200px;
+	height: 550px;
+    background-image: url("cicloInstruccion5.png");
+}
+#assembler-cycle-specific {
 	width: 1200px;
 	height: 550px;
     background-image: url("cicloInstruccion4.png");
