@@ -3,18 +3,18 @@ $(document).ready(function(){
     var paso = 1, cantInstrucciones = parseInt($("#cant_instrucciones").text()), instruccionesEjecutadas = 0;
     var ejec = false, repetirStore = false, NuevaInstruccion = false;
     var registros = [0, 0, 0, 0, 0, 0];
-    $('#assembler-cycle input[type="text"]').each(function () {
+    $('#assembler-cycle-general input[type="text"]').each(function () {
 		$(this).regexMask(/^[0-9A-Za-z ,]+$/);
 		$(this).keyup(function(){
 	    	this.value = this.value.toUpperCase();
 		});
 	});
-	$('#assembler-cycle input[type="text"]').keypress(function(e){
+	$('#assembler-cycle-general input[type="text"]').keypress(function(e){
 		if(!ejec && paso == 7 && $(this).attr("id") === $("#assembler_pc").attr("id")){
 			console.log("cambiando PC");
 		}
 		else{
-			if (ejec && paso == 7 && $(this).attr("id") === $("#assembler_ac").attr("id")){
+			if (ejec && InstruccionEsDeALU() && paso == 1 && $(this).attr("id") === $("#"+obtenerDir(0)).attr("id")){
 				console.log("cambiando ALU");
 			}
 			else{
@@ -24,33 +24,19 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('#assembler-cycle input[type="text"]').change(function(){
-		if(!ejec && paso == 7 && $(this).attr("id") === $("#assembler_pc").attr("id")){
-			correcto();
-		}
-		else{
-			if (ejec && paso == 7 && $(this).attr("id") === $("#assembler_ac").attr("id")){
-				correcto();
-			}
-			else{
-				alert("Secuencia incorrecta");
-        		console.log("bloqueado");
-			}
-		}
-	});
-	$('#assembler-cycle input[type="text"]').focusout(function(){
+	$('#assembler-cycle-general input[type="text"]').focusout(function(){
 		if(!ejec && paso == 7 && $(this).attr("id") === $("#assembler_pc").attr("id")){
 			if (!correcto())
 				alert("El PC no tiene el valor de la siguiente instruccion");
 		}
 		else{
-			if (ejec && paso == 7 && $(this).attr("id") === $("#assembler_ac").attr("id")){
+			if (ejec && InstruccionEsDeALU() && paso == 1 && $(this).attr("id") === $("#"+obtenerDir(0)).attr("id")){
 				if(!correcto())
 					alert("El contenido de AC no es el correcto");
 			}
 		}
 	});
-	$('#assembler-cycle input[type="text"]').on("dblclick", function(event) {
+	$('#assembler-cycle-general input[type="text"]').on("dblclick", function(event) {
 	    if (event.target === this) {
 	        if (origen == "" && $(this).val() != ""){
 	            origen = $(this).attr("name");
@@ -70,6 +56,21 @@ $(document).ready(function(){
 	        }
 	    }
 	});
+
+	function InstruccionEsDeALU(){
+		switch(co){
+			case "ADD":
+				return true;
+			case "SUB":
+				return true;
+			case "MPY":
+				return true;
+			case "DIV":
+				return true;
+			default:
+				return false;
+		}
+	}
 
 	function obtenerDirDeRamSeleccionada(){
 		var splited = regRam.split("-");
@@ -204,25 +205,25 @@ $(document).ready(function(){
 		var resp = false;
 		switch(co){
 			case "ADD":
-				if ((registros[reg1 - 1] + (registros[reg2 - 1])).toString() == $("#r" + reg1).val()){
+				if ((registros[reg1 - 1] + (registros[reg2 - 1])).toString() == $("#R" + reg1).val()){
 					resp = true;
 					console.log("ac + dr -> ac");
 				}
 				break;
 			case "SUB":
-				if ((registros[reg1 - 1] - (registros[reg2 - 1])).toString() == $("#r" + reg1).val()){
+				if ((registros[reg1 - 1] - (registros[reg2 - 1])).toString() == $("#R" + reg1).val()){
 					resp = true;
 					console.log("ac - dr -> ac");
 				}
 				break;
 			case "MPY":
-				if ((registros[reg1 - 1] * (registros[reg2 - 1])).toString() == $("#r" + reg1).val()){
+				if ((registros[reg1 - 1] * (registros[reg2 - 1])).toString() == $("#R" + reg1).val()){
 					resp = true;
 					console.log("ac * dr -> ac");
 				}
 				break;
 			case "DIV":
-				if ((~~(registros[reg1 - 1] / (registros[reg2 - 1]))).toString() == $("#r" + reg1).val()){
+				if ((~~(registros[reg1 - 1] / (registros[reg2 - 1]))).toString() == $("#R" + reg1).val()){
 					resp = true;
 					console.log("ac / dr -> ac");
 				}
@@ -230,7 +231,7 @@ $(document).ready(function(){
 		}
 		if (resp){
 			paso = 1;
-			registros[reg1 - 1] = parseInt($("#r" + reg1).val());
+			registros[reg1 - 1] = parseInt($("#R" + reg1).val());
             instruccionesEjecutadas++;
         	ejec = false;
             alert(co + " TERMINADO");
@@ -308,9 +309,9 @@ $(document).ready(function(){
 	                alert("Secuencia incorrecta");
 	            break;
 	        case 6:
-	            if ("mbr" == origen && ("r" + obtenerDir(0)) == destino){
+	            if ("mbr" == origen && obtenerDir(0) == destino){
 	                resp = true;
-	                registros[obtenerDir(0) - 1] = contenido;
+	                registros[BuscarRegistro(obtenerDir(0)) - 1] = contenido;
 	                console.log(origen + " -> " + destino);
 	                paso = 1;
 	                ejec = false;
@@ -348,14 +349,14 @@ $(document).ready(function(){
 	    switch (paso){
 	        case 1:
 	            if ("ir" == origen && "mar" == destino){
-	                obtenerDir(0);
+	                contenido = obtenerDir(0);
 	                repetirStore = true;
 	                resp = true;
 	                console.log(origen + " -> " + destino);
 	                paso++;
 	            }
 	            else{
-	                if (("r" + obtenerDir(1)) == origen && "mbr" == destino){
+	                if (obtenerDir(1) == origen && "mbr" == destino){
 	                    repetirStore = false;
 	                    resp = true;
 	                    console.log(origen + " -> " + destino);
@@ -373,7 +374,7 @@ $(document).ready(function(){
 	                paso++;
 	            }
 	            else{
-	                if (("r" + obtenerDir(1)) == origen && "mbr" == destino && repetirStore){
+	                if (obtenerDir(1) == origen && "mbr" == destino && repetirStore){
 	                    resp = true;
 	                    console.log(origen + " -> " + destino);
 	                    paso++;
@@ -441,7 +442,6 @@ $(document).ready(function(){
 	}
 
 	function ejecucion(){
-	    console.log(co);
 	    switch (co){
 	        case "LOAD":
 				return Load();

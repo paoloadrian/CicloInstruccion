@@ -7,13 +7,13 @@
   <div id="assembler-cycle-general" class="container">
     <input type="text" id="assembler_dir_bus" name="busDirs"><br>
     <input type="text" id="assembler_data_bus" name="busDatos"><br>
-    <div id="assembler-cycle-cpu">
+    <div id="assembler-cycle-cpu-general">
       <input type="text" id="assembler_pc" name="pc" value="<%=@assembler_cpu.pc%>"><br>
       <input type="text" id="assembler_ir" name="ir"><br>
       <input type="text" id="assembler_mar" name="mar"><br>
       <input type="text" id="assembler_mbr" name="mbr">
       <% for i in 1..6 %>
-        <br><input type="text" id="assembler_r<%=i%>" name="r<%=i%>">
+        <br><input type="text" id="R<%=i%>" name="R<%=i%>">
       <% end %>
     </div>
     <div id="assembler-cycle-ram-cells">

@@ -13,25 +13,11 @@ $(document).ready(function(){
 			console.log("cambiando PC");
 		}
 		else{
-			if (ejec && paso == 7 && $(this).attr("id") === $("#assembler_ac").attr("id")){
+			if (ejec && InstruccionEsDeALU() && paso == 7 && $(this).attr("id") === $("#assembler_ac").attr("id")){
 				console.log("cambiando ALU");
 			}
 			else{
 				e.preventDefault();
-				alert("Secuencia incorrecta");
-        		console.log("bloqueado");
-			}
-		}
-	});
-	$('#assembler-cycle input[type="text"]').change(function(){
-		if(!ejec && paso == 7 && $(this).attr("id") === $("#assembler_pc").attr("id")){
-			correcto();
-		}
-		else{
-			if (ejec && paso == 7 && $(this).attr("id") === $("#assembler_ac").attr("id")){
-				correcto();
-			}
-			else{
 				alert("Secuencia incorrecta");
         		console.log("bloqueado");
 			}
@@ -43,7 +29,7 @@ $(document).ready(function(){
 				alert("El PC no tiene el valor de la siguiente instruccion");
 		}
 		else{
-			if (ejec && paso == 7 && $(this).attr("id") === $("#assembler_ac").attr("id")){
+			if (ejec && InstruccionEsDeALU() && paso == 7 && $(this).attr("id") === $("#assembler_ac").attr("id")){
 				if(!correcto())
 					alert("El contenido de AC no es el correcto");
 			}
@@ -69,6 +55,21 @@ $(document).ready(function(){
 	        }
 	    }
 	});
+
+	function InstruccionEsDeALU(){
+		switch(co){
+			case "ADD":
+				return true;
+			case "SUB":
+				return true;
+			case "MPY":
+				return true;
+			case "DIV":
+				return true;
+			default:
+				return false;
+		}
+	}
 
 	function obtenerDirDeRamSeleccionada(){
 		var splited = regRam.split("-");
@@ -499,7 +500,6 @@ $(document).ready(function(){
 	}
 
 	function ejecucion(){
-	    console.log(co);
 	    switch (co){
 	        case "LOAD":
 				return Load();
