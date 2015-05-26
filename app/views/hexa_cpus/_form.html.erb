@@ -11,17 +11,18 @@
     </div>
   <% end %>
     <div id="hexa_cpu_form" class="container">
-      <br>
-	  <div id="hexa_instruction" class="container">
+      <div id="hexa_instruction" class="container">
 	  	<br>
 		<label> Formato de Instruccion: </label><br><br>
+		<%= image_tag("register.png", :style => "max-width:300px; max-height:80px;") %><br>
+		bits:&nbsp;&nbsp;<label id="a">0</label><label id="b">0</label><label id="c">0</label><label id="d">0</label><br>
 		<div class="field">
 		  <%= f.label "CO: " %> &nbsp;
-		  <%= f.number_field :co, max: 4, maxlength: 1 %> &nbsp; <label> [dígitos] </label>
+		  <%= f.number_field :co, min:1, max: 4, maxlength: 1 %> &nbsp; <label> (dígitos) </label>
 		</div>
 		<div class="field">
 		  <%= f.label "Dir: " %> &nbsp;
-		  <%= f.number_field :dir, max: 8, maxlength: 1 %> &nbsp; <label> [dígitos] </label>
+		  <%= f.number_field :dir, min:1, max: 8, maxlength: 1 %> &nbsp; <label> (dígitos) </label>
 		</div>
 		<label> La suma de ambos campos debe ser maximo 16 dígitos (64 bits) </label><br>
 	  </div>
