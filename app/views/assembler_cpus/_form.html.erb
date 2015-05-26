@@ -21,14 +21,16 @@
 		<%= f.radio_button :architecture, 2 %>
 	  </div>
 	  <br>
-	  <label> Cantidad de direcciones: </label><br>
-	  <div id="directions" class="field">
-		<%= f.label "1 " %> &nbsp;
-		<%= f.radio_button :directions, 1, :checked => true %>&nbsp;&nbsp;
-		<%= f.label "2 " %> &nbsp;
-		<%= f.radio_button :directions, 2 %>
+	  <div id="directions">
+	  	<label> Cantidad de direcciones: </label><br>
+	  	<div class="field">
+		  <%= f.label "1 " %> &nbsp;
+		  <%= f.radio_button :directions, 1, :checked => true %>&nbsp;&nbsp;
+		  <%= f.label "2 " %> &nbsp;
+		  <%= f.radio_button :directions, 2 %>
+	  	</div>
+	  	<br>
 	  </div>
-	  <br>
 	  <div class="field">
 	    <%= f.label "PC inicial: " %> &nbsp;
 	    <%= f.text_field :pc, maxlength: 5 %>
