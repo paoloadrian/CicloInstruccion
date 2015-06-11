@@ -10,6 +10,7 @@
       </ul>
     </div>
   <% end %>
+  <label><%=@hexa_ram.mensaje%></label>
 
   <div class="field">
 	<%= f.hidden_field :hexa_cpu_id, :value => @hexa_cpu.id %>
@@ -19,9 +20,14 @@
 	  <div id="hexa-cells">
 		<table>
 	      <% for i in 0..30 %>
-	        <input type="text" name="hexa_dir<%=i%>" id="hexa_dir<%=i%>" maxlength="<%= @hexa_cpu.co + @hexa_cpu.dir %>">
-	        &nbsp;&nbsp;<input type="text" name="hexa_cont<%=i%>" id="hexa_cont<%=i%>" maxlength="<%= @hexa_cpu.co + @hexa_cpu.dir %>">
-	      <% end %>
+          <% if @hexa_ram.celdas == nil %>
+            <input class="nonborder" type="text" name="hexa_dir<%=i%>" id="hexa_dir<%=i%>"maxlength="<%= @hexa_cpu.co + @hexa_cpu.dir %>">&nbsp;
+            &nbsp;<input type="text" name="hexa_cont<%=i%>" id="hexa_cont<%=i%>"maxlength="<%= @hexa_cpu.co + @hexa_cpu.dir %>">
+          <% else %>
+            <input class="nonborder" type="text" name="hexa_dir<%=i%>" id="hexa_dir<%=i%>" value="<%= @hexa_ram.celdas[i].direction %>"maxlength="<%= @hexa_cpu.co + @hexa_cpu.dir %>">&nbsp;
+            &nbsp;<input type="text" name="hexa_cont<%=i%>" id="hexa_cont<%=i%>" value="<%= @hexa_ram.celdas[i].content %>"maxlength="<%= @hexa_cpu.co + @hexa_cpu.dir %>">
+          <% end %>
+        <% end %>
 	    </table>
 	  </div>
   </div>

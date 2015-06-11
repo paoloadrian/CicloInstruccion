@@ -11,7 +11,7 @@ class HexaRamsController < ApplicationController
   # POST /hexa_rams.json
   def create
     @hexa_ram = HexaRam.new(hexa_ram_params)
-	@hexa_ram.instructions = params[:cant_instrucciones]
+	  @hexa_ram.instructions = params[:cant_instrucciones]
     respond_to do |format|
       if @hexa_ram.save
         for i in 0..30
@@ -24,10 +24,24 @@ class HexaRamsController < ApplicationController
             cell.save
           end
         end
-        @hexa_cycle = HexaCycle.new
-        @hexa_cycle.hexa_ram_id = @hexa_ram.id
-        format.html { redirect_to :controller => 'hexa_cycles', :action => 'new', :id_ram => @hexa_ram.id }
-        format.json { render :show, status: :created, location: @hexa_cycle }
+        if @hexa_ram.correcto
+          @hexa_ram.save
+          @hexa_cycle = HexaCycle.new
+          @hexa_cycle.hexa_ram_id = @hexa_ram.id
+          format.html { redirect_to :controller => 'hexa_cycles', :action => 'new', :id_ram => @hexa_ram.id }
+          format.json { render :show, status: :created, location: @hexa_cycle }
+        else
+          @hexa_cpu = @hexa_ram.hexa_cpu
+          mensaje = @hexa_ram.mensaje
+          celdas = @hexa_ram.hexa_ram_cells
+          #@hexa_ram.hexa_ram_cells.destroy
+          #@hexa_ram.destroy
+          @hexa_ram = HexaRam.new
+          @hexa_ram.mensaje = mensaje
+          @hexa_ram.celdas = celdas
+          format.html { render :new }
+          format.json { render json: @hexa_ram.errors, status: :unprocessable_entity }
+        end
       else
         format.html { render :new }
         format.json { render json: @hexa_ram.errors, status: :unprocessable_entity }
