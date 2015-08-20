@@ -570,6 +570,23 @@ $(document).ready(function(){
 	        else
 	            resp = ejecucion();
 	    }
+	    if (resp)
+	    	guardar();
 	    return resp;
+	}
+
+	function guardar(){
+		var form = $(this).parent("form");
+		$.ajax({
+			type: "PUT",
+			url: form.attr("action"),
+			data: form.serializable(),
+			success: function(data){
+				console.log(data);
+			}
+			error: function(data){
+				console.log("Something went wrong");
+			}
+		});
 	}
 });

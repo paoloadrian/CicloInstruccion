@@ -3,9 +3,17 @@ class BinaryCyclesController < ApplicationController
 
   # GET /binary_cycles/new
   def new
-    @binary_cycle = BinaryCycle.new
-    @ram_binary = RamBinary.find(params[:id_ram])
+    @binary_cycle = BinaryCycle.find(params[:id])
+    @ram_binary = RamBinary.find(@ram_binary.ram_binary_id)
     @cpu_binary = CpuBinary.find(@ram_binary.cpu_binary_id)
+  end
+
+  def verify
+  	@binary_cycle = BinaryCycle.find(params[:id])
+  	respond_to do |format|
+  		format.js
+  		format.json { render json: [@binary_cycle, @binary_cycle.binary_cycle_cpu, @binary_cycle.ram_binary] }
+  	end
   end
 
   def create

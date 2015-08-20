@@ -1,7 +1,16 @@
 Rails.application.routes.draw do
 
+  devise_for :users
+  devise_scope :user do
+  	get "/login" => "devise/sessions#new"
+  	get "/logout" => "devise/sessions#destroy"
+  	get "/change_password" => "devise/passwords#edit"
+  end
+
   get 'cpu_binaries' => 'cpu_binaries#new'
   get 'ram_binaries' => 'ram_binaries#new'
+  get 'binary_cycles/:id' => 'binary_cycles#new'
+  get 'binary_cycles/verify/:id' => 'binary_cycles#verify'
   get 'hexa_cpus' => 'hexa_cpus#new'
   get 'hexa_rams' => 'hexa_rams#new'
   get 'assembler_cpus' => 'assembler_cpus#new'

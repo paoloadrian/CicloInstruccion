@@ -1,5 +1,6 @@
 class CpuBinariesController < ApplicationController
   before_action :set_cpu_binary, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, only: [:new, :create]
 
   def home
   end

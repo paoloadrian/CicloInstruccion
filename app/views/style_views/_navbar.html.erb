@@ -20,15 +20,19 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
       	<li><p class="navbar-text">Ciclo de Instrucción HI</p></li>
-        <li><%= image_tag("logo2.png", :style => "max-width:40px; max-height:40px; margin-top:5px") %></li>
-        <!--li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Usuario <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Cambiar Contraseña</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Cerrar Sesión</a></li>
-          </ul>
-        </li-->
+      	<li><%= image_tag("logo2.png", :style => "max-width:40px; max-height:40px; margin-top:5px") %></li>
+        <% if user_signed_in? %>
+          <li class="dropdown">
+          	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%= current_user.email %> <span class="caret"></span></a>
+          	<ul class="dropdown-menu" role="menu">
+          		<!--li><%= link_to "Cambiar Contraseña", edit_password_path(current_user) %></li>
+          		<li class="divider"></li-->
+	      		<li><a href="/logout">Cerrar Sesión</a></li>
+	     	</ul>
+	      </li>
+	    <% else %>
+	      <li><a href="/login">Iniciar Sesión</a></li>
+	    <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
