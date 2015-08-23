@@ -12,6 +12,9 @@
   <% end %>
   
   <div id="binary_cpu_form" class="container">
+  <br>
+  <label> Nombre del ejercicio: </label>&nbsp;&nbsp;<input type="text" name="name" id="name">
+  <br>
   <div id="binary_format" class="container">
   	<br>
 	<label> Formato de Instruccion: </label><br><br>
@@ -53,7 +56,7 @@
 	  <label> Los operadores de ALU pueden ser vacios </label><br>
   </div>
   <div class="actions">
-	<%= f.submit "Aceptar" %>
+	<%= f.submit "Aceptar", :id => "create_cpu_binary" %>
   </div>
   </div>
 <% end %>

@@ -3,9 +3,40 @@ class HexaCyclesController < ApplicationController
 
   # GET /hexa_cycles/new
   def new
-    @hexa_cycle = HexaCycle.new
-    @hexa_ram = HexaRam.find(params[:id_ram])
-    @hexa_cpu = HexaCpu.find(@hexa_ram.hexa_cpu_id)
+    @hexa_cycle = HexaCycle.find(params[:id])
+    @hexa_ram = @hexa_cycle.hexa_ram
+    @hexa_cpu = @hexa_ram.hexa_cpu
+  end
+
+  def verify
+    @hexa_cycle = HexaCycle.find(params[:id])
+    @hexa_cycle.store = params[:store]
+    @hexa_cycle.step = params[:paso]
+    @hexa_cycle.execution_cycle = params[:ejec]
+    @hexa_cycle.actual_instruction = params[:instruccion]
+    @hexa_cycle.executed_instructions = params[:ejecutadas]
+    @hexa_cycle.direction = params[:direccion]
+    @hexa_cycle.register = params[:registro]
+    @hexa_cycle.save
+    cpu = @hexa_cycle.specific_registers_cpu
+    cpu.pc = params[:pc]
+    cpu.ir = params[:ir]
+    cpu.mar = params[:mar]
+    cpu.mbr = params[:mbr]
+    cpu.ac = params[:ac]
+    cpu.dr = params[:dr]
+    cpu.dir_bus = params[:busDirs]
+    cpu.data_bus = params[:busDatos]
+    cpu.save
+    for i in 0..15
+      if params["dir-"+i.to_s] != ""
+        cell = @hexa_cycle.hexa_ram.findCellByPosition(i)
+        cell.content = params["cont-"+i.to_s]
+        cell.direction = params["dir-"+i.to_s]
+        cell.save
+      end
+    end
+    render json: @hexa_cycle
   end
 
   # POST /hexa_cycles

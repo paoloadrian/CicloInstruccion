@@ -8,4 +8,11 @@ $(document).ready(function(){
 		if($(this).is(':checked'))
 			$("#directions").fadeOut();
 	});
+	$("#create_assembler_cpu").on('click', function(e){
+		var name = $("#name").val().replace(/\s/g,"");
+		if (name==="" || name===undefined){
+            alert("El nombre del ejercicio debe ser especificado");
+            e.preventDefault();
+		}
+	});
 });

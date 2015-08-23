@@ -1,10 +1,10 @@
-<h2>Sign up</h2>
+<h2>Registrar nueva cuenta</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :email %><br />
+    <%= f.label :email %><i>(Debe acceder a su correo para confirmar el registro)</i><br />
     <%= f.email_field :email, autofocus: true %>
   </div>
 

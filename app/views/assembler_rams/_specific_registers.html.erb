@@ -15,6 +15,7 @@
 	<%= f.hidden_field :assembler_cpu_id, :value => @assembler_cpu.id %>
   </div>
   <input type="hidden" id="cant_instrucciones" name="cant_instrucciones" value="5"/>
+  <input type="hidden" id="exercise" name="exercise" value="<%=@exercise.id%>"/>
   <div id="assembler-ram-container-<%=@assembler_cpu.architecture%>-<%=@assembler_cpu.directions%>" class="container">
 	<div id="assembler-ram" class="container">
 	  <div id="assembler-cells">

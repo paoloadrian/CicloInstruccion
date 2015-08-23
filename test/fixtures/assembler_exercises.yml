@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  assembler_cpu_id: 
+  assembler_ram_id: 
+  assembler_cycle_id: 
+
+two:
+  user_id: 
+  assembler_cpu_id: 
+  assembler_ram_id: 
+  assembler_cycle_id: 

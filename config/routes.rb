@@ -9,13 +9,18 @@ Rails.application.routes.draw do
 
   get 'cpu_binaries' => 'cpu_binaries#new'
   get 'ram_binaries' => 'ram_binaries#new'
-  get 'binary_cycles/:id' => 'binary_cycles#new'
-  get 'binary_cycles/verify/:id' => 'binary_cycles#verify'
   get 'hexa_cpus' => 'hexa_cpus#new'
   get 'hexa_rams' => 'hexa_rams#new'
   get 'assembler_cpus' => 'assembler_cpus#new'
   get 'assembler_rams' => 'assembler_rams#new'
-  
+  get 'binary_cycles/:id' => 'binary_cycles#new'
+  get 'binary_cycles/verify/:id' => 'binary_cycles#verify'
+  get 'hexa_cycles/:id' => 'hexa_cycles#new'
+  get 'hexa_cycles/verify/:id' => 'hexa_cycles#verify'
+  get 'assembler_cycles/:id' => 'assembler_cycles#new'
+  get 'assembler_cycles/verify_specific/:id' => 'assembler_cycles#verify_specific'
+  get 'assembler_cycles/verify_general/:id' => 'assembler_cycles#verify_general'
+
   resources :hexa_cpus
   resources :hexa_rams
   resources :cpu_binaries

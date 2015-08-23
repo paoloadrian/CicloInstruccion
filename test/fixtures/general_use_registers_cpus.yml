@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pc: MyString
+  ir: MyString
+  mar: MyString
+  mbr: MyString
+  r1: MyString
+  r2: MyString
+  r3: MyString
+  r4: MyString
+  r5: MyString
+  r6: MyString
+  data_bus: MyString
+  dir_bus: MyString
+
+two:
+  pc: MyString
+  ir: MyString
+  mar: MyString
+  mbr: MyString
+  r1: MyString
+  r2: MyString
+  r3: MyString
+  r4: MyString
+  r5: MyString
+  r6: MyString
+  data_bus: MyString
+  dir_bus: MyString

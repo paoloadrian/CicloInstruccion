@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  cpu_binary_id: 
+  ram_binary_id: 
+  binary_cycle_id: 
+
+two:
+  user_id: 
+  cpu_binary_id: 
+  ram_binary_id: 
+  binary_cycle_id: 

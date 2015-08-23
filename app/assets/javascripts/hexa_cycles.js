@@ -1,8 +1,10 @@
 $(document).ready(function(){
-	var co, origen="", destino="", contenido="", pc = $("#pc").text(), ac, dirRam, regRam;
+	var co, origen="", destino="", contenido="", pc = $("#binary_pc").val(), ac;
+	var dirRam = $("#direccion").val(), regRam = $("#registro").val();
     var tamDIR = parseInt($("#hexa_dir").text()), tamCO = parseInt($("#co").text()), tam = $("#pc").text().length;
-    var paso = 1, cantInstrucciones = parseInt($("#cant_instrucciones").text()), instruccionesEjecutadas = 0, instruccion;
-    var ejec = false, repetirStore = false, NuevaInstruccion = false;
+    var paso = parseInt($("#paso").val()), cantInstrucciones = parseInt($("#cant_instrucciones").text());
+    var instruccionesEjecutadas = parseInt($("#instrucciones_ejecutadas").text()), instruccion = parseInt($("#instruccion").val());
+    var ejec = ($("#ejec").val() === "true"), repetirStore = ($("#store").val() === "true");
     var cods = [ $("#load").text(), $("#add").text(), $("#sub").text(), $("#store").text() ];
 	$('#hexa-cycle input[type="text"]').each(function () {
 		$(this).attr("maxlength",tam);
@@ -65,8 +67,10 @@ $(document).ready(function(){
 						regRam = $(this).attr("id");
 						obtenerDirDeRamSeleccionada();
 					}
-					if(origen != destino && correcto())
+					if(origen != destino && correcto()){
 						$(this).val(contenido);
+						guardar();
+					}
 				}
 	        	eliminarDatos();
 	        }
@@ -160,6 +164,7 @@ $(document).ready(function(){
 	                obtenerCO();
 	                imprimirCO();
 	                ejec = true;
+	                guardar();
 	                alert("Ciclo de captación TERMINADO");
 	            }
 	            break;
@@ -286,12 +291,14 @@ $(document).ready(function(){
 	}
 
 	function SumaCorrecta(){
+		ac = $("#hexa_ac").val();
 	    if (sumarHexa(ac, $("#hexa_dr").val(), tam) == $("#hexa_ac").val())
 	        return true;
 	    return false;
 	}
 
 	function RestaCorrecta(){
+		ac = $("#hexa_ac").val();
 	    if (restarHexa(ac, $("#hexa_dr").val(), tam) == $("#hexa_ac").val())
 	        return true;
 	    return false;
@@ -360,32 +367,35 @@ $(document).ready(function(){
 	                resp = true;
 	                console.log(origen + " -> " + destino);
 	                paso++;
-	                ac = $("#hexa_ac").val();
 	            }
 	            else
 	                alert("Secuencia incorrecta");
 	            break;
 	        case 7:
-	            if (co == cods[1]){
+	            if (instruccion == 1){
 	                if (SumaCorrecta()){
 	                    resp = true;
 	                    console.log("ac + dr -> ac");
 	                    paso = 1;
 	                    instruccionesEjecutadas++;
+	                    $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
 	                    ejec = false;
+	                    guardar();
 	                    alert("Suma correcta");
 	                    alert("ADD TERMINADO");
 	                    comprobarFinal();
 	                }
 	            }
 	            else{
-	                if (co == cods[2]){
+	                if (instruccion == 2){
 	                    if (RestaCorrecta()){
 	                        resp = true;
 	                        console.log("ac - dr -> ac");
 	                        paso = 1;
 	                        instruccionesEjecutadas++;
+	                        $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
 	                    	ejec = false;
+	                    	guardar();
 	                        alert("Resta correcta");
 	                        alert("SUB TERMINADO");
 	                        comprobarFinal();
@@ -475,6 +485,7 @@ $(document).ready(function(){
 	                paso = 1;
 	                ejec = false;
 	                instruccionesEjecutadas++;
+	                $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
 	                alert("LOAD TERMINADO");
 	                comprobarFinal();
 	            }
@@ -569,6 +580,7 @@ $(document).ready(function(){
 	                    paso = 1;
 	                    ejec = false;
 	                    instruccionesEjecutadas++;
+	                    $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
 	                    alert("STORE terminado");
 	                    comprobarFinal();
 	                }
@@ -612,5 +624,30 @@ $(document).ready(function(){
 	            resp = ejecucion();
 	    }
 	    return resp;
+	}
+
+	function guardar(){
+		$("#paso").val(paso);
+		$("#instruccion").val(instruccion);
+		$("#ejec").val(ejec);
+		$("#store").val(repetirStore);
+		$("#ejecutadas").val(instruccionesEjecutadas);
+		$("#direccion").val(dirRam);
+		$("#registro").val(regRam);
+		var form = $("#hexa_cycle_form");
+		$.ajax({
+			type: "GET",
+			url: form.attr("action"),
+			data: form.serialize(),
+			success: function(data){
+				console.log(data);
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			dataType: 'JSON'
+		});
 	}
 });

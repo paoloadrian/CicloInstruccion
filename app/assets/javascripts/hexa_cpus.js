@@ -57,4 +57,12 @@ $(document).ready(function(){
 		$("#b").text(tamCO-1);
 		$("#d").text(tam-1);
 	});
+
+	$("#create_hexa_cpu").on('click', function(e){
+		var name = $("#name").val().replace(/\s/g,"");
+		if (name==="" || name===undefined){
+            alert("El nombre del ejercicio debe ser especificado");
+            e.preventDefault();
+		}
+	});
 });

@@ -12,11 +12,16 @@ class CpuBinariesController < ApplicationController
 
   def create
     @cpu_binary = CpuBinary.new(cpu_binary_params)
+    @exercise = BinaryExercise.new
+    @exercise.name = params[:name]
     respond_to do |format|
       if @cpu_binary.save
+        @exercise.cpu_binary_id = @cpu_binary.id
+        @exercise.user_id = current_user.id
+        @exercise.save
       	@ram_binary = RamBinary.new
       	@ram_binary.cpu_binary_id = @cpu_binary.id
-        format.html { redirect_to :controller => 'ram_binaries', :action => 'new', :id_cpu => @cpu_binary.id }
+        format.html { redirect_to :controller => 'ram_binaries', :action => 'new', :id => @exercise.id }
         format.json { render :show, status: :created, location: @ram_binary }
       else
         format.html { render :new }

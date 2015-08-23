@@ -4,7 +4,8 @@ class HexaRamsController < ApplicationController
   # GET /hexa_rams/new
   def new
     @hexa_ram = HexaRam.new
-    @hexa_cpu = HexaCpu.find(params[:id_cpu])
+    @exercise = HexaExercise.find(params[:id])
+    @hexa_cpu = @exercise.hexa_cpu
   end
 
   # POST /hexa_rams
@@ -15,7 +16,7 @@ class HexaRamsController < ApplicationController
     respond_to do |format|
       if @hexa_ram.save
         for i in 0..30
-          if params["dir"+i.to_s] != ""
+          if params["hexa_dir"+i.to_s] != ""
             cell = HexaRamCell.new
             cell.hexa_ram_id = @hexa_ram.id
             cell.content = params["hexa_cont"+i.to_s]
@@ -28,14 +29,29 @@ class HexaRamsController < ApplicationController
           @hexa_ram.save
           @hexa_cycle = HexaCycle.new
           @hexa_cycle.hexa_ram_id = @hexa_ram.id
-          format.html { redirect_to :controller => 'hexa_cycles', :action => 'new', :id_ram => @hexa_ram.id }
+          @hexa_cycle.step = 1
+          @hexa_cycle.actual_instruction = 0
+          @hexa_cycle.executed_instructions = 0
+          @hexa_cycle.execution_cycle = false
+          @hexa_cycle.store = false
+          @hexa_cycle.log = "Captación:"
+          @hexa_cycle.intents = 0
+          @hexa_cycle.fails = 0
+          cpu = SpecificRegistersCpu.new
+          cpu.pc = @hexa_ram.hexa_cpu.pc
+          cpu.save
+          @hexa_cycle.specific_registers_cpu_id = cpu.id
+          @hexa_cycle.save
+          @exercise = HexaExercise.find(params[:exercise])
+          @exercise.hexa_ram_id = @hexa_ram.id
+          @exercise.hexa_cycle_id = @hexa_cycle.id
+          @exercise.save
+          format.html { redirect_to :controller => 'hexa_cycles', :action => 'new', :id => @hexa_cycle.id }
           format.json { render :show, status: :created, location: @hexa_cycle }
         else
           @hexa_cpu = @hexa_ram.hexa_cpu
           mensaje = @hexa_ram.mensaje
           celdas = @hexa_ram.hexa_ram_cells
-          #@hexa_ram.hexa_ram_cells.destroy
-          #@hexa_ram.destroy
           @hexa_ram = HexaRam.new
           @hexa_ram.mensaje = mensaje
           @hexa_ram.celdas = celdas

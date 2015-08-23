@@ -4,16 +4,42 @@ class BinaryCyclesController < ApplicationController
   # GET /binary_cycles/new
   def new
     @binary_cycle = BinaryCycle.find(params[:id])
-    @ram_binary = RamBinary.find(@ram_binary.ram_binary_id)
-    @cpu_binary = CpuBinary.find(@ram_binary.cpu_binary_id)
+    @ram_binary = @binary_cycle.ram_binary
+    @cpu_binary = @ram_binary.cpu_binary
   end
 
   def verify
   	@binary_cycle = BinaryCycle.find(params[:id])
-  	respond_to do |format|
-  		format.js
-  		format.json { render json: [@binary_cycle, @binary_cycle.binary_cycle_cpu, @binary_cycle.ram_binary] }
-  	end
+    @binary_cycle.store = params[:store]
+    @binary_cycle.step = params[:paso]
+    @binary_cycle.execution_cycle = params[:ejec]
+    @binary_cycle.actual_instruction = params[:instruccion]
+    @binary_cycle.executed_instructions = params[:ejecutadas]
+    @binary_cycle.direction = params[:direccion]
+    @binary_cycle.register = params[:registro]
+    @binary_cycle.log = params[:log]
+    @binary_cycle.intents = params[:intents]
+    @binary_cycle.fails = params[:fails]
+    @binary_cycle.save
+    cpu = @binary_cycle.specific_registers_cpu
+    cpu.pc = params[:pc]
+    cpu.ir = params[:ir]
+    cpu.mar = params[:mar]
+    cpu.mbr = params[:mbr]
+    cpu.ac = params[:ac]
+    cpu.dr = params[:dr]
+    cpu.dir_bus = params[:busDirs]
+    cpu.data_bus = params[:busDatos]
+    cpu.save
+    for i in 0..15
+      if params["dir-"+i.to_s] != ""
+        cell = @binary_cycle.ram_binary.findCellByPosition(i)
+        cell.content = params["cont-"+i.to_s]
+        cell.direction = params["dir-"+i.to_s]
+        cell.save
+      end
+    end
+    render json: @binary_cycle
   end
 
   def create

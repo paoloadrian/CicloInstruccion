@@ -4,7 +4,8 @@ class RamBinariesController < ApplicationController
   # GET /ram_binaries/new
   def new
     @ram_binary = RamBinary.new
-    @cpu_binary = CpuBinary.find(params[:id_cpu])
+    @exercise = BinaryExercise.find(params[:id])
+    @cpu_binary = @exercise.cpu_binary
   end
 
   # POST /ram_binaries
@@ -26,7 +27,23 @@ class RamBinariesController < ApplicationController
         end
         @binary_cycle = BinaryCycle.new
         @binary_cycle.ram_binary_id = @ram_binary.id
+        @binary_cycle.step = 1
+        @binary_cycle.actual_instruction = 0
+        @binary_cycle.executed_instructions = 0
+        @binary_cycle.execution_cycle = false
+        @binary_cycle.store = false
+        @binary_cycle.log = "Captación:"
+        @binary_cycle.intents = 0
+        @binary_cycle.fails = 0
+        cpu = SpecificRegistersCpu.new
+        cpu.pc = @ram_binary.cpu_binary.pc
+        cpu.save
+        @binary_cycle.specific_registers_cpu_id = cpu.id
         @binary_cycle.save
+        @exercise = BinaryExercise.find(params[:exercise])
+        @exercise.ram_binary_id = @ram_binary.id
+        @exercise.binary_cycle_id = @binary_cycle.id
+        @exercise.save
         format.html { redirect_to :controller => 'binary_cycles', :action => 'new', :id => @binary_cycle.id }
         format.json { render :show, status: :created, location: @binary_cycle }
       else

@@ -1,7 +1,9 @@
 $(document).ready(function(){
-	var co, origen="", destino="", contenido="", pc = $("#pc").text(), ac, dirRam, regRam;
-    var paso = 1, cantInstrucciones = parseInt($("#cant_instrucciones").text()), instruccionesEjecutadas = 0;
-    var ejec = false, repetirStore = false, NuevaInstruccion = false;
+	var co = $("#instruccion").val(), origen="", destino="", contenido="", pc = $("#assembler_pc").val(), ac;
+	var dirRam = $("#direccion").val(), regRam = $("#registro").val();
+    var paso = parseInt($("#paso").val()), cantInstrucciones = parseInt($("#cant_instrucciones").text());
+    var instruccionesEjecutadas = parseInt($("#instrucciones_ejecutadas").text());
+    var ejec = ($("#ejec").val() === "true"), repetirStore = ($("#store").val() === "true");
     $('#assembler-cycle input[type="text"]').each(function () {
 		$(this).regexMask(/^[0-9A-Za-z ,]+$/);
 		$(this).keyup(function(){
@@ -48,8 +50,10 @@ $(document).ready(function(){
 						regRam = $(this).attr("id");
 						obtenerDirDeRamSeleccionada();
 					}
-					if(origen != destino && correcto())
+					if(origen != destino && correcto()){
 						$(this).val(contenido);
+						guardar();
+					}
 				}
 	        	eliminarDatos();
 	        }
@@ -158,6 +162,7 @@ $(document).ready(function(){
 	                obtenerCO();
 	                console.log(co);
 	                ejec = true;
+	                guardar();
 	                alert("Ciclo de captación TERMINADO");
 	            }
 	            break;
@@ -291,7 +296,9 @@ $(document).ready(function(){
 		if (resp){
 			paso = 1;
             instruccionesEjecutadas++;
+            $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
         	ejec = false;
+        	guardar();
             alert(co + " TERMINADO");
             comprobarFinal();
 		}
@@ -374,6 +381,7 @@ $(document).ready(function(){
 	                paso = 1;
 	                ejec = false;
 	                instruccionesEjecutadas++;
+	                $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
 	                alert("LOAD TERMINADO");
 	                comprobarFinal();
 	            }
@@ -393,6 +401,7 @@ $(document).ready(function(){
             console.log(origen + " -> " + destino);
             ejec = false;
             instruccionesEjecutadas++;
+            $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
             alert("JUMP TERMINADO");
             return true;
         }
@@ -484,6 +493,7 @@ $(document).ready(function(){
 	                    paso = 1;
 	                    ejec = false;
 	                    instruccionesEjecutadas++;
+	                    $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
 	                    alert("STORE TERMINADO");
 	                    comprobarFinal();
 	                }
@@ -524,5 +534,30 @@ $(document).ready(function(){
 	            resp = ejecucion();
 	    }
 	    return resp;
+	}
+
+	function guardar(){
+		$("#paso").val(paso);
+		$("#instruccion").val(co);
+		$("#ejec").val(ejec);
+		$("#store").val(repetirStore);
+		$("#ejecutadas").val(instruccionesEjecutadas);
+		$("#direccion").val(dirRam);
+		$("#registro").val(regRam);
+		var form = $("#assembler_cycle_form");
+		$.ajax({
+			type: "GET",
+			url: form.attr("action"),
+			data: form.serialize(),
+			success: function(data){
+				console.log(data);
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			dataType: 'JSON'
+		});
 	}
 });

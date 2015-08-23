@@ -1,8 +1,10 @@
 $(document).ready(function(){
-	var co, origen="", destino="", contenido="", pc = $("#pc").text(), dirRam, regRam;
-    var paso = 1, cantInstrucciones = parseInt($("#cant_instrucciones").text()), instruccionesEjecutadas = 0;
-    var ejec = false, repetirStore = false, NuevaInstruccion = false;
-    var registros = [0, 0, 0, 0, 0, 0];
+	var co = $("#instruccion").val(), origen="", destino="", contenido="", pc = $("#assembler_pc").val();
+	var dirRam = $("#direccion").val(), regRam = $("#registro").val();
+    var paso = parseInt($("#paso").val()), cantInstrucciones = parseInt($("#cant_instrucciones").text());
+    var instruccionesEjecutadas = parseInt($("#instrucciones_ejecutadas").text());
+    var ejec = ($("#ejec").val() === "true"), repetirStore = ($("#store").val() === "true");
+    var registros = [$("#R1").val(), $("#R1").val(), $("#R1").val(), $("#R1").val(), $("#R1").val(), $("#R1").val()];
     $('#assembler-cycle-general input[type="text"]').each(function () {
 		$(this).regexMask(/^[0-9A-Za-z ,]+$/);
 		$(this).keyup(function(){
@@ -49,8 +51,10 @@ $(document).ready(function(){
 						regRam = $(this).attr("id");
 						obtenerDirDeRamSeleccionada();
 					}
-					if(origen != destino && correcto())
+					if(origen != destino && correcto()){
 						$(this).val(contenido);
+						guardar();
+					}
 				}
 	        	eliminarDatos();
 	        }
@@ -159,6 +163,7 @@ $(document).ready(function(){
 	                obtenerCO();
 	                console.log(co);
 	                ejec = true;
+	                guardar();
 	                alert("Ciclo de captación TERMINADO");
 	            }
 	            break;
@@ -201,29 +206,36 @@ $(document).ready(function(){
 	   	return OperacionALU(reg1,reg2);
 	}
 
+	function get_register(ind){
+		if(registros[ind]!="")
+			return parseInt(registros[ind]);
+		else
+			return 0;
+	}
+
 	function OperacionALU(reg1,reg2){
 		var resp = false;
 		switch(co){
 			case "ADD":
-				if ((registros[reg1 - 1] + (registros[reg2 - 1])).toString() == $("#R" + reg1).val()){
+				if ((get_register[reg1 - 1] + (get_register[reg2 - 1])).toString() == $("#R" + reg1).val()){
 					resp = true;
 					console.log("ac + dr -> ac");
 				}
 				break;
 			case "SUB":
-				if ((registros[reg1 - 1] - (registros[reg2 - 1])).toString() == $("#R" + reg1).val()){
+				if ((get_register[reg1 - 1] - (get_register[reg2 - 1])).toString() == $("#R" + reg1).val()){
 					resp = true;
 					console.log("ac - dr -> ac");
 				}
 				break;
 			case "MPY":
-				if ((registros[reg1 - 1] * (registros[reg2 - 1])).toString() == $("#R" + reg1).val()){
+				if ((get_register[reg1 - 1] * (get_register[reg2 - 1])).toString() == $("#R" + reg1).val()){
 					resp = true;
 					console.log("ac * dr -> ac");
 				}
 				break;
 			case "DIV":
-				if ((~~(registros[reg1 - 1] / (registros[reg2 - 1]))).toString() == $("#R" + reg1).val()){
+				if ((~~(get_register[reg1 - 1] / (get_register[reg2 - 1]))).toString() == $("#R" + reg1).val()){
 					resp = true;
 					console.log("ac / dr -> ac");
 				}
@@ -231,9 +243,11 @@ $(document).ready(function(){
 		}
 		if (resp){
 			paso = 1;
-			registros[reg1 - 1] = parseInt($("#R" + reg1).val());
+			registros[reg1 - 1] = $("#R" + reg1).val();
             instruccionesEjecutadas++;
+            $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
         	ejec = false;
+        	guardar();
             alert(co + " TERMINADO");
 		}
 		return resp;
@@ -316,6 +330,7 @@ $(document).ready(function(){
 	                paso = 1;
 	                ejec = false;
 	                instruccionesEjecutadas++;
+	                $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
 	                alert("LOAD TERMINADO");
 	            }
 	            else
@@ -335,6 +350,7 @@ $(document).ready(function(){
             console.log(origen + " -> " + destino);
             ejec = false;
             instruccionesEjecutadas++;
+            $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
             alert("JUMP TERMINADO");
             return true;
         }
@@ -426,6 +442,7 @@ $(document).ready(function(){
 	                    paso = 1;
 	                    ejec = false;
 	                    instruccionesEjecutadas++;
+	                    $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
 	                    alert("STORE TERMINADO");
 	                    comprobarFinal();
 	                }
@@ -466,5 +483,30 @@ $(document).ready(function(){
 	            resp = ejecucion();
 	    }
 	    return resp;
+	}
+
+	function guardar(){
+		$("#paso").val(paso);
+		$("#instruccion").val(co);
+		$("#ejec").val(ejec);
+		$("#store").val(repetirStore);
+		$("#ejecutadas").val(instruccionesEjecutadas);
+		$("#direccion").val(dirRam);
+		$("#registro").val(regRam);
+		var form = $("#assembler_cycle_form");
+		$.ajax({
+			type: "GET",
+			url: form.attr("action"),
+			data: form.serialize(),
+			success: function(data){
+				console.log(data);
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+			},
+			dataType: 'JSON'
+		});
 	}
 });

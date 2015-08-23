@@ -1,34 +1,48 @@
-<form accept-charset="UTF-8" action="/binary_cycles/verify/<%=@binary_cycle.id%>" method="POST">
+<form accept-charset="UTF-8" id="binary_cycle_form" action="/binary_cycles/verify/<%=@binary_cycle.id%>" method="GET">
   <input name="utf8" type="hidden" value="&#x2713;" />
   <input name="authenticity_token" type="hidden" value="x37DrAAwyIIb7s+w2+AdoCR8cAJIpQhIetKRrPgG5VA="/>
-  <strong>Instrucciones:&nbsp;</strong>
-  <label id="cant_instrucciones"><%= @ram_binary.instructions %></label>
-  <input id="id_cpu" type="hidden" value="<%=@cpu_binary.id%>" />
+  <strong>Instrucciones a ejecutar:&nbsp;</strong>
+  <label id="cant_instrucciones"><%= @ram_binary.instructions %></label><br>
+  <strong>Instrucciones ejecutadas:&nbsp;</strong>
+  <label id="instrucciones_ejecutadas"><%= @binary_cycle.executed_instructions %></label><br>
+  <input type="hidden" id="instruccion" name="instruccion" value="<%=@binary_cycle.actual_instruction%>">
+  <input type="hidden" id="paso" name="paso" value="<%=@binary_cycle.step%>">
+  <input type="hidden" id="ejec" name="ejec" value="<%=@binary_cycle.execution_cycle%>">
+  <input type="hidden" id="store" name="store" value="<%=@binary_cycle.store%>">
+  <input type="hidden" id="registro" name="registro" value="<%=@binary_cycle.register%>">
+  <input type="hidden" id="direccion" name="direccion" value="<%=@binary_cycle.direction%>">
+  <input type="hidden" id="ejecutadas" name="ejecutadas" value="<%=@binary_cycle.executed_instructions%>">
+  <input type="hidden" id="intents" name="intents" value="<%=@binary_cycle.intents%>">
+  <input type="hidden" id="fails" name="fails" value="<%=@binary_cycle.fails%>">
   <div id="cycle-binary" class="container">
-    <input type="text" id="binary_dir_bus" name="busDirs"><br>
-    <input type="text" id="binary_data_bus" name="busDatos"><br>
+    <input type="text" id="binary_dir_bus" name="busDirs" value="<%=@binary_cycle.specific_registers_cpu.dir_bus%>"><br>
+    <input type="text" id="binary_data_bus" name="busDatos" value="<%=@binary_cycle.specific_registers_cpu.data_bus%>"><br>
     <div id="cycle-binary-cpu">
-      <input type="text" id="binary_pc" name="pc" value="<%=@cpu_binary.pc%>"><br>
-      <input type="text" id="binary_ir" name="ir"><br>
-      <input type="text" id="binary_mar" name="mar"><br>
-      <input type="text" id="binary_mbr" name="mbr"><br>
-      <input type="text" id="binary_ac" name="ac"><br>
-      <input type="text" id="binary_dr" name="dr">
+      <input type="text" id="binary_pc" name="pc" value="<%=@binary_cycle.specific_registers_cpu.pc%>"><br>
+      <input type="text" id="binary_ir" name="ir" value="<%=@binary_cycle.specific_registers_cpu.ir%>"><br>
+      <input type="text" id="binary_mar" name="mar" value="<%=@binary_cycle.specific_registers_cpu.mar%>"><br>
+      <input type="text" id="binary_mbr" name="mbr" value="<%=@binary_cycle.specific_registers_cpu.mbr%>"><br>
+      <input type="text" id="binary_ac" name="ac" value="<%=@binary_cycle.specific_registers_cpu.ac%>"><br>
+      <input type="text" id="binary_dr" name="dr" value="<%=@binary_cycle.specific_registers_cpu.dr%>">
     </div>
     <div id="cycle-binary-ram-cells">
       <table>
         <% for i in 0..15 %>
           <% cell = @ram_binary.findCellByPosition(i) %>
           <% if cell == nil %>
-            <input class="nonborder" type="text" name="ram" id="dir-<%=i%>">&nbsp;
-            &nbsp;<input type="text" name="ram" id="cont-<%=i%>">
+            <input class="nonborder" type="text" name="dir-<%=i%>" id="dir-<%=i%>">&nbsp;
+            &nbsp;<input type="text" name="cont-<%=i%>" id="cont-<%=i%>">
           <% else %>
-            <input class="nonborder" type="text" name="ram" id="dir-<%=i%>" value="<%= cell.direction %>">&nbsp;
-            &nbsp;<input type="text" name="ram" id="cont-<%=i%>" value="<%= cell.content %>">
+            <input class="nonborder" type="text" name="dir-<%=i%>" id="dir-<%=i%>" value="<%= cell.direction %>">&nbsp;
+            &nbsp;<input type="text" name="cont-<%=i%>" id="cont-<%=i%>" value="<%= cell.content %>">
           <% end %>
         <% end %>
       </table>
     </div>
+    <br>
+    <textarea id="log" name="log" readonly> <%= @binary_cycle.log %> </textarea>
+    <br>
+    <br>
   </div>
-  <!--input type="submit" value="Aceptar" id="create_ram_binary"-->
+  <!--input type="submit" value="Aceptar" id="create_binary_cycle"-->
 </form>

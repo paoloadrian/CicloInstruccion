@@ -10,12 +10,16 @@ class HexaCpusController < ApplicationController
   # POST /hexa_cpus.json
   def create
     @hexa_cpu = HexaCpu.new(hexa_cpu_params)
-
+    @exercise = HexaExercise.new
+    @exercise.name = params[:name]
     respond_to do |format|
       if @hexa_cpu.save
-      	@hexa_ram = HexaRam.new
+      	@exercise.cpu_binary_id = @cpu_binary.id
+        @exercise.user_id = current_user.id
+        @exercise.save
+        @hexa_ram = HexaRam.new
       	@hexa_ram.hexa_cpu_id = @hexa_cpu.id
-        format.html { redirect_to :controller => 'hexa_rams', :action => 'new', :id_cpu => @hexa_cpu.id }
+        format.html { redirect_to :controller => 'hexa_rams', :action => 'new', :id => @exercise.id }
         format.json { render :show, status: :created, location: @hexa_ram }
       else
         format.html { render :new }

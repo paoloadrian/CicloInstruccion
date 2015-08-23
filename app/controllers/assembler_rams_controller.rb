@@ -4,7 +4,8 @@ class AssemblerRamsController < ApplicationController
   # GET /assembler_rams/new
   def new
     @assembler_ram = AssemblerRam.new
-    @assembler_cpu = AssemblerCpu.find(params[:id_cpu])
+    @exercise = AssemblerExercise.find(params[:id])
+    @assembler_cpu = @exercise.assembler_cpu
   end
 
   # POST /assembler_rams
@@ -15,7 +16,7 @@ class AssemblerRamsController < ApplicationController
     respond_to do |format|
       if @assembler_ram.save
         for i in 0..30
-          if params["dir"+i.to_s] != ""
+          if params["assembler_dir"+i.to_s] != ""
             cell = AssemblerRamCell.new
             cell.assembler_ram_id = @assembler_ram.id
             cell.content = params["assembler_cont"+i.to_s]
@@ -26,7 +27,24 @@ class AssemblerRamsController < ApplicationController
         end
         @assembler_cycle = AssemblerCycle.new
         @assembler_cycle.assembler_ram_id = @assembler_ram.id
-        format.html { redirect_to :controller => 'assembler_cycles', :action => 'new', :id_ram => @assembler_ram.id }
+        @assembler_cycle.step = 1
+        @assembler_cycle.actual_instruction = 0
+        @assembler_cycle.executed_instructions = 0
+        @assembler_cycle.execution_cycle = false
+        @assembler_cycle.store = false
+        @assembler_cycle.log = "Captación:"
+        @assembler_cycle.intents = 0
+        @assembler_cycle.fails = 0
+        cpu = SpecificRegistersCpu.new
+        cpu.pc = @assembler_ram.assembler_cpu.pc
+        cpu.save
+        @assembler_cycle.specific_registers_cpu_id = cpu.id
+        @assembler_cycle.save
+        @exercise = AssemblerExercise.find(params[:exercise])
+        @exercise.assembler_ram_id = @assembler_ram.id
+        @exercise.assembler_cycle_id = @assembler_cycle.id
+        @exercise.save
+        format.html { redirect_to :controller => 'assembler_cycles', :action => 'new', :id => @assembler_cycle.id }
         format.json { render :show, status: :created, location: @assembler_cycle }
       else
         format.html { render :new }

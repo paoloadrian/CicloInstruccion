@@ -13,6 +13,9 @@
     <div id="hexa_cpu_form" class="container">
       <div id="hexa_instruction" class="container">
 	  	<br>
+	  	<label> Nombre del ejercicio: </label>&nbsp;&nbsp;<input type="text" name="name" id="name">
+		<br>
+		<br>
 		<label> Formato de Instruccion: </label><br><br>
 		<%= image_tag("register.png", :style => "max-width:300px; max-height:80px;") %><br>
 		bits:&nbsp;&nbsp;<label id="a">0</label><label id="b">0</label><label id="c">0</label><label id="d">0</label><br>
@@ -52,7 +55,7 @@
 		  <label> Los operadores de ALU pueden ser vacios </label><br>
 	  </div>
 	  <div class="actions">
-		<%= f.submit "Aceptar" %>
+		<%= f.submit "Aceptar", :id => "create_hexa_cpu" %>
 	  </div>
   	</div>
 <% end %>

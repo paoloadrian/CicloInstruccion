@@ -13,12 +13,16 @@ class AssemblerCpusController < ApplicationController
     if(@assembler_cpu.architecture == 2)
       @assembler_cpu.directions = 2;
     end
-
+    @exercise = AssemblerExercise.new
+    @exercise.name = params[:name]
     respond_to do |format|
       if @assembler_cpu.save
-      	@assembler_ram = AssemblerRam.new
+      	@exercise.cpu_binary_id = @cpu_binary.id
+        @exercise.user_id = current_user.id
+        @exercise.save
+        @assembler_ram = AssemblerRam.new
       	@assembler_ram.assembler_cpu_id = @assembler_cpu.id
-        format.html { redirect_to :controller => 'assembler_rams', :action => 'new', :id_cpu => @assembler_cpu.id }
+        format.html { redirect_to :controller => 'assembler_rams', :action => 'new', :id => @exercise.id }
         format.json { render :show, status: :created, location: @assembler_ram }
       else
         format.html { render :new }
