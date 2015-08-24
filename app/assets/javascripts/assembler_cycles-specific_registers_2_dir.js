@@ -3,6 +3,7 @@ $(document).ready(function(){
 	var dirRam = $("#direccion").val(), regRam = $("#registro").val();
     var paso = parseInt($("#paso").val()), cantInstrucciones = parseInt($("#cant_instrucciones").text());
     var instruccionesEjecutadas = parseInt($("#instrucciones_ejecutadas").text());
+    var fails = parseInt($("#fails").val()), intents = parseInt($("#intents").val());
     var ejec = ($("#ejec").val() === "true"), repetirStore = ($("#store").val() === "true");
     $('#assembler-cycle input[type="text"]').each(function () {
 		$(this).regexMask(/^[0-9A-Za-z ,]+$/);
@@ -20,6 +21,8 @@ $(document).ready(function(){
 			}
 			else{
 				e.preventDefault();
+				fails++;
+				guardar();
 				alert("Secuencia incorrecta");
         		console.log("bloqueado");
 			}
@@ -27,13 +30,19 @@ $(document).ready(function(){
 	});
 	$('#assembler-cycle input[type="text"]').focusout(function(){
 		if(!ejec && paso == 7 && $(this).attr("id") === $("#assembler_pc").attr("id")){
-			if (!correcto())
+			if (!correcto()){
+				fails++;
+				guardar();
 				alert("El PC no tiene el valor de la siguiente instruccion");
+			}
 		}
 		else{
 			if (ejec && InstruccionEsDeALU() && paso == 13 && $(this).attr("id") === $("#assembler_ac").attr("id")){
-				if(!correcto())
+				if(!correcto()){
+					fails++;
+					guardar();
 					alert("El contenido de AC no es el correcto");
+				}
 			}
 		}
 	});
@@ -41,12 +50,18 @@ $(document).ready(function(){
 	    if (event.target === this) {
 	        if (origen == "" && $(this).val() != ""){
 	            origen = $(this).attr("name");
+	            var array_origen = origen.split("-");
+				if(array_origen.length > 1){
+					origen = "ram";
+				}
 		 		contenido = $(this).val();
 	        }
 	        else{
-	            if(contenido != ""){
+	        	if(contenido != ""){
 					destino = $(this).attr("name");
-					if(destino == "ram"){
+					var array_destino = destino.split("-");
+					if(array_destino.length > 1){
+						destino = "ram";
 						regRam = $(this).attr("id");
 						obtenerDirDeRamSeleccionada();
 					}
@@ -54,6 +69,11 @@ $(document).ready(function(){
 						$(this).val(contenido);
 						guardar();
 					}
+				}
+				else{
+					fails++;
+					guardar();
+					alert("El registro origen no puede ser vacio");
 				}
 	        	eliminarDatos();
 	        }
@@ -602,14 +622,22 @@ $(document).ready(function(){
 	    return resp;
 	}
 
+	function push_to_log(text){
+		var log = $("#log").val();
+		log = log + "\n" + text;
+		$("#log").val(log);
+	}
+
 	function guardar(){
 		$("#paso").val(paso);
-		$("#instruccion").val(co);
+		$("#instruccion").val(instruccion);
 		$("#ejec").val(ejec);
 		$("#store").val(repetirStore);
 		$("#ejecutadas").val(instruccionesEjecutadas);
 		$("#direccion").val(dirRam);
 		$("#registro").val(regRam);
+		$("#intents").val(intents);
+		$("#fails").val(fails);
 		var form = $("#assembler_cycle_form");
 		$.ajax({
 			type: "GET",

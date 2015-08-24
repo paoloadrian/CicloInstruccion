@@ -21,9 +21,9 @@ $(document).ready(function(){
 			}
 			else{
 				e.preventDefault();
-				alert("Este registro no debe ser modificado aún");
 				fails++;
 				guardar();
+				alert("Este registro no debe ser modificado aún");
         		console.log("bloqueado");
 			}
 		}
@@ -45,17 +45,16 @@ $(document).ready(function(){
 	$('#cycle-binary input[type="text"]').focusout(function(){
 		if(!ejec && paso == 7 && $(this).attr("id") === $("#binary_pc").attr("id")){
 			if (!correcto()){
-				alert("El PC no tiene el valor de la siguiente instruccion");
 				fails++;
 				guardar();
-			}
+				alert("El PC no tiene el valor de la siguiente instruccion");
 		}
 		else{
 			if (ejec && paso == 7 && $(this).attr("id") === $("#binary_ac").attr("id")){
 				if(!correcto()){
-					alert("El contenido de AC no es el correcto");
-	                fails++;
+					fails++;
 					guardar();
+					alert("El contenido de AC no es el correcto");
 				}
 			}
 		}

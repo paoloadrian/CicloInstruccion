@@ -17,6 +17,9 @@ class HexaCyclesController < ApplicationController
     @hexa_cycle.executed_instructions = params[:ejecutadas]
     @hexa_cycle.direction = params[:direccion]
     @hexa_cycle.register = params[:registro]
+    @hexa_cycle.log = params[:log]
+    @hexa_cycle.intents = params[:intents]
+    @hexa_cycle.fails = params[:fails]
     @hexa_cycle.save
     cpu = @hexa_cycle.specific_registers_cpu
     cpu.pc = params[:pc]

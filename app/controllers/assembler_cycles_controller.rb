@@ -17,6 +17,9 @@ class AssemblerCyclesController < ApplicationController
     @assembler_cycle.executed_instructions = params[:ejecutadas]
     @assembler_cycle.direction = params[:direccion]
     @assembler_cycle.register = params[:registro]
+    @assembler_cycle.log = params[:log]
+    @assembler_cycle.intents = params[:intents]
+    @assembler_cycle.fails = params[:fails]
     @assembler_cycle.save
     cpu = @assembler_cycle.specific_registers_cpu
     cpu.pc = params[:pc]
@@ -48,6 +51,9 @@ class AssemblerCyclesController < ApplicationController
     @assembler_cycle.executed_instructions = params[:ejecutadas]
     @assembler_cycle.direction = params[:direccion]
     @assembler_cycle.register = params[:registro]
+    @assembler_cycle.log = params[:log]
+    @assembler_cycle.intents = params[:intents]
+    @assembler_cycle.fails = params[:fails]
     @assembler_cycle.save
     cpu = @assembler_cycle.specific_registers_cpu
     cpu.pc = params[:pc]

@@ -536,14 +536,22 @@ $(document).ready(function(){
 	    return resp;
 	}
 
+	function push_to_log(text){
+		var log = $("#log").val();
+		log = log + "\n" + text;
+		$("#log").val(log);
+	}
+
 	function guardar(){
 		$("#paso").val(paso);
-		$("#instruccion").val(co);
+		$("#instruccion").val(instruccion);
 		$("#ejec").val(ejec);
 		$("#store").val(repetirStore);
 		$("#ejecutadas").val(instruccionesEjecutadas);
 		$("#direccion").val(dirRam);
 		$("#registro").val(regRam);
+		$("#intents").val(intents);
+		$("#fails").val(fails);
 		var form = $("#assembler_cycle_form");
 		$.ajax({
 			type: "GET",

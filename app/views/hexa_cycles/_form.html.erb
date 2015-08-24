@@ -40,7 +40,9 @@
       </table>
     </div>
     <br>
-    <%= text_field :log, :readonly => true, :value => @hexa_cycle.log %>
+    <textarea id="log" name="log" readonly> <%= @hexa_cycle.log %> </textarea>
+    <br>
+    <br>
   </div>
   <!--input type="submit" value="Aceptar" id="create_cycle_hexa"-->
 </form>
