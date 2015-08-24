@@ -6,6 +6,10 @@ class AssemblerCpusController < ApplicationController
     @assembler_cpu = AssemblerCpu.new
   end
 
+  def exercises
+    @exercises = AssemblerExercise.where(user_id: current_user.id)
+  end
+
   # POST /assembler_cpus
   # POST /assembler_cpus.json
   def create
@@ -17,7 +21,7 @@ class AssemblerCpusController < ApplicationController
     @exercise.name = params[:name]
     respond_to do |format|
       if @assembler_cpu.save
-      	@exercise.cpu_binary_id = @cpu_binary.id
+      	@exercise.assembler_cpu_id = @assembler_cpu.id
         @exercise.user_id = current_user.id
         @exercise.save
         @assembler_ram = AssemblerRam.new

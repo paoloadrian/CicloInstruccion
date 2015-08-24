@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var co, origen="", destino="", contenido="", pc = $("#binary_pc").val(), ac;
+	var co, origen="", destino="", contenido="", pc = $("#binary_pc").val(),  ac = $("#binary_ac").val();
 	var dirRam = $("#direccion").val(), regRam = $("#registro").val();
     var tamDIR = parseInt($("#dir").text()), tamCO = parseInt($("#co").text()), tam = $("#pc").text().length;
     var paso = parseInt($("#paso").val()), cantInstrucciones = parseInt($("#cant_instrucciones").text());
@@ -48,6 +48,7 @@ $(document).ready(function(){
 				fails++;
 				guardar();
 				alert("El PC no tiene el valor de la siguiente instruccion");
+			}
 		}
 		else{
 			if (ejec && paso == 7 && $(this).attr("id") === $("#binary_ac").attr("id")){
@@ -295,15 +296,13 @@ $(document).ready(function(){
 	}
 
 	function SumaCorrecta(){
-		ac = $("#binary_ac").val();
-	    if (sumarBinario(ac, $("#binary_dr").val(), tam) == $("#binary_ac").val())
+		if (sumarBinario(ac, $("#binary_dr").val(), tam) == $("#binary_ac").val())
 	        return true;
 	    return false;
 	}
 
 	function RestaCorrecta(){
-		ac = $("#binary_ac").val();
-	    if (restarBinario(ac, $("#binary_dr").val(), tam) == $("#binary_ac").val())
+		if (restarBinario(ac, $("#binary_dr").val(), tam) == $("#binary_ac").val())
 	        return true;
 	    return false;
 	}
@@ -391,6 +390,7 @@ $(document).ready(function(){
 	            if ("mbr" == origen && "dr" == destino){
 	                resp = true;
 	                push_to_log(origen + " -> " + destino);
+	                ac = $("#binary_ac").val();
 	                paso++;
 	            }
 	            else{
@@ -718,7 +718,7 @@ $(document).ready(function(){
 		$("#fails").val(fails);
 		var form = $("#binary_cycle_form");
 		$.ajax({
-			type: "GET",
+			type: "post",
 			url: form.attr("action"),
 			data: form.serialize(),
 			success: function(data){

@@ -55,7 +55,7 @@ class AssemblerCyclesController < ApplicationController
     @assembler_cycle.intents = params[:intents]
     @assembler_cycle.fails = params[:fails]
     @assembler_cycle.save
-    cpu = @assembler_cycle.specific_registers_cpu
+    cpu = @assembler_cycle.general_use_registers_cpu
     cpu.pc = params[:pc]
     cpu.ir = params[:ir]
     cpu.mar = params[:mar]

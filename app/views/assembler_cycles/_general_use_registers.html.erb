@@ -1,8 +1,8 @@
-<form accept-charset="UTF-8" id="assembler_cycle_form" action="/assembler_cycles/verify_general/<%=@assembler_cycle.id%>" method="GET">
+<form accept-charset="UTF-8" id="assembler_cycle_form" action="/assembler_cycles/verify_general/<%=@assembler_cycle.id%>" method="post">
   <input name="utf8" type="hidden" value="&#x2713;" />
   <input name="authenticity_token" type="hidden" value="x37DrAAwyIIb7s+w2+AdoCR8cAJIpQhIetKRrPgG5VA="/>
   <strong>Instrucciones:&nbsp;</strong>
-  <label id="cant_instrucciones"><%= @assembler_ram.instructions %></label>
+  <label id="cant_instrucciones"><%= @assembler_ram.instructions %></label><br>
   <strong>Instrucciones ejecutadas:&nbsp;</strong>
   <label id="instrucciones_ejecutadas"><%= @assembler_cycle.executed_instructions %></label><br>
   <input type="hidden" id="instruccion" name="instruccion" value="<%=@assembler_cycle.actual_instruction%>">
@@ -14,20 +14,20 @@
   <input type="hidden" id="ejecutadas" name="ejecutadas" value="<%=@assembler_cycle.executed_instructions%>">
   <input type="hidden" id="intents" name="intents" value="<%=@assembler_cycle.intents%>">
   <input type="hidden" id="fails" name="fails" value="<%=@assembler_cycle.fails%>">
-  <div id="assembler-cycle" class="container">
-    <input type="text" id="assembler_dir_bus" name="busDirs" value="<%=@assembler_cycle.specific_registers_cpu.dir_bus%>"><br>
-    <input type="text" id="assembler_data_bus" name="busDatos" value="<%=@assembler_cycle.specific_registers_cpu.data_bus%>"><br>
-    <div id="assembler-cycle-cpu">
-      <input type="text" id="assembler_pc" name="pc" value="<%=@assembler_cycle.specific_registers_cpu.pc%>"><br>
-      <input type="text" id="assembler_ir" name="ir" value="<%=@assembler_cycle.specific_registers_cpu.ir%>"><br>
-      <input type="text" id="assembler_mar" name="mar" value="<%=@assembler_cycle.specific_registers_cpu.mar%>"><br>
-      <input type="text" id="assembler_mbr" name="mbr" value="<%=@assembler_cycle.specific_registers_cpu.mbr%>"><br>
-      <input type="text" id="R1" name="R1" value="<%=@assembler_cycle.specific_registers_cpu.r1%>"><br>
-      <input type="text" id="R2" name="R2" value="<%=@assembler_cycle.specific_registers_cpu.r2%>"><br>
-      <input type="text" id="R3" name="R3" value="<%=@assembler_cycle.specific_registers_cpu.r3%>"><br>
-      <input type="text" id="R4" name="R4" value="<%=@assembler_cycle.specific_registers_cpu.r4%>"><br>
-      <input type="text" id="R5" name="R5" value="<%=@assembler_cycle.specific_registers_cpu.r5%>"><br>
-      <input type="text" id="R6" name="R6" value="<%=@assembler_cycle.specific_registers_cpu.r6%>"><br>
+  <div id="assembler-cycle-general" class="container">
+    <input type="text" id="assembler_dir_bus" name="busDirs" value="<%=@assembler_cycle.general_use_registers_cpu.dir_bus%>"><br>
+    <input type="text" id="assembler_data_bus" name="busDatos" value="<%=@assembler_cycle.general_use_registers_cpu.data_bus%>"><br>
+    <div id="assembler-cycle-cpu-general">
+      <input type="text" id="assembler_pc" name="pc" value="<%=@assembler_cycle.general_use_registers_cpu.pc%>"><br>
+      <input type="text" id="assembler_ir" name="ir" value="<%=@assembler_cycle.general_use_registers_cpu.ir%>"><br>
+      <input type="text" id="assembler_mar" name="mar" value="<%=@assembler_cycle.general_use_registers_cpu.mar%>"><br>
+      <input type="text" id="assembler_mbr" name="mbr" value="<%=@assembler_cycle.general_use_registers_cpu.mbr%>"><br>
+      <input type="text" id="R1" name="R1" value="<%=@assembler_cycle.general_use_registers_cpu.r1%>"><br>
+      <input type="text" id="R2" name="R2" value="<%=@assembler_cycle.general_use_registers_cpu.r2%>"><br>
+      <input type="text" id="R3" name="R3" value="<%=@assembler_cycle.general_use_registers_cpu.r3%>"><br>
+      <input type="text" id="R4" name="R4" value="<%=@assembler_cycle.general_use_registers_cpu.r4%>"><br>
+      <input type="text" id="R5" name="R5" value="<%=@assembler_cycle.general_use_registers_cpu.r5%>"><br>
+      <input type="text" id="R6" name="R6" value="<%=@assembler_cycle.general_use_registers_cpu.r6%>"><br>
     </div>
     <div id="assembler-cycle-ram-cells">
       <table>
@@ -43,6 +43,7 @@
         <% end %>
       </table>
     </div>
+    <br>
     <br>
     <textarea id="log" name="log" readonly> <%= @assembler_cycle.log %> </textarea>
     <br>

@@ -1,8 +1,8 @@
-<form accept-charset="UTF-8" id="assembler_cycle_form" action="/assembler_cycles/verify_specific/<%=@assembler_cycle.id%>" method="GET">
+<form accept-charset="UTF-8" id="assembler_cycle_form" action="/assembler_cycles/verify_specific/<%=@assembler_cycle.id%>" method="post">
   <input name="utf8" type="hidden" value="&#x2713;" />
   <input name="authenticity_token" type="hidden" value="x37DrAAwyIIb7s+w2+AdoCR8cAJIpQhIetKRrPgG5VA="/>
   <strong>Instrucciones:&nbsp;</strong>
-  <label id="cant_instrucciones"><%= @assembler_ram.instructions %></label>
+  <label id="cant_instrucciones"><%= @assembler_ram.instructions %></label><br>
   <strong>Instrucciones ejecutadas:&nbsp;</strong>
   <label id="instrucciones_ejecutadas"><%= @assembler_cycle.executed_instructions %></label><br>
   <input type="hidden" id="instruccion" name="instruccion" value="<%=@assembler_cycle.actual_instruction%>">

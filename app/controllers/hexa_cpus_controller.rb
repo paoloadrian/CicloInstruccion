@@ -6,6 +6,10 @@ class HexaCpusController < ApplicationController
     @hexa_cpu = HexaCpu.new
   end
 
+  def exercises
+    @exercises = HexaExercise.where(user_id: current_user.id)
+  end
+
   # POST /hexa_cpus
   # POST /hexa_cpus.json
   def create
@@ -14,7 +18,7 @@ class HexaCpusController < ApplicationController
     @exercise.name = params[:name]
     respond_to do |format|
       if @hexa_cpu.save
-      	@exercise.cpu_binary_id = @cpu_binary.id
+      	@exercise.hexa_cpu_id = @hexa_cpu.id
         @exercise.user_id = current_user.id
         @exercise.save
         @hexa_ram = HexaRam.new

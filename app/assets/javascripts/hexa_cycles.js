@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var co, origen="", destino="", contenido="", pc = $("#binary_pc").val(), ac;
+	var co, origen="", destino="", contenido="", pc = $("#hexa_pc").val(), ac = $("#hexa_ac").val();
 	var dirRam = $("#direccion").val(), regRam = $("#registro").val();
     var tamDIR = parseInt($("#hexa_dir").text()), tamCO = parseInt($("#co").text()), tam = $("#pc").text().length;
     var paso = parseInt($("#paso").val()), cantInstrucciones = parseInt($("#cant_instrucciones").text());
@@ -7,14 +7,14 @@ $(document).ready(function(){
     var fails = parseInt($("#fails").val()), intents = parseInt($("#intents").val());
     var ejec = ($("#ejec").val() === "true"), repetirStore = ($("#store").val() === "true");
     var cods = [ $("#load").text(), $("#add").text(), $("#sub").text(), $("#store").text() ];
-	$('#hexa-cycle input[type="text"]').each(function () {
+	$('#hexa_cycle_form input[type="text"]').each(function () {
 		$(this).attr("maxlength",tam);
 		$(this).regexMask(/^[0-9A-Fa-f]+$/);
 		$(this).keyup(function(){
 	    	this.value = this.value.toUpperCase();
 		});
 	});
-	$('#hexa-cycle input[type="text"]').keypress(function(e){
+	$('#hexa_cycle_form input[type="text"]').keypress(function(e){
 		if(!ejec && paso == 7 && $(this).attr("id") === $("#hexa_pc").attr("id")){
 			console.log("cambiando PC");
 		}
@@ -31,7 +31,7 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('#hexa-cycle input[type="text"]').keydown(function(){
+	$('#hexa_cycle_form input[type="text"]').change(function(){
 		if(!ejec && paso == 7 && $(this).attr("id") === $("#hexa_pc").attr("id")){
 			correcto();
 		}
@@ -45,9 +45,10 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('#hexa-cycle input[type="text"]').focusout(function(){
+	$('#hexa_cycle_form input[type="text"]').focusout(function(){
 		if(!ejec && paso == 7 && $(this).attr("id") === $("#hexa_pc").attr("id")){
 			if (!correcto()){
+				$("#hexa_pc").val(pc);
 				fails++;
 				guardar();
 				alert("El PC no tiene el valor de la siguiente instruccion");
@@ -56,6 +57,7 @@ $(document).ready(function(){
 		else{
 			if (ejec && paso == 7 && $(this).attr("id") === $("#hexa_ac").attr("id")){
 				if(!correcto()){
+					$("#hexa_ac").val(ac);
 					fails++;
 					guardar();
 					alert("El contenido de AC no es el correcto");
@@ -63,7 +65,7 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('#hexa-cycle input[type="text"]').on("dblclick", function(event) {
+	$('#hexa_cycle_form input[type="text"]').on("dblclick", function(event) {
 	    if (event.target === this) {
 	        if (origen == "" && $(this).val() != ""){
 	            origen = $(this).attr("name");
@@ -246,11 +248,11 @@ $(document).ready(function(){
 	}
 
 	function incrementoPC(){
-	   if (sumarHexa(pc, DecimalAHexa(1, tam), tam) == $("#hexa_pc").val()){
+		if (sumarHexa(pc, DecimalAHexa(1, tam), tam) == $("#hexa_pc").val()){
 	       pc = $("#hexa_pc").val();
 	       return true;
-	   }
-	   return false;
+	   	}
+	   	return false;
 	}
 
 	function sumarHexa(num1, num2, tam){
@@ -336,15 +338,13 @@ $(document).ready(function(){
 	}
 
 	function SumaCorrecta(){
-		ac = $("#hexa_ac").val();
-	    if (sumarHexa(ac, $("#hexa_dr").val(), tam) == $("#hexa_ac").val())
+		if (sumarHexa(ac, $("#hexa_dr").val(), tam) == $("#hexa_ac").val())
 	        return true;
 	    return false;
 	}
 
 	function RestaCorrecta(){
-		ac = $("#hexa_ac").val();
-	    if (restarHexa(ac, $("#hexa_dr").val(), tam) == $("#hexa_ac").val())
+		if (restarHexa(ac, $("#hexa_dr").val(), tam) == $("#hexa_ac").val())
 	        return true;
 	    return false;
 	}
@@ -389,6 +389,7 @@ $(document).ready(function(){
 						fails++;
 						guardar();
 	                    alert("Dirección de Memoria incorrecta");
+	                }
 	            }
 	            else{
 					fails++;
@@ -431,6 +432,7 @@ $(document).ready(function(){
 	            if ("mbr" == origen && "dr" == destino){
 	                resp = true;
 	                push_to_log(origen + " -> " + destino);
+	                ac = $("#hexa_ac").val();
 	                paso++;
 	            }
 	            else{
@@ -485,7 +487,7 @@ $(document).ready(function(){
 	    }
 	    else{
 	        push_to_log("Programa Finalizado");
-	        alert("Programa Finalizado");
+	        alert("Programa Finalizado\n"+"Tuvo "+intents+" de "+(intents+fails)+" intentos correctos");
 	        paso = 0;
 	    }
 	}
@@ -758,7 +760,7 @@ $(document).ready(function(){
 		$("#fails").val(fails);
 		var form = $("#hexa_cycle_form");
 		$.ajax({
-			type: "GET",
+			type: "post",
 			url: form.attr("action"),
 			data: form.serialize(),
 			success: function(data){

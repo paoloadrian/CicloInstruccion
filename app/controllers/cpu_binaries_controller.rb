@@ -1,6 +1,6 @@
 class CpuBinariesController < ApplicationController
   before_action :set_cpu_binary, only: [:show, :edit, :update, :destroy]
-  before_filter :authenticate_user!, only: [:new, :create]
+  before_filter :authenticate_user!, only: [:new, :create, :exercises]
 
   def home
   end
@@ -8,6 +8,10 @@ class CpuBinariesController < ApplicationController
   # GET /cpu_binaries/new
   def new
     @cpu_binary = CpuBinary.new
+  end
+
+  def exercises
+    @exercises = BinaryExercise.where(user_id: current_user.id)
   end
 
   def create

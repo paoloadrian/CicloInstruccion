@@ -1,8 +1,8 @@
-<form accept-charset="UTF-8" id="hexa_cycle_form" action="/hexa_cycles/verify/<%=@hexa_cycle.id%>" method="GET">
+<form accept-charset="UTF-8" id="hexa_cycle_form" action="/hexa_cycles/verify/<%=@hexa_cycle.id%>" method="post">
   <input name="utf8" type="hidden" value="&#x2713;" />
   <input name="authenticity_token" type="hidden" value="x37DrAAwyIIb7s+w2+AdoCR8cAJIpQhIetKRrPgG5VA="/>
   <strong>Instrucciones:&nbsp;</strong>
-  <label id="cant_instrucciones"><%= @hexa_ram.instructions %></label>
+  <label id="cant_instrucciones"><%= @hexa_ram.instructions %></label><br>
   <strong>Instrucciones ejecutadas:&nbsp;</strong>
   <label id="instrucciones_ejecutadas"><%= @hexa_cycle.executed_instructions %></label><br>
   <input type="hidden" id="instruccion" name="instruccion" value="<%=@hexa_cycle.actual_instruction%>">

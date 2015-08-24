@@ -8,6 +8,10 @@ $(document).ready(function(){
 	$("#hexa_cpu_store").regexMask(/^[0-9A-Fa-f]+$/);
 	$("#hexa_cpu_load").regexMask(/^[0-9A-Fa-f]+$/);
 
+	$('#new_hexa_cpu input[type="text"]').keyup(function(){
+    	this.value = this.value.toUpperCase();
+	});
+
 	$("#hexa_cpu_co").change(function(){
 		$("#hexa_cpu_add").attr({maxlength: this.value});
 		$("#hexa_cpu_sub").attr({maxlength: this.value});
@@ -23,7 +27,7 @@ $(document).ready(function(){
 
 		if ($("#hexa_cpu_dir").val() != ""){
 			tam = tamCO + tamDir;
-			$("#hexa_cpu_pc").attr({maxlength: tam.toString()});
+			$("#hexa_cpu_pc").attr({maxlength: (tam/4).toString()});
 			$("#c").text(tamCO);
 		}
 		else{
@@ -47,7 +51,7 @@ $(document).ready(function(){
 		if ($("#hexa_cpu_co").val() != ""){
 			tam = tamCO + tamDir;
 			$("#c").text(tamCO);
-			$("#hexa_cpu_pc").attr({maxlength: tam.toString()});
+			$("#hexa_cpu_pc").attr({maxlength: (tam/4).toString()});
 		}
 		else{
 			tam = tamDir;

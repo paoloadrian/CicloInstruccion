@@ -14,13 +14,16 @@ Rails.application.routes.draw do
   get 'assembler_cpus' => 'assembler_cpus#new'
   get 'assembler_rams' => 'assembler_rams#new'
   get 'binary_cycles/:id' => 'binary_cycles#new'
-  get 'binary_cycles/verify/:id' => 'binary_cycles#verify'
+  post 'binary_cycles/verify/:id' => 'binary_cycles#verify'
   get 'hexa_cycles/:id' => 'hexa_cycles#new'
-  get 'hexa_cycles/verify/:id' => 'hexa_cycles#verify'
+  post 'hexa_cycles/verify/:id' => 'hexa_cycles#verify'
   get 'assembler_cycles/:id' => 'assembler_cycles#new'
-  get 'assembler_cycles/verify_specific/:id' => 'assembler_cycles#verify_specific'
-  get 'assembler_cycles/verify_general/:id' => 'assembler_cycles#verify_general'
-
+  post 'assembler_cycles/verify_specific/:id' => 'assembler_cycles#verify_specific'
+  post 'assembler_cycles/verify_general/:id' => 'assembler_cycles#verify_general'
+  get 'binary_exercises' => 'cpu_binaries#exercises'
+  get 'hexa_exercises' => 'hexa_cpus#exercises'
+  get 'assembler_exercises' => 'assembler_cpus#exercises'
+  
   resources :hexa_cpus
   resources :hexa_rams
   resources :cpu_binaries

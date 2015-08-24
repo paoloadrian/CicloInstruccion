@@ -1,0 +1,27 @@
+<h1>Ejercicios en Ensamblador</h1>
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Fecha</th>
+        <th>Puntuación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for i in 1..@exercises.size%>
+        <% exercise = @exercises[@exercises.size - i] %>
+        <tr>
+        <% if exercise.assembler_ram_id == nil %>
+          <th><a href="/assembler_rams/<%=exercise.id%>"><%= exercise.name %></a></th>
+        <% else %>
+          <th><a href="/assembler_cycles/<%=exercise.assembler_cycle_id%>"><%= exercise.name %></a></th>
+        <% end %>
+        <th><%= exercise.updated_at %></th>
+        <th><%= exercise.get_score %></th>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<% stylesheet params[:controller] %>

@@ -35,10 +35,18 @@ class AssemblerRamsController < ApplicationController
         @assembler_cycle.log = "Captación:"
         @assembler_cycle.intents = 0
         @assembler_cycle.fails = 0
-        cpu = SpecificRegistersCpu.new
+        if(@assembler_ram.assembler_cpu.architecture == 1)
+          cpu = SpecificRegistersCpu.new
+        else
+          cpu = GeneralUseRegistersCpu.new
+        end
         cpu.pc = @assembler_ram.assembler_cpu.pc
         cpu.save
-        @assembler_cycle.specific_registers_cpu_id = cpu.id
+        if(@assembler_ram.assembler_cpu.architecture == 1)
+          @assembler_cycle.specific_registers_cpu_id = cpu.id
+        else
+          @assembler_cycle.general_use_registers_cpu_id = cpu.id
+        end
         @assembler_cycle.save
         @exercise = AssemblerExercise.find(params[:exercise])
         @exercise.assembler_ram_id = @assembler_ram.id
