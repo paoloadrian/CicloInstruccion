@@ -40,7 +40,7 @@ Devise.setup do |config|
   # The same considerations mentioned for authentication_keys also apply to request_keys.
   # config.request_keys = []
 
-  config.secret_key = '#{SecureRandom.hex(64)}'
+  config.secret_key = 'some1234keyq23' if Rails.env == 'production'
 
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used
