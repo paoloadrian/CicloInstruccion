@@ -9,19 +9,24 @@ Rails.application.routes.draw do
 
   get 'cpu_binaries' => 'cpu_binaries#new'
   get 'ram_binaries' => 'ram_binaries#new'
+  get 'ram_binaries/:id' => 'ram_binaries#new'
+  get 'binary_cycles' => 'binary_cycles#new'
+  post 'binary_cycles/verify/:id' => 'binary_cycles#verify'
+  get 'binary_exercises' => 'cpu_binaries#exercises'
+  
   get 'hexa_cpus' => 'hexa_cpus#new'
   get 'hexa_rams' => 'hexa_rams#new'
-  get 'assembler_cpus' => 'assembler_cpus#new'
-  get 'assembler_rams' => 'assembler_rams#new'
-  get 'binary_cycles/:id' => 'binary_cycles#new'
-  post 'binary_cycles/verify/:id' => 'binary_cycles#verify'
+  get 'hexa_rams/:id' => 'hexa_rams#new'
   get 'hexa_cycles/:id' => 'hexa_cycles#new'
   post 'hexa_cycles/verify/:id' => 'hexa_cycles#verify'
+  get 'hexa_exercises' => 'hexa_cpus#exercises'
+  
+  get 'assembler_cpus' => 'assembler_cpus#new'
+  get 'assembler_rams' => 'assembler_rams#new'
+  get 'assembler_rams/:id' => 'assembler_rams#new'
   get 'assembler_cycles/:id' => 'assembler_cycles#new'
   post 'assembler_cycles/verify_specific/:id' => 'assembler_cycles#verify_specific'
   post 'assembler_cycles/verify_general/:id' => 'assembler_cycles#verify_general'
-  get 'binary_exercises' => 'cpu_binaries#exercises'
-  get 'hexa_exercises' => 'hexa_cpus#exercises'
   get 'assembler_exercises' => 'assembler_cpus#exercises'
   
   resources :hexa_cpus
