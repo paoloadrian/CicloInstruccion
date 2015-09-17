@@ -31,7 +31,7 @@ $(document).ready(function(){
 				e.preventDefault();
 				fails++;
 				guardar();
-				alert("Secuencia incorrecta");
+				alert("Este registro no debe ser cambiado manualmente en este paso");
         		console.log("bloqueado");
 			}
 		}
@@ -77,6 +77,7 @@ $(document).ready(function(){
 					}
 					if(origen != destino && correcto()){
 						$(this).val(contenido);
+						intents++;
 						guardar();
 					}
 				}
@@ -117,38 +118,44 @@ $(document).ready(function(){
 	    contenido = "";
 	}
 
+	function PasoIncorrecto(ori, dest){
+		fails++;
+		guardar();
+		if (ori !== origen)
+			alert("El registro origen debe ser '"+ ori.toUpperCase() +"'");
+		else
+			alert("El registro destino debe ser '"+ dest.toUpperCase() +"'");
+	}
+
+	function PasoCorrecto(){
+		push_to_log(origen.toUpperCase() + " -> " + destino.toUpperCase());
+	    paso++;
+	}
+
 	function captacion(){
 	    var resp = false;
 	    switch (paso){
 	        case 1:
 	            if ("pc" == origen && "mar" == destino){
 	                resp = true;
-	                push_to_log(origen + " -> " + destino);
-	                paso++;
+	                PasoCorrecto();
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("pc", "mar");
 	            break;
 	        case 2:
 	            if ("mar" == origen && "busDirs" == destino){
 	                resp = true;
-	                push_to_log(origen + " -> " + destino);
-	                paso++;
+	                PasoCorrecto();
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("mar", "busDirs");
 	            break;
 	        case 3:
 	            if ("busDirs" == origen && "ram" == destino){
 	                if ($("#assembler_dir_bus").val() == dirRam){
 	                    resp = true;
-	                    push_to_log(origen + " -> " + destino + "[" + dirRam + "]");
+	                    push_to_log("busDirs -> RAM[" + dirRam + "]");
 	                    contenido = $("#"+regRam).val();
 	                    paso++;
 	                }
@@ -158,17 +165,14 @@ $(document).ready(function(){
 	                    alert("Dirección de Memoria incorrecta");
 	                }
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("busDirs", "ram");
 	            break;
 	        case 4:
 	            if ("ram" == origen && "busDatos" == destino){
 	                if ($("#assembler_dir_bus").val() == dirRam){
 	                    resp = true;
-	                    push_to_log(origen + "[" + dirRam + "]" + " -> " + destino);
+	                    push_to_log("RAM[" + dirRam + "]" + " -> busDatos");
 	                    paso++;
 	                }
 	                else{
@@ -177,46 +181,35 @@ $(document).ready(function(){
 	                    alert("Dirección de Memoria incorrecta");
 	                }
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("ram", "busDatos");
 	            break;
 	        case 5:
 	            if ("busDatos" == origen && "mbr" == destino){
 	                resp = true;
-	                push_to_log(origen + " -> " + destino);
-	                paso++;
+	                PasoCorrecto();
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("busDatos", "mbr");
 	            break;
 	        case 6:
 	            if ("mbr" == origen && "ir" == destino)
 	            {
 	                resp = true;
-	                push_to_log(origen + " -> " + destino);
-	                paso++;
+	                PasoCorrecto();
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("mbr", "ir");
 	            break;
 	        case 7:
 	            if (incrementoPC()){
 	                resp = true;
-	                push_to_log("pc + 1 -> pc");
+	                push_to_log("PC + 1 -> PC");
 	                paso = 1;
 	                obtenerCO();
-	                push_to_log("Ejecucion "+co+":");
+	                push_to_log("Ejecucion "+ co +":");
 	                ejec = true;
-	                intents+=7;
+	                intents++;
 	                guardar();
 	                alert("Ciclo de captación TERMINADO");
 	            }
@@ -265,25 +258,25 @@ $(document).ready(function(){
 			case "ADD":
 				if ((parseInt(registros[reg1 - 1]) + (parseInt(registros[reg2 - 1]))) == parseInt($("#R" + reg1).val())){
 					resp = true;
-					push_to_log("ac + dr -> ac");
+					push_to_log("R" + reg1 + "R" + reg2 + " -> R" + reg1);
 				}
 				break;
 			case "SUB":
 				if ((parseInt(registros[reg1 - 1]) - (parseInt(registros[reg2 - 1]))) == parseInt($("#R" + reg1).val())){
 					resp = true;
-					push_to_log("ac - dr -> ac");
+					push_to_log("R" + reg1 + "R" + reg2 + " -> R" + reg1);
 				}
 				break;
 			case "MPY":
 				if ((parseInt(registros[reg1 - 1]) * (parseInt(registros[reg2 - 1]))) == parseInt($("#R" + reg1).val())){
 					resp = true;
-					push_to_log("ac * dr -> ac");
+					push_to_log("R" + reg1 + "R" + reg2 + " -> R" + reg1);
 				}
 				break;
 			case "DIV":
 				if ((~~(parseInt(registros[reg1 - 1]) / (parseInt(registros[reg2 - 1])))) == parseInt($("#R" + reg1).val())){
 					resp = true;
-					push_to_log("ac / dr -> ac");
+					push_to_log("R" + reg1 + "R" + reg2 + " -> R" + reg1);
 				}
 				break;
 		}
@@ -318,32 +311,24 @@ $(document).ready(function(){
 	            if ("ir" == origen && "mar" == destino){
 	                contenido = obtenerDir(1);
 	                resp = true;
-	                push_to_log(origen + " -> " + destino);
-	                paso++;
+	                PasoCorrecto();
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("ir", "mar");
 	            break;
 	        case 2:
 	            if ("mar" == origen && "busDirs" == destino){
 	                resp = true;
-	                push_to_log(origen + " -> " + destino);
-	                paso++;
+	                PasoCorrecto();
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("mar", "busDirs");
 	            break;
 	        case 3:
 	            if ("busDirs" == origen && "ram" == destino){
 	                if ($("#assembler_dir_bus").val() == dirRam){
 	                    resp = true;
-	                    push_to_log(origen + " -> " + destino + "[" + dirRam + "]");
+	                    push_to_log("busDirs -> RAM[" + dirRam + "]");
 	                    contenido = $("#"+regRam).val();
 	                    paso++;
 	                }
@@ -353,17 +338,14 @@ $(document).ready(function(){
 	                    alert("Dirección de Memoria incorrecta");
 	                }
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("busDirs", "ram");
 	            break;
 	        case 4:
 	            if ("ram" == origen && "busDatos" == destino){
 	                if ($("#assembler_dir_bus").val() == dirRam){
 	                    resp = true;
-	                    push_to_log(origen + "[" + dirRam + "]" + " -> " + destino);
+	                    push_to_log("RAM[" + dirRam + "] -> busDatos");
 	                    paso++;
 	                }
 	                else{
@@ -372,41 +354,31 @@ $(document).ready(function(){
 	                    alert("Dirección de Memoria incorrecta");
 	                }
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("ram", "busDatos");
 	            break;
 	        case 5:
 	            if ("busDatos" == origen && "mbr" == destino){
 	                resp = true;
-	                push_to_log(origen + " -> " + destino);
-	                paso++;
+	                PasoCorrecto();
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("busDatos", "mbr");
 	            break;
 	        case 6:
 	        	if ("mbr" == origen && obtenerDir(0) == destino){
 	                resp = true;
 	                registros[BuscarRegistro(obtenerDir(0)) - 1] = contenido;
-	                push_to_log(origen + " -> " + destino);
+	                push_to_log(origen.toUpperCase() + " -> " + destino.toUpperCase());
 	                paso = 1;
 	                ejec = false;
 	                instruccionesEjecutadas++;
-	                intents+=6;
+	                intents++;
 	                $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
 	                alert("LOAD TERMINADO");
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("mar", "busDirs");
 	            break;
 	        default:
 	            return false;
@@ -419,7 +391,7 @@ $(document).ready(function(){
             var ir_content = $("#assembler_ir").val().split(" ");
 	    	contenido = ir_content[1];
 	    	pc = contenido;
-            push_to_log(origen + " -> " + destino);
+            push_to_log(origen.toUpperCase() + " -> " + destino.toUpperCase());
             ejec = false;
             instruccionesEjecutadas++;
             intents++;
@@ -428,9 +400,22 @@ $(document).ready(function(){
             return true;
         }
         else{
-            alert("Secuencia incorrecta");
+            PasoIncorrecto("ir", "pc");
             return false;
         }
+	}
+
+	function PasoDobleIncorrecto(ori1, dest1, or2, dest2){
+		fails++;
+		guardar();
+		if (ori1 !== origen){
+			if (ori2 !== origen)
+				alert("El registro origen debe ser '"+ ori1.toUpperCase() +"' o "+ ori2.toUpperCase() +"'");
+			else
+				alert("El registro destino debe ser '"+ dest2.toUpperCase() +"'");
+		}
+		else
+			alert("El registro destino debe ser '"+ dest1.toUpperCase() +"'");
 	}
 
 	function Store(){
@@ -441,81 +426,69 @@ $(document).ready(function(){
 	                contenido = obtenerDir(0);
 	                repetirStore = true;
 	                resp = true;
-	                push_to_log(origen + " -> " + destino);
-	                paso++;
+	                PasoCorrecto();
 	            }
 	            else{
 	                if (obtenerDir(1) == origen && "mbr" == destino){
 	                    repetirStore = false;
 	                    resp = true;
-	                    push_to_log(origen + " -> " + destino);
-	                    paso++;
+	                    PasoCorrecto();
 	                }
-	                else{
-						fails++;
-						guardar();
-	                    alert("Secuencia incorrecta");
-	                }
+	                else
+	                	PasoDobleIncorrecto("ir", "mar", obtenerDir(1), "mbr");
 	            }
 	            break;
 	        case 2:
-	            if ("ir" == origen && "mar" == destino && !repetirStore){
-	                obtenerDir(0);
-	                resp = true;
-	                push_to_log(origen + " -> " + destino);
-	                paso++;
-	            }
+		        if (!repetirStore){
+		            if ("ir" == origen && "mar" == destino){
+		                obtenerDir(0);
+		                resp = true;
+		                PasoCorrecto();
+		            }
+		            else
+		            	PasoIncorrecto("ir", "mar");
+		        }
 	            else{
-	                if (obtenerDir(1) == origen && "mbr" == destino && repetirStore){
+	                if (obtenerDir(1) == origen && "mbr" == destino){
 	                    resp = true;
-	                    push_to_log(origen + " -> " + destino);
-	                    paso++;
+	                    PasoCorrecto();
 	                }
-	                else{
-						fails++;
-						guardar();
-	                    alert("Secuencia incorrecta");
-	                }
+	                else
+	                	PasoIncorrecto(obtenerDir(1), "mbr");
 	            }
 	            break;
 	        case 3:
 	            if ("mar" == origen && "busDirs" == destino){
 	                resp = true;
 	                repetirStore = true;
-	                push_to_log(origen + " -> " + destino);
-	                paso++;
+	                PasoCorrecto();
 	            }
 	            else{
 	                if ("mbr" == origen && "busDatos" == destino){
 	                    resp = true;
 	                    repetirStore = false;
-	                    push_to_log(origen + " -> " + destino);
-	                    paso++;
+	                    PasoCorrecto();
 	                }
-	                else{
-						fails++;
-						guardar();
-	                    alert("Secuencia incorrecta");
-	                }
+	                else
+	                	PasoDobleIncorrecto("mar", "busDirs", "mbr", "busDatos");
 	            }
 	            break;
 	        case 4:
-	            if ("mar" == origen && "busDirs" == destino && !repetirStore){
-	                resp = true;
-	                push_to_log(origen + " -> " + destino);
-	                paso++;
-	            }
+		        if (!repetirStore){
+		            if ("mar" == origen && "busDirs" == destino){
+		                resp = true;
+		                PasoCorrecto();
+		            }
+		            else
+		            	PasoIncorrecto("mar", "busDirs");
+		        }
 	            else{
-	                if ("mbr" == origen && "busDatos" == destino && repetirStore){
+	                if ("mbr" == origen && "busDatos" == destino){
 	                    resp = true;
-	                    push_to_log(origen + " -> " + destino);
-	                    paso++;
+	                    PasoCorrecto();
 	                }
-	                else{
-						fails++;
-						guardar();
-	                    alert("Secuencia incorrecta");
-	                }
+	                else
+	                	PasoIncorrecto("mbr", "busDatos");
 	            }
 	            break;
 	        case 5:
@@ -523,11 +496,10 @@ $(document).ready(function(){
 	                if ($("#assembler_dir_bus").val() == dirRam){
 	                    $("#"+regRam).val(contenido);
 	                    resp = true;
-	                    push_to_log(origen + " -> " + destino + "[" + dirRam + "]");
+	                    push_to_log("busDatos -> RAM[" + dirRam + "]");
 	                    paso = 1;
 	                    ejec = false;
 	                    instruccionesEjecutadas++;
-	                    intents+=5;
 	                    $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
 	                    alert("STORE TERMINADO");
 	                    comprobarFinal();
@@ -538,11 +510,8 @@ $(document).ready(function(){
 	                    alert("Dirección de memoria incorrecta");
 	                }
 	            }
-	            else{
-					fails++;
-					guardar();
-	                alert("Secuencia incorrecta");
-	            }
+	            else
+	            	PasoIncorrecto("busDatos", "ram");
 	            break;
 	        default:
 	            return false;

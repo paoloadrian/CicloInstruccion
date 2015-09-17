@@ -26,7 +26,7 @@ $(document).ready(function(){
 				e.preventDefault();
 				fails++;
 				guardar();
-				alert("Secuencia incorrecta");
+				alert("Este registro no debe ser cambiado manualmente en este paso");
         		console.log("bloqueado");
 			}
 		}

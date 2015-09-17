@@ -23,7 +23,7 @@ $(document).ready(function(){
 				e.preventDefault();
 				fails++;
 				guardar();
-				alert("Este registro no debe ser modificado aún");
+				alert("Este registro no debe ser cambiado manualmente en este paso");
         		console.log("bloqueado");
 			}
 		}
@@ -37,7 +37,7 @@ $(document).ready(function(){
 				correcto();
 			}
 			else{
-				alert("Este registro no debe ser modificado aún");
+				alert("Este registro no debe ser cambiado manualmente en este paso");
         		console.log("bloqueado");
 			}
 		}
