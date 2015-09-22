@@ -1,5 +1,5 @@
 class GeneralUseRegisters
-	attr_accessor :ram, :used_registers, registers
+	attr_accessor :ram, :used_registers, :registers
 
 	def CanUseRegister(ind)
 		if (self.ram.self.ram.command == "LOAD")
@@ -156,7 +156,6 @@ class GeneralUseRegisters
 		end
 		if (self.registers == 1) 
 			return OneRegisterContent(dirs)
-		end
 		else 
 			if (self.registers == 2)
 				return TwoRegistersContent(dirs)
