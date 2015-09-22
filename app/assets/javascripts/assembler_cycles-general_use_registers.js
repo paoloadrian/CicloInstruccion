@@ -328,7 +328,7 @@ $(document).ready(function(){
 	            if ("busDirs" == origen && "ram" == destino){
 	                if ($("#assembler_dir_bus").val() == dirRam){
 	                    resp = true;
-	                    push_to_log("busDirs -> RAM[" + dirRam + "]");
+	                    push_to_log("BUSDIRS -> RAM[" + dirRam + "]");
 	                    contenido = $("#"+regRam).val();
 	                    paso++;
 	                }
@@ -345,7 +345,7 @@ $(document).ready(function(){
 	            if ("ram" == origen && "busDatos" == destino){
 	                if ($("#assembler_dir_bus").val() == dirRam){
 	                    resp = true;
-	                    push_to_log("RAM[" + dirRam + "] -> busDatos");
+	                    push_to_log("RAM[" + dirRam + "] -> BUSDATOS");
 	                    paso++;
 	                }
 	                else{
@@ -373,7 +373,6 @@ $(document).ready(function(){
 	                paso = 1;
 	                ejec = false;
 	                instruccionesEjecutadas++;
-	                intents++;
 	                $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
 	                alert("LOAD TERMINADO");
 	            }
@@ -394,7 +393,6 @@ $(document).ready(function(){
             push_to_log(origen.toUpperCase() + " -> " + destino.toUpperCase());
             ejec = false;
             instruccionesEjecutadas++;
-            intents++;
             $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
             alert("JUMP TERMINADO");
             return true;
@@ -496,7 +494,7 @@ $(document).ready(function(){
 	                if ($("#assembler_dir_bus").val() == dirRam){
 	                    $("#"+regRam).val(contenido);
 	                    resp = true;
-	                    push_to_log("busDatos -> RAM[" + dirRam + "]");
+	                    push_to_log("BUSDATOS -> RAM[" + dirRam + "]");
 	                    paso = 1;
 	                    ejec = false;
 	                    instruccionesEjecutadas++;
