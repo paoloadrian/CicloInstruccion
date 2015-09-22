@@ -35,7 +35,7 @@ Rails.application.configure do
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { :host => 'https://ciclodeinstruccion.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'https://cicloinstruccion.herokuapp.com' }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.smtp_settings = {
@@ -45,7 +45,7 @@ Rails.application.configure do
 	:user_name => 'ciclodeinstruccion@gmail.com',
 	:password => 'cihi.2015',
 	:enable_starttls_auto => true,
-	:domain => 'https://ciclodeinstruccion.herokuapp.com'
+	:domain => 'https://cicloinstruccion.herokuapp.com'
   }
 
   # Specifies the header that your server uses for sending files.
