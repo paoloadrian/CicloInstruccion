@@ -54,7 +54,7 @@ class SpecificRegisters
 		dirs = dir.split(',')
 		if(dirs.length == 1)
 		    content = FindDirectionContent(dir)
-		    if(content !== false)
+		    if(content != false)
 	            if (self.command == "STORE" && content == "")
 	            	return true
 	            else
