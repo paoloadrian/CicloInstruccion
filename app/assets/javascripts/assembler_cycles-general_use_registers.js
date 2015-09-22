@@ -208,6 +208,7 @@ $(document).ready(function(){
 	                paso = 1;
 	                obtenerCO();
 	                push_to_log("Ejecucion "+ co +":");
+	                push_to_log("");
 	                ejec = true;
 	                intents++;
 	                guardar();
@@ -284,7 +285,8 @@ $(document).ready(function(){
 			paso = 1;
 			registros[reg1 - 1] = $("#R" + reg1).val();
             instruccionesEjecutadas++;
-            $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
+            push_to_log("");
+	        $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
         	ejec = false;
         	intents++;
         	guardar();
@@ -374,6 +376,7 @@ $(document).ready(function(){
 	                ejec = false;
 	                instruccionesEjecutadas++;
 	                $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
+	                push_to_log("");
 	                alert("LOAD TERMINADO");
 	            }
 	            else
@@ -394,7 +397,8 @@ $(document).ready(function(){
             ejec = false;
             instruccionesEjecutadas++;
             $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
-            alert("JUMP TERMINADO");
+            push_to_log("");
+	        alert("JUMP TERMINADO");
             return true;
         }
         else{
@@ -495,7 +499,8 @@ $(document).ready(function(){
 	                    $("#"+regRam).val(contenido);
 	                    resp = true;
 	                    push_to_log("BUSDATOS -> RAM[" + dirRam + "]");
-	                    paso = 1;
+	                    push_to_log("");
+	                	paso = 1;
 	                    ejec = false;
 	                    instruccionesEjecutadas++;
 	                    $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
