@@ -207,8 +207,8 @@ $(document).ready(function(){
 	                push_to_log("PC + 1 -> PC");
 	                paso = 1;
 	                obtenerCO();
-	                push_to_log("Ejecucion "+ co +":");
 	                push_to_log("");
+	                push_to_log("Ejecucion "+ co +":");
 	                ejec = true;
 	                intents++;
 	                guardar();
@@ -259,25 +259,25 @@ $(document).ready(function(){
 			case "ADD":
 				if ((parseInt(registros[reg1 - 1]) + (parseInt(registros[reg2 - 1]))) == parseInt($("#R" + reg1).val())){
 					resp = true;
-					push_to_log("R" + reg1 + "R" + reg2 + " -> R" + reg1);
+					push_to_log("R" + reg1 + " + R" + reg2 + " -> R" + reg1);
 				}
 				break;
 			case "SUB":
 				if ((parseInt(registros[reg1 - 1]) - (parseInt(registros[reg2 - 1]))) == parseInt($("#R" + reg1).val())){
 					resp = true;
-					push_to_log("R" + reg1 + "R" + reg2 + " -> R" + reg1);
+					push_to_log("R" + reg1 + " - R" + reg2 + " -> R" + reg1);
 				}
 				break;
 			case "MPY":
 				if ((parseInt(registros[reg1 - 1]) * (parseInt(registros[reg2 - 1]))) == parseInt($("#R" + reg1).val())){
 					resp = true;
-					push_to_log("R" + reg1 + "R" + reg2 + " -> R" + reg1);
+					push_to_log("R" + reg1 + " * R" + reg2 + " -> R" + reg1);
 				}
 				break;
 			case "DIV":
 				if ((~~(parseInt(registros[reg1 - 1]) / (parseInt(registros[reg2 - 1])))) == parseInt($("#R" + reg1).val())){
 					resp = true;
-					push_to_log("R" + reg1 + "R" + reg2 + " -> R" + reg1);
+					push_to_log("R" + reg1 + " / R" + reg2 + " -> R" + reg1);
 				}
 				break;
 		}
@@ -285,11 +285,11 @@ $(document).ready(function(){
 			paso = 1;
 			registros[reg1 - 1] = $("#R" + reg1).val();
             instruccionesEjecutadas++;
-            push_to_log("");
-	        $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
+            $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
         	ejec = false;
         	intents++;
         	guardar();
+        	comprobarFinal();
             alert(co + " TERMINADO");
 		}
 		return resp;
@@ -297,9 +297,11 @@ $(document).ready(function(){
 
 	function comprobarFinal(){
 		if (instruccionesEjecutadas < cantInstrucciones){
+	        push_to_log("");
 	        push_to_log("Captacion: ");
 	    }
 	    else{
+	        push_to_log("");
 	        push_to_log("Programa Finalizado");
 	        alert("Programa Finalizado\n"+"Tuvo "+intents+" de "+(intents+fails)+" intentos correctos");
 	        paso = 0;
@@ -376,7 +378,7 @@ $(document).ready(function(){
 	                ejec = false;
 	                instruccionesEjecutadas++;
 	                $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
-	                push_to_log("");
+	                comprobarFinal();
 	                alert("LOAD TERMINADO");
 	            }
 	            else
@@ -397,8 +399,8 @@ $(document).ready(function(){
             ejec = false;
             instruccionesEjecutadas++;
             $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
-            push_to_log("");
-	        alert("JUMP TERMINADO");
+            alert("JUMP TERMINADO");
+            comprobarFinal();
             return true;
         }
         else{
@@ -499,8 +501,7 @@ $(document).ready(function(){
 	                    $("#"+regRam).val(contenido);
 	                    resp = true;
 	                    push_to_log("BUSDATOS -> RAM[" + dirRam + "]");
-	                    push_to_log("");
-	                	paso = 1;
+	                    paso = 1;
 	                    ejec = false;
 	                    instruccionesEjecutadas++;
 	                    $("#instrucciones_ejecutadas").text(instruccionesEjecutadas);
