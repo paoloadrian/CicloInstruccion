@@ -155,7 +155,7 @@ $(document).ready(function(){
 	            if ("busDirs" == origen && "ram" == destino){
 	                if ($("#assembler_dir_bus").val() == dirRam){
 	                    resp = true;
-	                    push_to_log("busDirs -> RAM[" + dirRam + "]");
+	                    push_to_log("BUSDIRS -> RAM[" + dirRam + "]");
 	                    contenido = $("#"+regRam).val();
 	                    paso++;
 	                }
@@ -172,7 +172,7 @@ $(document).ready(function(){
 	            if ("ram" == origen && "busDatos" == destino){
 	                if ($("#assembler_dir_bus").val() == dirRam){
 	                    resp = true;
-	                    push_to_log("RAM[" + dirRam + "]" + " -> busDatos");
+	                    push_to_log("RAM[" + dirRam + "]" + " -> BUSDATOS");
 	                    paso++;
 	                }
 	                else{
